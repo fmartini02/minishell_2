@@ -1,0 +1,8 @@
+a.out
+minishell
+*.o
+libft/libft.a
+.vscode/
+libft/ft_printf/libftprintf.a
+libft/get_next_line/gnl.a
+libft/std_fun/std_lib.a

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 14:46:23 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:59:17 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,13 @@
 # include <term.h>
 #include "libft/libft.h"
 
+extern volatile sig_atomic_t sig_code;
+
 typedef struct s_mini
 {
 	char	*input;
 	char	**envp;
+	int		pip_trick[2];
 	t_list	*env;
 }	t_mini;
 

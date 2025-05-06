@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 17:10:14 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 14:14:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:43:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ void	put_dot_case(t_flags *flags, t_info *info, char c)
 
 void	handle_dot(t_flags *flags, t_info *info, char c)
 {
-	int		prec_len;
-	int		i;
-
-	prec_len = flags->dot;
-	i = 0;
 	if (c != 'i' && c != 'd' && c != 'u' )
 	{
 		if (flags->neg)

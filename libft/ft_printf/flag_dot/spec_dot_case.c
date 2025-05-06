@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:27:51 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 14:14:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:44:01 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 void	dot_char_case(t_flags *flags, t_info *info)
 {
 	char	c;
-	char	*s;
 	int		n_width;
 
 	c = va_arg(*(info->args), int);
-	s = ft_strdup(&c);
 	n_width = flags->num;
 	while (n_width-- > 1)
 		lputchar(' ', &(info->p_b));

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 18:05:01 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 14:14:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:40:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 static void	width_greatest(t_flags *flags, t_info *info, int arg)
 {
-	int		i;
 	int		width;
 	int		n_len;
 
-	i = 0;
 	width = flags->num;
 	n_len = ft_num_len(arg, 10);
 	if (arg == 0 && flags->dot == 0)
@@ -32,9 +30,7 @@ static void	prec_greatest(t_info *info, t_flags *flags, int arg)
 {
 	int	prec;
 	int	n_len;
-	int	i;
 
-	i = 0;
 	prec = flags->dot;
 	if (arg < 0)
 	{

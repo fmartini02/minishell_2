@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 12:06:58 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 14:12:53 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:46:21 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@ void	print_width(int width, int len, t_info *info, t_flags *flags)
 
 void	neg_case(t_info *info, char c, t_flags *flags)
 {
-	int				n;
-	char			*arg;
-	unsigned int	u;
-
-	n = -1;
-	arg = NULL;
-	u = 0;
 	if (c == 'c')
 		num_neg_char_case(info, flags);
 	else if (c == 'd' || c == 'i')
@@ -52,13 +45,6 @@ void	neg_case(t_info *info, char c, t_flags *flags)
 
 void	handle_num(t_info *info, char c, t_flags *flags)
 {
-	int				n;
-	char			*arg;
-	unsigned int	u;
-
-	n = -1;
-	arg = NULL;
-	u = 0;
 	if (c == 'c')
 		num_char_case(info, flags);
 	else if (c == 'd' || c == 'i')

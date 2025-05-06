@@ -2,6 +2,7 @@
 	"files.associations": {
 		"libft.h": "c",
 		"stdlib.h": "c",
-		"ft_printf.h": "c"
+		"ft_printf.h": "c",
+		"std_fun.h": "c"
 	}
 }
