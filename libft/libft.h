@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:36:42 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 18:18:18 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:15:06 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_ispace(int c);
 
 /*transformation functions*/
 int		ft_atoi(const char *nptr);
@@ -43,6 +44,7 @@ char	*ft_itoa(int n);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 char	**ft_split(char const *s, char c);
+long	ft_strtol(const char *nptr, char **endptr, int base);
 char	*ft_utoa(unsigned long long int n, int cast_type);
 
 /*memory functions*/
@@ -67,6 +69,7 @@ int		ft_num_len(long int n, int base);
 /*search and compare*/
 char	*ft_strchr(const char *s, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 
@@ -224,8 +227,6 @@ void	neg_pos_uns_case(t_flags *flags, t_info *info);
 #  define BUFFER_SIZE 10
 # endif
 
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);

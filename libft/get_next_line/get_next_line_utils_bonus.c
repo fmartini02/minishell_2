@@ -6,43 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:39:19 by francema          #+#    #+#             */
-/*   Updated: 2025/04/29 18:28:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:30:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-size_t	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*res;
-	size_t	size;
-	int		i;
-
-	if (!s)
-		return (NULL);
-	size = ft_strlen(s) + 1;
-	res = malloc(sizeof(char) * size);
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		res[i] = s[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

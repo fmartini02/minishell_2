@@ -22,7 +22,8 @@ SRCS	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 		ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
 		ft_lstmap.c ft_utoa.c ft_uns_len.c  ft_num_len.c ft_print_mat_str.c \
-		ft_putstr.c ft_putchar.c\
+		ft_putstr.c ft_putchar.c ft_strcmp.c ft_ispace.c ft_strtol.c \
+		ft_ispace.c ft_matlen.c \
 
 OBJS	= $(SRCS:.c=.o)
 
