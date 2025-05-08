@@ -13,17 +13,17 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
-# include<unistd.h>
-# include<stdio.h>
-# include<stdlib.h>
-# include<signal.h>
-# include<fcntl.h>
-# include<termios.h>
-# include<errno.h>
-# include<limits.h>
-# include<sys/wait.h>
-# include<readline/readline.h>
-# include<readline/history.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <termios.h>
+# include <errno.h>
+# include <limits.h>
+# include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <curses.h>
 # include <term.h>
 #include "libft/libft.h"
@@ -39,5 +39,6 @@ typedef struct s_mini
 }	t_mini;
 
 void	ft_exit(t_mini *shell, char **args);
+char	*get_prompt(void);
 
 #endif
