@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/07 17:38:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:38:36 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,80 @@ void	ft_pwd(t_mini *shell)
 	free(pwd);
 }
 
+char	*tokenize_utils(t_mini *shell, char *s, size_t *i, size_t len)
+{
+	char	*content;
+
+	content = malloc(sizeof(char) * (len + 1));
+	if (!content)
+		return (NULL);
+	len = 0;
+	while(s[*i] && !ft_ispace(s[*i]))
+		content[len++] = s[(*i)++];
+	content[len] = '\0';
+	return(content);
+}
+
+void	tokenize_input(t_mini *shell)
+{
+	size_t	i;
+	char	*s;
+	size_t	len;
+	char	*content;
+
+	i = ft_skip_spaces(s, 0);
+	s = shell->input;
+	len = ft_word_len(s);
+	content = tokenize_utils(shell, s, &i, len);
+	if (!content || !content[0])
+		ft_fatal_err(shell);
+	shell->tok_input = ft_lstnew(content);
+	while(s[i])
+	{
+		i = ft_skip_spaces(s, i);
+		len = ft_word_len(s);
+		content = tokenize_utils(shell, s, &i, len);
+		if (!content || !content[0])
+			ft_fatal_err(shell);
+		shell->tok_input->next = ft_lstnew(content);
+		shell->tok_input = shell->tok_input->next;
+	}
+}
+
+void	ft_init_cmd_info(t_mini *shell)
+{
+	size_t	i;
+	char	*s;
+
+	i = 0;
+	s = shell->input;
+	while(s[i])
+	{
+		if (s[i] == '\'')
+			single_quotes_case(shell, &i);
+		if (s[i] == '"')
+			duble_quotes_case(shell, &i);
+		if (s[i] == '$')
+			dollar_case(shell, &i);
+		if (s[i] == '<' || s[i] == '>')
+			redi_case(shell, &i);
+		if (s[i] == '|')
+			pipe_char_case(shell, &i);
+		if (s[i] == '&')
+			ampersand_case(shell, &i);
+		if (s[i] == '(')
+			parentesis_case(shell, &i);
+		if (s[i] == '*')
+			wildcard_case(shell, &i);
+		i++;
+	}
+}
+
 void	parsing(t_mini *shell)
 {
 	add_history(shell->input);
+	tokenize_input(shell);
+	ft_init_cmd_info(shell);
 	if (!ft_strcmp(shell->input, "env"))
 		ft_env(shell);
 	else if (!ft_strcmp(shell->input, "pwd"))
