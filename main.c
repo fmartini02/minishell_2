@@ -198,10 +198,23 @@ void	setup_sig_handler(int is_interactive)
 	}
 }
 
+int is_all_spaces(const char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ' && *str != '\t')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	shell;
 	char	*input;
+	char	*prompt;
 	int		is_interactive;
 
 	(void)av;
@@ -209,6 +222,7 @@ int	main(int ac, char **av, char **envp)
 	setup_sig_handler(is_interactive);
 	shell.envp = envp;
 	shell.env = init_env(envp);
+	
 	if (!is_interactive)
 	{
 		input = get_next_line(0);
@@ -223,13 +237,19 @@ int	main(int ac, char **av, char **envp)
 	{
 		while(ac)
 		{
-			shell.input = readline("minishell$ ");
+			prompt = get_prompt();
+			if (!prompt)
+				prompt = ft_strdup("minishell$ ");
+			shell.input = readline(prompt);
 			if (!shell.input)
 				ctrl_d_case(&shell);
+			if (shell.input[0] != '\0' && !is_all_spaces(shell.input))
+				add_history(shell.input);
 			if (sig_code == SIGINT)
 				sig_code = 0;
 			else
 				parsing(&shell);
+			free(prompt);
 		}
 	}
 }
