@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:36:42 by francema          #+#    #+#             */
-/*   Updated: 2025/05/08 15:22:14 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:11:26 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	*ft_memset(void *s, int c, size_t n);
 
 /* Length & Measurement*/
 int		ft_matlen(void **s);
-char	*ft_strcpy_till_char(char *dest, char *src, int i, char c);
-int		ft_strlen_till_char(char *s, int i, char c);
+char	*ft_strcpy_till_(char *dest, char *src, int i, char c);
+size_t	ft_strlen_till_space(char *s, int i);
 size_t	ft_strlen(const char *s);
 size_t	ft_word_len(char *s);
 size_t	ft_skip_spaces(char *s, size_t i);

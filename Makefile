@@ -6,11 +6,11 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/05/07 17:03:20 by francema         ###   ########.fr        #
+#    Updated: 2025/05/12 17:03:51 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c ft_exit.c prompt.c \
+SRC = main.c ft_exit.c prompt.c errors.c \
 
 OBJ = $(SRC:.c=.o)
 

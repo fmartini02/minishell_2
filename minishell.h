@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/08 16:16:14 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ typedef struct s_mini
 
 void	ft_exit(t_mini *shell, char **args);
 char	*get_prompt(void);
+void	ft_fatal_memerr(t_mini *shell);
 
 #endif
