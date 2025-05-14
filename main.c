@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:05:49 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:47:28 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ void	ft_pwd(t_mini *shell)
 char	*get_tok(t_mini *shell, char *s, size_t *i)
 {
 	char	*content;
-	size_t	start;
 
 	content = NULL;
-	start = *i;
 	while (s[*i] && !ft_ispace(s[*i]) && s[*i] != '\n')
 	{
 		if (s[*i] == '\'')
@@ -60,7 +58,7 @@ char	*get_tok(t_mini *shell, char *s, size_t *i)
 		else if (s[*i] == '"')
 			content = double_quotes_case(shell, content, i);
 		else if (s[*i] == '$')
-			content = tok_dollar_case(shell, i, start, content);
+			content = tok_dollar_case(shell, i, content);
 		else if (s[*i] == '*')
 			content = ft_strjoin_free(content, "*");
 		else if (s[*i] == '(' || s[*i] == ')')

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 09:51:19 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 13:56:51 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:50:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	str = (char *)malloc(size);
 	if (!str)
 		return (NULL);
-	while (++i < ft_strlen(s1))
+	while (++i < (int)ft_strlen(s1))
 		str[i] = s1[i];
-	while (j < ft_strlen(s2))
+	while (j < (int)ft_strlen(s2))
 		str[i++] = s2[j++];
 	str[i] = '\0';
 	free(s1);
