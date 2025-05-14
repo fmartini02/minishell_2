@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/12 17:32:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:05:49 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,45 @@ void	ft_pwd(t_mini *shell)
 	free(pwd);
 }
 
-/*Estare una parola (fino al prossimo spazio) dall'input*/
-char	*get_word(t_mini *shell, char *s, size_t *i, size_t len)
+/*restituisce un token applicando anche alcune espansioni $*/
+char	*get_tok(t_mini *shell, char *s, size_t *i)
 {
 	char	*content;
+	size_t	start;
 
-	(void)shell;
-	content = malloc(sizeof(char) * (len + 1));
-	if (!content)
-		return (NULL);
-	len = 0;
-	while(s[*i] && !ft_ispace(s[*i]))
-		content[len++] = s[(*i)++];
-	content[len] = '\0';
-	return(content);
+	content = NULL;
+	start = *i;
+	while (s[*i] && !ft_ispace(s[*i]) && s[*i] != '\n')
+	{
+		if (s[*i] == '\'')
+			content = single_quotes_case(shell, content, i);
+		else if (s[*i] == '"')
+			content = double_quotes_case(shell, content, i);
+		else if (s[*i] == '$')
+			content = tok_dollar_case(shell, i, start, content);
+		else if (s[*i] == '*')
+			content = ft_strjoin_free(content, "*");
+		else if (s[*i] == '(' || s[*i] == ')')
+			content = subshell_case(shell, content, i);
+		else if (s[*i] == '&')
+			content = ampersand_case(shell, content, i);
+		else if (s[*i] == '|')
+			content = pipe_char_case(shell, content, i);
+		else if (s[*i] == '<' || s[*i] == '>')
+			content = redi_case(shell, content, i);
+		else
+			content = word_case(shell, content, i);
+		if (!content)
+			return (NULL);
+	}
+	return (content);
 }
 
-/*Suddivide l'input(shell->input) in una lista di token(shell->tok_input) usando get_word
+/*Suddivide l'input(shell->input) in una lista di token(shell->tok_input) usando get_tok
 Serve per dividere il comando in parole comprensibili alla shell*/
 void	tokenize_input(t_mini *shell)
 {
 	size_t	i;
-	size_t	len;
 	char	*s;
 	char	*content;
 	t_list	*node;
@@ -77,8 +94,7 @@ void	tokenize_input(t_mini *shell)
 	shell->tok_input = NULL;
 	while (s[i])
 	{
-		len = ft_word_len(&s[i]);
-		content = get_word(shell, s, &i, len);
+		content = get_tok(shell, s, &i);
 		if (!content)
 			ft_fatal_memerr(shell);
 		node = ft_lstnew(content);
@@ -100,7 +116,7 @@ void	ft_init_cmd_info(t_mini *shell)
 	s = shell->input;
 	while(s[i])
 	{
-		if (s[i] == '\'')
+		/*if (s[i] == '\'')
 			single_quotes_case(shell, &i);
 		if (s[i] == '"')
 			duble_quotes_case(shell, &i);
@@ -115,13 +131,13 @@ void	ft_init_cmd_info(t_mini *shell)
 		if (s[i] == '(')
 			parentesis_case(shell, &i);
 		if (s[i] == '*')
-			wildcard_case(shell, &i);
+			wildcard_case(shell, &i);*/
 		i++;
 	}
 }
 
 /*Processa il comando digitato:
-aggiunge alla history, tokenizza, analizza i simboli speciali 
+aggiunge alla history, tokenizza, analizza i simboli speciali
 ed esegue camandi (env, pwd, exit)*/
 void	parsing(t_mini *shell)
 {
@@ -188,7 +204,7 @@ void	signal_handler(int sig)
 }
 
 /*Se NON interativa, segnali di default
-Se interattiva, installa il tuo signal_handler, 
+Se interattiva, installa il tuo signal_handler,
 ignora tutti i segnali tranne SIGKILL, SIGSTOP, SIGINT*/
 void	setup_sig_handler(int is_interactive)
 {

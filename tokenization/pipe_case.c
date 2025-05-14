@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   pipe_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 16:39:19 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:32:15 by francema         ###   ########.fr       */
+/*   Created: 2025/05/14 16:37:24 by francema          #+#    #+#             */
+/*   Updated: 2025/05/14 17:07:55 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "../minishell.h"
 
-char	*ft_strjoin_gnl(char *s1, char *s2)
+char	*pipe_char_case(t_mini *shell, char *content, size_t *i)
 {
-	char	*str;
-	size_t	len1;
-	size_t	len2;
-	size_t	i;
-	size_t	j;
+	char	*s;
 
-	if (!s1)
-		s1 = "";
-	if (!s1 || !s2)
+	s = shell->input;
+	if (s[*i + 1] == '|')
+	{
+		content = ft_strdup("||");
+		(*i) += 2;
+	}
+	else
+	{
+		content = ft_strdup("|");
+		(*i)++;
+	}
+	if (!content)
 		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	str = malloc(len1 + len2 + 1);
-	if (!str)
-		return (NULL);
-	i = -1;
-	while (++i < len1)
-		str[i] = s1[i];
-	j = -1;
-	while (++j < len2)
-		str[i++] = s2[j];
-	str[i] = '\0';
-	return (str);
+	return (content);
 }
