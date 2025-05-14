@@ -6,13 +6,13 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:08:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:43:57 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*tok_dollar_case(t_mini *shell, size_t *i, size_t start, char *content)
+char	*tok_dollar_case(t_mini *shell, size_t *i, char *content)
 {
 	char	*tmp;
 	char	*s;
