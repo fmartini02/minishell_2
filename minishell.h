@@ -62,8 +62,6 @@ char	*get_env_value(t_mini *shell, const char *var_name);
 char	*get_prompt(void);
 
 // parsing.c
-void	parentesis_case(t_mini *shell, size_t *i);		//ancora da implementare
-void	wildcard_case(t_mini *shell, size_t *i);		//ancora da implementare
 
 // utils.c
 int 	is_all_spaces(const char *str);
