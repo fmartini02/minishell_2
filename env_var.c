@@ -47,7 +47,7 @@ static char	*extract_var_name(char *str, size_t start, size_t *end)
 
 /* Espande una variabile d'ambiente in formato '$VAR' o '$?'
 Modifica *i per spostare l'indice oltre la variabile espansa*/
-char	*dollar_case(t_mini *shell, char *str, size_t *i)
+char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 {
 	size_t	start;
 	size_t	j;
