@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:07:49 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:48:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ char	*get_chars_after_symbol(t_mini *shell, size_t *i, size_t start, char *conte
 
 char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
 {
-	char	*tmp;
 	char	*tmp_dollar;
 	char	*s;
 
-	tmp = NULL;
 	tmp_dollar = NULL;
 	s = shell->input;
 	if (s[*i] == '$') // if there is a $ in the string
