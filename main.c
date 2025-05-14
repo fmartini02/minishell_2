@@ -14,6 +14,7 @@
 
 volatile sig_atomic_t sig_code = 0;
 
+/*Stampa le variabili d'ambiente presenti nella lista shell->env*/
 void	ft_env(t_mini *shell)
 {
 	t_list	*tmp;
@@ -22,6 +23,7 @@ void	ft_env(t_mini *shell)
 	ft_print_list(tmp, 's');
 }
 
+/*Stampa la directory corrente*/
 void	ft_pwd(t_mini *shell)
 {
 	char	*pwd;
@@ -43,6 +45,7 @@ void	ft_pwd(t_mini *shell)
 	free(pwd);
 }
 
+/*Estare una parola (fino al prossimo spazio) dall'input*/
 char	*get_word(t_mini *shell, char *s, size_t *i, size_t len)
 {
 	char	*content;
@@ -58,6 +61,8 @@ char	*get_word(t_mini *shell, char *s, size_t *i, size_t len)
 	return(content);
 }
 
+/*Suddivide l'input(shell->input) in una lista di token(shell->tok_input) usando get_word
+Serve per dividere il comando in parole comprensibili alla shell*/
 void	tokenize_input(t_mini *shell)
 {
 	size_t	i;
@@ -85,7 +90,7 @@ void	tokenize_input(t_mini *shell)
 	}
 }
 
-
+/*Analizza l'input per ogni caso possibile, ogni caso ha la propria funzione*/
 void	ft_init_cmd_info(t_mini *shell)
 {
 	size_t	i;
@@ -115,6 +120,9 @@ void	ft_init_cmd_info(t_mini *shell)
 	}
 }
 
+/*Processa il comando digitato:
+aggiunge alla history, tokenizza, analizza i simboli speciali 
+ed esegue camandi (env, pwd, exit)*/
 void	parsing(t_mini *shell)
 {
 	add_history(shell->input);
@@ -130,6 +138,7 @@ void	parsing(t_mini *shell)
 	free(shell->input);
 }
 
+/*Gestisce la fine dell'input (utente preme ctrl+D), libera la memoria ed esce*/
 void	ctrl_d_case(t_mini *shell)
 {
 	free(shell->input);
@@ -137,6 +146,8 @@ void	ctrl_d_case(t_mini *shell)
 	exit(0);
 }
 
+/*Inizializzazione ambiente
+converte envp in una lista collegata (t_list) per una gestione presonallizata dell'ambiente*/
 t_list	*init_env(char **env)
 {
 	t_list	*head;
@@ -155,6 +166,7 @@ t_list	*init_env(char **env)
 	return (head);
 }
 
+/*Gestisce SIGINT(Ctrl+C), stampa una nuova riga e ripristina il prompt senza uscire dalla shell*/
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -175,6 +187,9 @@ void	signal_handler(int sig)
 	}*/
 }
 
+/*Se NON interativa, segnali di default
+Se interattiva, installa il tuo signal_handler, 
+ignora tutti i segnali tranne SIGKILL, SIGSTOP, SIGINT*/
 void	setup_sig_handler(int is_interactive)
 {
 	struct sigaction sa;
@@ -201,7 +216,7 @@ void	setup_sig_handler(int is_interactive)
 		}
 	}
 }
-
+/*Ritorna 1 se la stringa e' composta solo da spazi o tab*/
 int is_all_spaces(const char *str)
 {
 	while (*str)
@@ -212,7 +227,6 @@ int is_all_spaces(const char *str)
 	}
 	return (1);
 }
-
 
 int	main(int ac, char **av, char **envp)
 {
