@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/12 17:32:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:45:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	ft_init_cmd_info(t_mini *shell)
 	s = shell->input;
 	while(s[i])
 	{
-		if (s[i] == '\'')
+		/*if (s[i] == '\'')
 			single_quotes_case(shell, &i);
 		if (s[i] == '"')
 			duble_quotes_case(shell, &i);
@@ -110,7 +110,7 @@ void	ft_init_cmd_info(t_mini *shell)
 		if (s[i] == '(')
 			parentesis_case(shell, &i);
 		if (s[i] == '*')
-			wildcard_case(shell, &i);
+			wildcard_case(shell, &i);*/
 		i++;
 	}
 }
