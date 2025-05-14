@@ -41,7 +41,8 @@ typedef struct s_mini
 {
 	char		*input;
 	char		**envp;
-	int			subshell_flag;;
+	int			subshell_flag;
+	int			last_exit_code;
 	t_list		*env;
 	t_list		*tok_input;
 	t_cmd_info	*cmd_info;
@@ -54,7 +55,7 @@ void	ft_fatal_memerr(t_mini *shell);
 void	ft_exit(t_mini *shell, char **args);
 
 // env_var.c
-char	*dollar_case(t_mini *shell, char *str, size_t *i);
+char	*ft_dollar_case(t_mini *shell, char *str, size_t *i);
 char	*get_env_value(t_mini *shell, const char *var_name);
 
 // prompt.c
