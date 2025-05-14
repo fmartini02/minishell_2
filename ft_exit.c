@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*Verifica gli argomenti del comando exit
+- Nessun argomento: exit 0
+- Uno: se numerico lo usa come codice di uscita
+- Due o piu': stampa errore 'too many arguments' e non esce
+- Se il secondo argomento non e' numerico segnala eroore*/
 int	ft_exit_args_check(char **args)
 {
 	int	i = 0;
@@ -37,6 +42,7 @@ int	ft_exit_args_check(char **args)
 	return (0);
 }
 
+/*Converte una stringa in long controllando l'overflow/underflow*/
 int	ft_atol_check(const char *str, long *out)
 {
 	int		sign = 1;
@@ -53,7 +59,7 @@ int	ft_atol_check(const char *str, long *out)
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
-
+			
 		int digit = str[i] - '0';
 		if (res > (LONG_MAX - digit) / 10)
 			return (0);
@@ -64,6 +70,7 @@ int	ft_atol_check(const char *str, long *out)
 	return (1);
 }
 
+/*Gestisce uscita con argomento non numerico*/
 void	ft_non_digit_exit(char *arg)
 {
 	ft_putstr_fd("exit\n", 2);
@@ -73,6 +80,11 @@ void	ft_non_digit_exit(char *arg)
 	exit(255);
 }
 
+/*Funzione pricipale che implementa il comando exit
+- Nessun argomento: exit 0
+- Uno: esce con quel valore (convertito in int tra 0-255)
+- Più di uno: errore e non esce
+- Argomento non numerico: exit 255*/
 void	ft_exit(t_mini *shell, char **args)
 {
 	int		ret_err;
