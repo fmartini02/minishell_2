@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:08 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:04:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_mini
 {
 	char		*input;
 	char		**envp;
-	int			pip_trick[2];
+	int			subshell_flag;;
 	t_list		*env;
 	t_list		*tok_input;
 	t_cmd_info	*cmd_info;
@@ -50,5 +50,15 @@ typedef struct s_mini
 void	ft_exit(t_mini *shell, char **args);
 char	*get_prompt(void);
 void	ft_fatal_memerr(t_mini *shell);
+
+/*TOKENIZATION*/
+char	*ampersand_case(t_mini *shell, char *content, size_t *i);
+char	*double_quotes_case(t_mini *shell, char *content, size_t *i);
+char	*pipe_char_case(t_mini *shell, char *content, size_t *i);
+char	*redi_case(t_mini *shell, char *content, size_t *i);
+char	*single_quotes_case(t_mini *shell, char *content, size_t *i);
+char	*subshell_case(t_mini *shell, char *content, size_t *i);
+char	*tok_dollar_case(t_mini *shell, size_t *i, size_t start, char *content);
+char	*word_case(t_mini *shell, char *content, size_t *i);
 
 #endif

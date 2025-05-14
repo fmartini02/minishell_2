@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   single_quotes_case.c                               :+:      :+:    :+:   */
+/*   word_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 17:36:22 by francema          #+#    #+#             */
-/*   Updated: 2025/05/12 17:42:25 by francema         ###   ########.fr       */
+/*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
+/*   Updated: 2025/05/14 17:08:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	single_quotes_case(t_mini *shell, size_t *i)
+char	*word_case(t_mini *shell, char *content, size_t *i)
 {
-	t_list	*tmp;
-	char	*str;
+	char	*s;
+	char	*tmp;
+	int		len;
 
-	tmp = shell->tok_input;
-	while(tmp)
+	s = shell->input;
+	len = ft_strlen_till_space(s, *i);
+	tmp = ft_substr(s, *i, len);
+	if (!tmp)
+		return (NULL);
+	content = ft_strjoin_free(content, tmp);
+	free(tmp);
+	if (!content)
+		return (NULL);
+	(*i) += len;
+	return (content);
 }

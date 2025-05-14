@@ -6,11 +6,17 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/05/12 17:03:51 by francema         ###   ########.fr        #
+#    Updated: 2025/05/14 17:00:56 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c ft_exit.c prompt.c errors.c \
+
+TOK_SRC = ampersand_case.c double_quotes_case.c single_quotes_case.c \
+		pipe_case.c redi_case.c subshell_case.c tok_dollar_case.c \
+		word_case.c
+
+TOK_OBJ = $(addprefix tokenization/, $(TOK_SRC:.c=.o))
 
 OBJ = $(SRC:.c=.o)
 
@@ -30,8 +36,8 @@ all: $(NAME)
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(LIBFT)
+$(NAME): $(LIBFT) $(OBJ) $(TOK_OBJ)
+	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(TOK_OBJ) $(LIBFT)
 
 clean:
 	rm -f $(OBJ)
