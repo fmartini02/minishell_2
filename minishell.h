@@ -55,14 +55,20 @@ void	ft_fatal_memerr(t_mini *shell);
 void	ft_exit(t_mini *shell, char **args);
 
 // env_var.c
-void	dollar_case(t_mini *shell, char *str, size_t *i);
+char	*dollar_case(t_mini *shell, char *str, size_t *i);
 char	*get_env_value(t_mini *shell, const char *var_name);
 
 // prompt.c
 char	*get_prompt(void);
 
 // parsing.c 
-
+void	single_quotes_case(t_mini *shell, size_t *i);	//ancora da implementare
+void	duble_quotes_case(t_mini *shell, size_t *i);	//ancora da implementare
+void	redi_case(t_mini *shell, size_t *i);			//ancora da implementare
+void	pipe_char_case(t_mini *shell, size_t *i);		//ancora da implementare
+void	ampersand_case(t_mini *shell, size_t *i);		//ancora da implementare
+void	parentesis_case(t_mini *shell, size_t *i);		//ancora da implementare
+void	wildcard_case(t_mini *shell, size_t *i);		//ancora da implementare
 
 // utils.c
 int 	is_all_spaces(const char *str);
