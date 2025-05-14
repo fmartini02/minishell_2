@@ -42,13 +42,33 @@ typedef struct s_mini
 	char		*input;
 	char		**envp;
 	int			pip_trick[2];
+	int			last_exit_code;
 	t_list		*env;
 	t_list		*tok_input;
 	t_cmd_info	*cmd_info;
 }	t_mini;
 
-void	ft_exit(t_mini *shell, char **args);
-char	*get_prompt(void);
+// errors.c
 void	ft_fatal_memerr(t_mini *shell);
+
+// ft_exit.c
+void	ft_exit(t_mini *shell, char **args);
+
+// env_var.c
+void	dollar_case(t_mini *shell, char *str, size_t *i);
+char	*get_env_value(t_mini *shell, const char *var_name);
+
+// prompt.c
+char	*get_prompt(void);
+
+// parsing.c 
+
+
+// utils.c
+int 	is_all_spaces(const char *str);
+bool	ft_ispecial_char(char c);
+
+
+
 
 #endif

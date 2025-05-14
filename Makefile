@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c ft_exit.c prompt.c errors.c \
+SRC = main.c ft_exit.c prompt.c errors.c env_var.c parsing.c utils.c \
 
 OBJ = $(SRC:.c=.o)
 

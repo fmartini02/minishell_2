@@ -105,7 +105,7 @@ void	ft_init_cmd_info(t_mini *shell)
 		if (s[i] == '"')
 			duble_quotes_case(shell, &i);
 		if (s[i] == '$')
-			dollar_case(shell, &i);
+			dollar_case(shell, s, &i);
 		if (s[i] == '<' || s[i] == '>')
 			redi_case(shell, &i);
 		if (s[i] == '|')
@@ -215,17 +215,6 @@ void	setup_sig_handler(int is_interactive)
 			sigaction(i, &ignore_sa, NULL);
 		}
 	}
-}
-/*Ritorna 1 se la stringa e' composta solo da spazi o tab*/
-int is_all_spaces(const char *str)
-{
-	while (*str)
-	{
-		if (*str != ' ' && *str != '\t')
-			return (0);
-		str++;
-	}
-	return (1);
 }
 
 int	main(int ac, char **av, char **envp)
