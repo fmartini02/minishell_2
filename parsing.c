@@ -12,16 +12,3 @@
 
 #include "minishell.h"
 
-void	parentesis_case(t_mini *shell, size_t *i)
-{
-	(void)shell;
-	(void)i;
-	printf("Parentesis case \n");
-}
-
-void	wildcard_case(t_mini *shell, size_t *i)
-{
-	(void)shell;
-	(void)i;
-	printf("Wildcard case \n");
-}
