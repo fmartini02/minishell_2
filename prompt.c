@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/*Crea il prompt a partire dalla home directory
+/* Crea il prompt a partire dalla home directory
 Se la cwd (current working directory) inzia con $HOME, la sostituisce con '~'*/
 static char	*home_prompt(char *cwd, char *home)
 {
@@ -26,7 +26,7 @@ static char	*home_prompt(char *cwd, char *home)
 	return (prompt);
 }
 
-/*Crea il prompt completo con la directory assoluta
+/* Crea il prompt completo con la directory assoluta
 Utilizzato quando la cwd NON e' sotto $HOME*/
 static char	*full_prompt(char *cwd)
 {
@@ -43,7 +43,7 @@ static char	*full_prompt(char *cwd)
 	return (prompt);
 }
 
-/*Restituisce il prompt da mostrare all'utente
+/* Restituisce il prompt da mostrare all'utente
 Se la directory corrente e' sotto $HOME usa '~',
 altrimenti usa il percorso completo*/
 char	*get_prompt(void)

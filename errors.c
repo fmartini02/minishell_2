@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-/*Libera una lista collegata di strutture t_cmd_info*/
+/* Libera una lista collegata di strutture t_cmd_info*/
 void	ft_free_cmd_info(t_cmd_info *cmd_info)
 {
 	int			i;
@@ -37,7 +37,7 @@ void	ft_free_cmd_info(t_cmd_info *cmd_info)
 	}
 }
 
-/*Gestisce un errore fatale di allocazione di memoria
+/* Gestisce un errore fatale di allocazione di memoria
 Libera tutte le risorse della shell, stampa un messaggio d'errore
 e termina il programma*/
 void	ft_fatal_memerr(t_mini *shell)

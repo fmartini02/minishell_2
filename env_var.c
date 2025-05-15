@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/*Rstituisce il valore associato a una variabile d'ambiente */
+/* Rstituisce il valore associato a una variabile d'ambiente */
 char	*get_env_value(t_mini *shell, const char *var_name)
 {
 	t_list	*env_list;

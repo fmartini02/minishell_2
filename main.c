@@ -14,7 +14,8 @@
 
 volatile sig_atomic_t sig_code = 0;
 
-/*Stampa le variabili d'ambiente presenti nella lista shell->env*/
+/* Implementazone di env
+Stampa le variabili d'ambiente presenti nella lista shell->env*/
 void	ft_env(t_mini *shell)
 {
 	t_list	*tmp;
@@ -23,7 +24,8 @@ void	ft_env(t_mini *shell)
 	ft_print_list(tmp, 's');
 }
 
-/*Stampa la directory corrente*/
+/* Implementazione di pwd
+Stampa la directory corrente*/
 void	ft_pwd(t_mini *shell)
 {
 	char	*pwd;
@@ -45,7 +47,53 @@ void	ft_pwd(t_mini *shell)
 	free(pwd);
 }
 
-/*restituisce un token applicando anche alcune espansioni $*/
+/* Controlla se c'è la flag -n attiva (per echo)*/
+static bool	is_n_option(const char *str)
+{
+	int	i;
+
+	i = 2;
+	if (!str || str[0] != '-' || str[1] != 'n')
+		return (false);
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+/* Implementazione di echo
+Stampa gli argomenti passati separati da spazi, 
+se viene specificata l'opzione -n (o più meno -nn) il carattere new_line non viene stampato*/
+void	ft_echo(t_mini *shell)
+{
+	int		i;
+	bool	new_line;
+	char	**args;
+
+	i = 1;
+	new_line = true;
+	args = shell->cmd_info->cmd_args;
+	while (args[i] && is_n_option(args[i]))
+	{
+		new_line = false;
+		i++;
+	}
+	while (args[i])
+	{
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (new_line)
+		printf("\n");
+	shell->last_exit_code = 0;
+}
+
+/* Restituisce un token applicando anche alcune espansioni $*/
 char	*get_tok(t_mini *shell, char *s, size_t *i)
 {
 	char	*content;
@@ -77,7 +125,7 @@ char	*get_tok(t_mini *shell, char *s, size_t *i)
 	return (content);
 }
 
-/*Suddivide l'input(shell->input) in una lista di token(shell->tok_input) usando get_tok
+/* Suddivide l'input(shell->input) in una lista di token(shell->tok_input) usando get_tok
 Serve per dividere il comando in parole comprensibili alla shell*/
 void	tokenize_input(t_mini *shell)
 {
@@ -104,7 +152,7 @@ void	tokenize_input(t_mini *shell)
 	}
 }
 
-/*Analizza l'input per ogni caso possibile, ogni caso ha la propria funzione*/
+/* Analizza l'input per ogni caso possibile, ogni caso ha la propria funzione*/
 void	ft_init_cmd_info(t_mini *shell)
 {
 	size_t	i;
@@ -134,8 +182,8 @@ void	ft_init_cmd_info(t_mini *shell)
 	}
 }
 
-/*Processa il comando digitato:
-aggiunge alla history, tokenizza, analizza i simboli speciali
+/* Processa il comando digitato:
+Aggiunge alla history, tokenizza, analizza i simboli speciali
 ed esegue camandi (env, pwd, exit)*/
 void	parsing(t_mini *shell)
 {
@@ -149,10 +197,12 @@ void	parsing(t_mini *shell)
 		ft_pwd(shell);
 	else if (!ft_strcmp(shell->input, "exit"))
 		ft_exit(shell, NULL);
+	else if (!ft_strcmp(shell->input, "echo"))
+		ft_echo(shell);
 	free(shell->input);
 }
 
-/*Gestisce la fine dell'input (utente preme ctrl+D), libera la memoria ed esce*/
+/* Gestisce la fine dell'input (utente preme ctrl+D), libera la memoria ed esce*/
 void	ctrl_d_case(t_mini *shell)
 {
 	free(shell->input);
@@ -160,8 +210,8 @@ void	ctrl_d_case(t_mini *shell)
 	exit(0);
 }
 
-/*Inizializzazione ambiente
-converte envp in una lista collegata (t_list) per una gestione presonallizata dell'ambiente*/
+/* Inizializzazione ambiente
+Converte envp in una lista collegata (t_list) per una gestione presonallizata dell'ambiente*/
 t_list	*init_env(char **env)
 {
 	t_list	*head;
@@ -180,7 +230,7 @@ t_list	*init_env(char **env)
 	return (head);
 }
 
-/*Gestisce SIGINT(Ctrl+C), stampa una nuova riga e ripristina il prompt senza uscire dalla shell*/
+/* Gestisce SIGINT(Ctrl+C), stampa una nuova riga e ripristina il prompt senza uscire dalla shell*/
 void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
@@ -201,7 +251,7 @@ void	signal_handler(int sig)
 	}*/
 }
 
-/*Se NON interativa, segnali di default
+/* Se NON interativa, segnali di default
 Se interattiva, installa il tuo signal_handler,
 ignora tutti i segnali tranne SIGKILL, SIGSTOP, SIGINT*/
 void	setup_sig_handler(int is_interactive)
