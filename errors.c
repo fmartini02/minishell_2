@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:45:21 by francema          #+#    #+#             */
-/*   Updated: 2025/05/12 16:54:08 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:53:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ Libera tutte le risorse della shell, stampa un messaggio d'errore
 e termina il programma*/
 void	ft_fatal_memerr(t_mini *shell)
 {
-	ft_putstr_fd("Error: ", 2);
-	perror("malloc");
+	ft_putstr_fd("Error: malloc failure or syntax error\n", 2);
 	free(shell->input);
 	ft_lstclear(&shell->env, free);
 	ft_lstclear(&shell->tok_input, free);
-	ft_free_cmd_info(shell->cmd_info);
+	//ft_free_cmd_info(shell->cmd_info);
 	exit(EXIT_FAILURE);
 }

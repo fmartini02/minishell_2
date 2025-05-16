@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ampersand_case.c                                   :+:      :+:    :+:   */
+/*   and_case.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:34:06 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:07:40 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:09:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ampersand_case(t_mini *shell, char *content, size_t *i)
+char	*and_case(t_mini *shell, char *content, size_t *i)
 {
 	char	*s;
 

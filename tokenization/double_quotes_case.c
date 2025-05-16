@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:48:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:44:06 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ char	*double_quotes_case(t_mini *shell, char *content, size_t *i)
 			if (!content)
 				return (NULL);
 		}
-		else
-			(*i)++;
+		(*i)++;
 	}
 	if (s[*i] != '\"') // unmatched quote
 		return (NULL);

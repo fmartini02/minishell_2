@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:38:41 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:07:59 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:41:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ char	*redi_case(t_mini *shell, char *content, size_t *i)
 	}
 	if (!content)
 		return (NULL);
+	*i += ft_strlen(content);
 	return (content);
 }

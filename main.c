@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:47:28 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:09:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static bool	is_n_option(const char *str)
 }
 
 /* Implementazione di echo
-Stampa gli argomenti passati separati da spazi, 
+Stampa gli argomenti passati separati da spazi,
 se viene specificata l'opzione -n (o più meno -nn) il carattere new_line non viene stampato*/
 void	ft_echo(t_mini *shell)
 {
@@ -99,29 +99,26 @@ char	*get_tok(t_mini *shell, char *s, size_t *i)
 	char	*content;
 
 	content = NULL;
-	while (s[*i] && !ft_ispace(s[*i]) && s[*i] != '\n')
-	{
-		if (s[*i] == '\'')
-			content = single_quotes_case(shell, content, i);
-		else if (s[*i] == '"')
-			content = double_quotes_case(shell, content, i);
-		else if (s[*i] == '$')
-			content = tok_dollar_case(shell, i, content);
-		else if (s[*i] == '*')
-			content = ft_strjoin_free(content, "*");
-		else if (s[*i] == '(' || s[*i] == ')')
-			content = subshell_case(shell, content, i);
-		else if (s[*i] == '&')
-			content = ampersand_case(shell, content, i);
-		else if (s[*i] == '|')
-			content = pipe_char_case(shell, content, i);
-		else if (s[*i] == '<' || s[*i] == '>')
-			content = redi_case(shell, content, i);
-		else
-			content = word_case(shell, content, i);
-		if (!content)
-			return (NULL);
-	}
+	if (s[*i] == '\'')
+		content = single_quotes_case(shell, content, i);
+	else if (s[*i] == '"')
+		content = double_quotes_case(shell, content, i);
+	else if (s[*i] == '$')
+		content = tok_dollar_case(shell, i, content);
+	else if (s[*i] == '*')
+		content = wildcard_case(shell, content, i);
+	else if (s[*i] == '(' || s[*i] == ')')
+		content = subshell_case(shell, content, i);
+	else if (s[*i] == '&')
+		content = and_case(shell, content, i);
+	else if (s[*i] == '|')
+		content = pipe_char_case(shell, content, i);
+	else if (s[*i] == '<' || s[*i] == '>')
+		content = redi_case(shell, content, i);
+	else
+		content = word_case(shell, content, i);
+	if (!content)
+		return (NULL);
 	return (content);
 }
 
@@ -147,7 +144,6 @@ void	tokenize_input(t_mini *shell)
 		if (!node)
 			ft_fatal_memerr(shell);
 		ft_lstadd_back(&shell->tok_input, node);
-		i += ft_strlen_till_space(s, i);
 		i = ft_skip_spaces(s, i);
 	}
 }

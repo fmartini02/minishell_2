@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:44:11 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:09:10 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int 	is_all_spaces(const char *str);
 bool	ft_ispecial_char(char c);
 
 /*TOKENIZATION*/
-char	*ampersand_case(t_mini *shell, char *content, size_t *i);
+char	*and_case(t_mini *shell, char *content, size_t *i);
 char	*double_quotes_case(t_mini *shell, char *content, size_t *i);
 char	*pipe_char_case(t_mini *shell, char *content, size_t *i);
 char	*redi_case(t_mini *shell, char *content, size_t *i);
@@ -76,5 +76,6 @@ char	*single_quotes_case(t_mini *shell, char *content, size_t *i);
 char	*subshell_case(t_mini *shell, char *content, size_t *i);
 char	*tok_dollar_case(t_mini *shell, size_t *i, char *content);
 char	*word_case(t_mini *shell, char *content, size_t *i);
+char	*wildcard_case(t_mini *shell, char *content, size_t *i);
 
 #endif
