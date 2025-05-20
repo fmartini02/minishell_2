@@ -47,6 +47,5 @@ re: fclean all
 
 re_bonus: fclean bonus
 
-.PHONY: all clean fclean re bonus $(PRINTF) $(GNL) $(STD_LIB)
-
+.PHONY: all clean fclean re bonus
 

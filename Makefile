@@ -6,17 +6,21 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/05/16 16:09:28 by francema         ###   ########.fr        #
+#    Updated: 2025/05/20 15:57:16 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c ft_exit.c prompt.c errors.c env_var.c parsing.c utils.c \
+SRC = main.c prompt.c errors.c env_var.c parsing.c utils.c \
 
 TOK_SRC = and_case.c double_quotes_case.c single_quotes_case.c \
 		pipe_case.c redi_case.c subshell_case.c tok_dollar_case.c \
-		word_case.c wildcard_case.c
+		word_case.c wildcard_case.c \
+
+BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c \
 
 TOK_OBJ = $(addprefix tokenization/, $(TOK_SRC:.c=.o))
+
+BUILTIN_OBJ = $(addprefix builtins/, $(BUILTIN_SRC:.c=.o))
 
 OBJ = $(SRC:.c=.o)
 
@@ -36,11 +40,11 @@ all: $(NAME)
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(LIBFT) $(OBJ) $(TOK_OBJ)
-	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJ) $(TOK_OBJ) $(LIBFT)
+$(NAME): $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) -lreadline -o $(NAME) $^
 
 clean:
-	rm -f $(OBJ) $(TOK_OBJ)
+	rm -f $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ)
 	make clean -C libft
 
 fclean: clean

@@ -29,8 +29,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	res = ft_substr(s1, i, (j + 1) - i);
 	return (res);
 }
-
+/*
 int	main()
 {
 	printf("%s", ft_strtrim("   hcsvcs", NULL));
-}
+}*/

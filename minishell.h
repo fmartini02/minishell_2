@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/16 16:09:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:21:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,11 @@ typedef struct s_mini
 // errors.c
 void	ft_fatal_memerr(t_mini *shell);
 
-// ft_exit.c
+// builtin
+void	ft_echo(t_mini *shell);
+void	ft_env(t_mini *shell);
 void	ft_exit(t_mini *shell, char **args);
+void	ft_pwd(t_mini *shell);
 
 // env_var.c
 char	*ft_dollar_case(t_mini *shell, char *str, size_t *i);
@@ -67,7 +70,7 @@ char	*get_prompt(void);
 int 	is_all_spaces(const char *str);
 bool	ft_ispecial_char(char c);
 
-/*TOKENIZATION*/
+//TOKENIZATION
 char	*and_case(t_mini *shell, char *content, size_t *i);
 char	*double_quotes_case(t_mini *shell, char *content, size_t *i);
 char	*pipe_char_case(t_mini *shell, char *content, size_t *i);

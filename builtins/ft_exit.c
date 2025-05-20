@@ -6,11 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/05/07 17:07:49 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:55:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /* Verifica gli argomenti del comando exit
 - Nessun argomento: exit 0
@@ -59,7 +59,7 @@ int	ft_atol_check(const char *str, long *out)
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
-			
+
 		int digit = str[i] - '0';
 		if (res > (LONG_MAX - digit) / 10)
 			return (0);

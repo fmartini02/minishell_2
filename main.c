@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/16 16:09:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:20:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,84 +14,7 @@
 
 volatile sig_atomic_t sig_code = 0;
 
-/* Implementazone di env
-Stampa le variabili d'ambiente presenti nella lista shell->env*/
-void	ft_env(t_mini *shell)
-{
-	t_list	*tmp;
 
-	tmp = shell->env;
-	ft_print_list(tmp, 's');
-}
-
-/* Implementazione di pwd
-Stampa la directory corrente*/
-void	ft_pwd(t_mini *shell)
-{
-	char	*pwd;
-
-	(void)shell;
-	pwd = malloc(sizeof(char) * PATH_MAX);
-	if (!pwd)
-	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	if (!getcwd(pwd, PATH_MAX))
-	{
-		perror("getcwd");
-		free(pwd);
-		exit(EXIT_FAILURE);
-	}
-	ft_printf("%s\n", pwd);
-	free(pwd);
-}
-
-/* Controlla se c'è la flag -n attiva (per echo)*/
-static bool	is_n_option(const char *str)
-{
-	int	i;
-
-	i = 2;
-	if (!str || str[0] != '-' || str[1] != 'n')
-		return (false);
-	while (str[i])
-	{
-		if (str[i] != 'n')
-			return (false);
-		i++;
-	}
-	return (true);
-}
-
-/* Implementazione di echo
-Stampa gli argomenti passati separati da spazi,
-se viene specificata l'opzione -n (o più meno -nn) il carattere new_line non viene stampato*/
-void	ft_echo(t_mini *shell)
-{
-	int		i;
-	bool	new_line;
-	char	**args;
-
-	i = 1;
-	new_line = true;
-	args = shell->cmd_info->cmd_args;
-	while (args[i] && is_n_option(args[i]))
-	{
-		new_line = false;
-		i++;
-	}
-	while (args[i])
-	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
-		i++;
-	}
-	if (new_line)
-		printf("\n");
-	shell->last_exit_code = 0;
-}
 
 /* Restituisce un token applicando anche alcune espansioni $*/
 char	*get_tok(t_mini *shell, char *s, size_t *i)
