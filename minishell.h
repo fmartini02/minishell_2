@@ -98,6 +98,7 @@ void	ft_echo(t_mini *shell);
 void	ft_env(t_mini *shell);
 void	ft_exit(t_mini *shell, char **args);
 void	ft_pwd(t_mini *shell);
+void	ft_cd(t_mini *shell);
 
 // env_var.c
 char	*ft_dollar_case(t_mini *shell, char *str, size_t *i);

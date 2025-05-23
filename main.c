@@ -32,6 +32,12 @@ void	parsing(t_mini *shell)
 		ft_exit(shell, NULL);
 	else if (!ft_strcmp(shell->input, "echo"))
 		ft_echo(shell);
+	else if (!ft_strcmp(shell->input, "cd"))
+		ft_cd(shell);
+	else if (!ft_strcmp(shell->input, "export"))
+		ft_export(shell); //da implementare
+	else if (!ft_strcmp(shell->input, "unset"))
+		ft_unset(shell); //da implementare
 	free(shell->input);
 }
 
