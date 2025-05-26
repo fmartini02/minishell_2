@@ -6,11 +6,32 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 17:58:34 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:50:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_ast_node	*create_cmd_node(t_cmd_info *cmd)
+{
+	t_ast_node	*node;
+
+	if (!cmd)
+		return (NULL);
+	node = malloc(sizeof(t_ast_node));
+	if (!node)
+	{
+		write(2, "minishell: malloc failed in create_cmd_node\n", 45);
+		free_cmd_info(cmd);
+		return (NULL);
+	}
+	node->type = NODE_CMD;
+	node->content = cmd;
+	node->left = NULL;
+	node->right = NULL;
+	node->next = NULL;
+	return (node);
+}
 
 char	**add_arg_to_array(char **args, char *new_arg)
 {
@@ -19,7 +40,7 @@ char	**add_arg_to_array(char **args, char *new_arg)
 	int		i;
 
 	len = 0;
-	len = ft_matlen(args);
+	len = ft_matlen((void **)args);
 	new_args = malloc(sizeof(char *) * (len + 2));
 	if (!new_args)
 		return (NULL);
@@ -62,15 +83,28 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
 	while (*tokens && (*tokens)->content && !is_control_operator((*tokens)->content))
 	{
 		token = (char *)(*tokens)->content;
-		if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
-			|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
-			parse_redirection(tokens, cmd);
+		if (!ft_strcmp(token, "("))
+		{
+			ft_putendl_fd("minishell: syntax error near unexpected token `('", 2);
+			free_cmd_info(cmd);
+			return (NULL);
+		}
 		else
 		{
 			if (!cmd->cmd_name)
 				cmd->cmd_name = ft_strdup(token);
 			cmd = add_arg_to_cmd(cmd, token);
 			*tokens = (*tokens)->next;
+		}
+	}
+	token = (char *)(*tokens)->content;
+	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
+		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
+	{
+		if (parse_redirection(tokens, cmd) == false)
+		{
+			free_ast(shell->ast_root);
+			return (NULL);
 		}
 	}
 	if (!cmd->cmd_name)

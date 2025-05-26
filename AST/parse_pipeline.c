@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 17:56:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:31:28 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
 
 	left = parse_simple_cmd(shell, tokens);
 	if (!left)
+		left = parse_subshell(shell, tokens);
+	if (!left)
 		return (NULL);
 	while (*tokens && !ft_strcmp((*tokens)->content, "|"))
 	{
 		*tokens = (*tokens)->next;// consume "|"
 		right = parse_simple_cmd(shell, tokens);
+		if (!right)
+			right = parse_subshell(shell, tokens);
 		if (!right)
 		{
 			ft_putendl_fd("minishell: syntax error near unexpected token `|`", 2);

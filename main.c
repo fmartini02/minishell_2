@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 15:23:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:32:41 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ Aggiunge alla history, tokenizza, analizza i simboli speciali
 ed esegue camandi (env, pwd, exit)*/
 void	parsing(t_mini *shell)
 {
-	add_history(shell->input);
-	tokenize_input(shell);
-	expand_wildcards(shell);
+	if (!tokenize_input(shell))
+		return ;
+	// ft_print_list(shell->tok_input, 's');
+	//expand_wildcards(shell);
 	ast_init(shell);
+	print_ast(shell->ast_root, 0);
 	if (!ft_strcmp(shell->input, "env"))
 		ft_env(shell);
 	else if (!ft_strcmp(shell->input, "pwd"))
@@ -73,6 +75,12 @@ int	main(int ac, char **av, char **envp)
 	setup_sig_handler(is_interactive);
 	shell.envp = envp;
 	shell.env = init_env(envp);
+	shell.subshell_flag = 0;
+	shell.last_exit_code = 0;
+	shell.input = NULL;
+	shell.cmd_info = NULL;
+	shell.tok_input = NULL;
+	shell.ast_root = NULL;
 	if (!is_interactive)
 	{
 		input = get_next_line(0);
@@ -93,12 +101,15 @@ int	main(int ac, char **av, char **envp)
 			shell.input = readline(prompt);
 			if (!shell.input)
 				ctrl_d_case(&shell);
-			if (shell.input[0] != '\0' || !is_all_spaces(shell.input))
+			if (shell.input[0] == '\0' || is_all_spaces(shell.input))
 				continue ;
 			if (sig_code == SIGINT)
 				sig_code = 0;
 			else
+			{
+				add_history(shell.input);
 				parsing(&shell);
+			}
 			free(prompt);
 		}
 	}

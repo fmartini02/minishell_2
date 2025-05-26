@@ -6,7 +6,7 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/05/20 18:17:19 by francema         ###   ########.fr        #
+#    Updated: 2025/05/22 15:14:06 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,20 @@ BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c \
 
 SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 
+AST_SRC = ast_init.c ast_utils.c parse_cmd_line.c parse_pipeline.c \
+		parse_redirection.c parse_simple_cmd.c parse_subshell.c print_ast.c \
+
 OBJ = $(SRC:.c=.o)
 
 TOK_OBJ = $(addprefix tokenization/, $(TOK_SRC:.c=.o))
 
 BUILTIN_OBJ = $(addprefix builtins/, $(BUILTIN_SRC:.c=.o))
 
-SIG_SRC_OBJ = $(addprefix signals/, $(SIG_SRC:.c=.o))
+SIG_OBJ = $(addprefix signals/, $(SIG_SRC:.c=.o))
+
+AST_OBJ = $(addprefix AST/, $(AST_SRC:.c=.o))
+
+ALL_OBJS = $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(SIG_OBJ) $(AST_OBJ)
 
 CC = clang
 
@@ -44,11 +51,11 @@ all: $(NAME)
 $(LIBFT):
 	make -C libft
 
-$(NAME): $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(SIG_SRC_OBJ) $(LIBFT)
+$(NAME): $(ALL_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -lreadline -o $(NAME) $^
 
 clean:
-	rm -f $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(SIG_SRC_OBJ)
+	rm -f $(ALL_OBJS)
 	make clean -C libft
 
 fclean: clean

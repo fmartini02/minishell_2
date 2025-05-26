@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/05/15 15:44:06 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:38:36 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ char	*double_quotes_case(t_mini *shell, char *content, size_t *i)
 		(*i)++;
 	}
 	if (s[*i] != '\"') // unmatched quote
+	{
+		write(2, ">\nbash: unexpected EOF while looking for matching `\"", 53);
+		write(2, "\'\nbash: syntax error: unexpected end of file\n", 46);
 		return (NULL);
+	}
 	if (*i > start) // trailing content after last $
 	{
 		content = get_chars_after_symbol(shell, i, start, content);
