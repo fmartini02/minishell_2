@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 18:32:55 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:52:19 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
 # include <unistd.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -119,6 +120,7 @@ void	free_ast(t_ast_node *node);
 void	free_redirections(t_redirection *redir);
 int	is_control_operator(char *token);
 void	free_cmd_info(t_cmd_info *cmd);
+bool	is_valid_token(t_list **tokens);
 
 // utils.c
 int 	is_all_spaces(const char *str);

@@ -6,7 +6,7 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/05/22 15:14:06 by francema         ###   ########.fr        #
+#    Updated: 2025/05/26 17:36:17 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ TOK_SRC = and_case.c double_quotes_case.c single_quotes_case.c \
 		pipe_case.c redi_case.c subshell_case.c tok_dollar_case.c \
 		tokenization.c word_case.c wildcard_case.c \
 
-BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c \
+BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c \
 
 SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 

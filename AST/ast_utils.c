@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 17:36:11 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:42:54 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	is_control_operator(char *token)
 		|| !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, "<<")
 		|| !ft_strcmp(token, ">>"));
+}
+
+bool	is_valid_token(t_list **tokens)
+{
+	return (tokens && *tokens && (*tokens)->content);
 }
 
 // Frees redirections linked list

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 18:32:41 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:34:43 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	parsing(t_mini *shell)
 		ft_echo(shell);
 	else if (!ft_strcmp(shell->input, "cd"))
 		ft_cd(shell);
-	else if (!ft_strcmp(shell->input, "export"))
-		ft_export(shell); //da implementare
-	else if (!ft_strcmp(shell->input, "unset"))
-		ft_unset(shell); //da implementare
+//	else if (!ft_strcmp(shell->input, "export"))
+//		ft_export(shell); //da implementare
+///	else if (!ft_strcmp(shell->input, "unset"))
+//		ft_unset(shell); //da implementare
 	free(shell->input);
 }
 

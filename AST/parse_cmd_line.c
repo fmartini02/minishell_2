@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 17:57:18 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:24:21 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
 		right = parse_pipeline(shell, tokens);
 		if (!right)
 		{
-			if (type == NODE_AND)
-				ft_putendl_fd("minishell: syntax error near unexpected token `&&`", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+			if (!is_valid_token(tokens))
+				ft_putstr_fd("newline", 2);
 			else
-				ft_putendl_fd("minishell: syntax error near unexpected token `||`", 2);
+				ft_putstr_fd((char *)(*tokens)->content, 2);
+			ft_putendl_fd("`", 2);
 			free_ast(left);
 			return (NULL);
 		}

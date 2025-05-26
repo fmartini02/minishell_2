@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 15:31:28 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:32:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
 	t_ast_node	*node;
 
 	left = parse_simple_cmd(shell, tokens);
-	if (!left)
+	if (ft_strcmp((char *)(*tokens)->content, "(") == 0)
 		left = parse_subshell(shell, tokens);
 	if (!left)
 		return (NULL);
