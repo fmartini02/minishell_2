@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:05:37 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 17:57:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/27 18:05:41 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ char	*subshell_case(t_mini *shell, char *content, size_t *i)
 		{
 			tmp++;
 			if (s[tmp] == '(')
+			{
+				ft_putstr_fd("ERROR: NESTED SUBSHELLS NOT ALLOWED\n", 2);
 				return (NULL);
+			}
 		}
 		content = ft_strjoin_free(content, "(");
 		shell->subshell_flag = 1;

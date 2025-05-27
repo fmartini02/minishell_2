@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/05/26 19:35:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:47:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
 
 	if (!tokens || !*tokens || !(*tokens)->content)
 		return (NULL);
-	if (ft_strcmp((char *)(*tokens)->content, "(") == 0)
+	if (!ft_strcmp((char *)(*tokens)->content, "(")
+		|| !ft_strcmp((char *)(*tokens)->content, ")"))
 		return (parse_subshell(shell, tokens));
 	cmd = malloc(sizeof(t_cmd_info));
 	if (!cmd)

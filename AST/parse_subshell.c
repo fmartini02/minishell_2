@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/05/26 19:11:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:35:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@ t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
 	t_ast_node	*subtree;
 	t_ast_node	*node;
 
-	if (!tokens || !*tokens || !(*tokens)->next)
+	if (!is_valid_token(tokens))
 		return (NULL);
-	*tokens = (*tokens)->next;
-	//printf("%s\n", (char *)(*tokens)->content);
+	if (!(*tokens)->next)
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putendl_fd("newline`", 2);
+		*tokens = (*tokens)->next;
+		return (NULL);
+	}
+	*tokens = (*tokens)->next; // skip the opening parenthesis
 	subtree = parse_cmd_line(shell, tokens);
 	if (!subtree)
 		return (NULL);
