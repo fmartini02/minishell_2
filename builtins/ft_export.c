@@ -29,6 +29,7 @@ static void update_env_var(t_list **env, const char *key, const char *value)
 	free(new_var);
 	ft_lstadd_back(env, ft_lstnew(tmp));
 }
+
 // DA CONTROLLARE SE IGNORA TUTTI GLI UGUALI O SOLO IL PRIMO!!!!
 /* Aggiunge o aggiorna una varibile d'ambiente nella lista shell->env*/
 void	ft_export(t_mini *shell)
