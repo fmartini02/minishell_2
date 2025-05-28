@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/26 18:52:19 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:57:03 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_ast_node
 /*t_pipeline groups commands linked by pipes.*/
 typedef struct s_pipeline
 {
-	struct s_ast_node	*commands;  // linked list of commands or subshells
+	struct s_ast_node	*commands;// linked list of commands or subshells
 }	t_pipeline;
 
 typedef struct s_mini
@@ -85,6 +85,7 @@ typedef struct s_mini
 	char		**envp;
 	int			subshell_flag;
 	int			last_exit_code;
+	bool		err_print;
 	t_list		*env;
 	t_list		*tok_input;
 	t_cmd_info	*cmd_info;
@@ -92,55 +93,56 @@ typedef struct s_mini
 }	t_mini;
 
 // errors.c
-void	ft_fatal_memerr(t_mini *shell);
+void		ft_fatal_memerr(t_mini *shell);
 
 //BUILTINS
-void	ft_echo(t_mini *shell);
-void	ft_env(t_mini *shell);
-void	ft_exit(t_mini *shell, char **args);
-void	ft_pwd(t_mini *shell);
-void	ft_cd(t_mini *shell);
+void		ft_echo(t_mini *shell);
+void		ft_env(t_mini *shell);
+void		ft_exit(t_mini *shell, char **args);
+void		ft_pwd(t_mini *shell);
+void		ft_cd(t_mini *shell);
 
 // env_var.c
-char	*ft_dollar_case(t_mini *shell, char *str, size_t *i);
-char	*get_env_value(t_mini *shell, const char *var_name);
+char		*ft_dollar_case(t_mini *shell, char *str, size_t *i);
+char		*get_env_value(t_mini *shell, const char *var_name);
 
 // prompt.c
-char	*get_prompt(void);
+char		*get_prompt(void);
 
 //AST-PARSING
-void	ast_init(t_mini *shell);
-void	print_ast(t_ast_node *node, int depth);
+void		ast_init(t_mini *shell);
+void		print_ast(t_ast_node *node, int depth);
 t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens);
 t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens);
-bool	parse_redirection(t_list **tokens, t_cmd_info *cmd);
+bool		parse_redirection(t_list **tokens, t_cmd_info *cmd, t_mini *shell);
 t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens);
 t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens);
-void	free_ast(t_ast_node *node);
-void	free_redirections(t_redirection *redir);
-int	is_control_operator(char *token);
-void	free_cmd_info(t_cmd_info *cmd);
-bool	is_valid_token(t_list **tokens);
+void		free_ast(t_ast_node *node);
+void		free_redirections(t_redirection *redir);
+int			is_control_operator(char *token);
+void		free_cmd_info(t_cmd_info *cmd);
+bool		is_valid_token(t_list **tokens);
+void		print_unexpected_token(t_list **tokens);
 
 // utils.c
-int 	is_all_spaces(const char *str);
-bool	ft_ispecial_char(char c);
+int			is_all_spaces(const char *str);
+bool		ft_ispecial_char(char c);
 
 //SIGNALS
-void	ctrl_d_case(t_mini *shell);
-void	setup_sig_handler(int is_interactive);
-void	signal_handler(int sig);
+void		ctrl_d_case(t_mini *shell);
+void		setup_sig_handler(int is_interactive);
+void		signal_handler(int sig);
 
 //TOKENIZATION
-char	*and_case(t_mini *shell, char *content, size_t *i);
-char	*double_quotes_case(t_mini *shell, char *content, size_t *i);
-char	*pipe_char_case(t_mini *shell, char *content, size_t *i);
-char	*redi_case(t_mini *shell, char *content, size_t *i);
-char	*single_quotes_case(t_mini *shell, char *content, size_t *i);
-char	*subshell_case(t_mini *shell, char *content, size_t *i);
-char	*tok_dollar_case(t_mini *shell, size_t *i, char *content);
-bool	tokenize_input(t_mini *shell);
-char	*word_case(t_mini *shell, char *content, size_t *i);
-char	*wildcard_case(t_mini *shell, char *content, size_t *i);
+char		*and_case(t_mini *shell, char *content, size_t *i);
+char		*double_quotes_case(t_mini *shell, char *content, size_t *i);
+char		*pipe_char_case(t_mini *shell, char *content, size_t *i);
+char		*redi_case(t_mini *shell, char *content, size_t *i);
+char		*single_quotes_case(t_mini *shell, char *content, size_t *i);
+char		*subshell_case(t_mini *shell, char *content, size_t *i);
+char		*tok_dollar_case(t_mini *shell, size_t *i, char *content);
+bool		tokenize_input(t_mini *shell);
+char		*word_case(t_mini *shell, char *content, size_t *i);
+char		*wildcard_case(t_mini *shell, char *content, size_t *i);
 
 #endif

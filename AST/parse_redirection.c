@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 17:48:37 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:56:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	add_redirection(t_cmd_info *cmd, t_redirection *new_redir)
 }
 
 // Adds a redirection to the end of the list, returns 0 on success, -1 on failure
-bool	parse_redirection(t_list **tokens, t_cmd_info *cmd)
+bool	parse_redirection(t_list **tokens, t_cmd_info *cmd, t_mini *shell)
 {
 	t_redirection	*redir;
 	t_redir_type	type;
@@ -70,8 +70,9 @@ bool	parse_redirection(t_list **tokens, t_cmd_info *cmd)
 		else
 			break;
 		*tokens = (*tokens)->next;
-		if (!*tokens || !(*tokens)->content)
+		if (!is_valid_token(tokens) && shell->err_print == false)
 		{
+			shell->err_print = true;
 			ft_putendl_fd("minishell: syntax error near unexpected token `newline`", 2);
 			free_redirections(cmd->redirections);
 			cmd->redirections = NULL;

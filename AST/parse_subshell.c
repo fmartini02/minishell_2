@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/05/27 17:35:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:57:32 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
 
 	if (!is_valid_token(tokens))
 		return (NULL);
-	if (!(*tokens)->next)
+	if (!(*tokens)->next && shell->err_print == false)
 	{
+		shell->err_print = true;
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		ft_putendl_fd("newline`", 2);
 		*tokens = (*tokens)->next;
@@ -31,14 +32,10 @@ t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
 	if (!subtree)
 		return (NULL);
 	if ((!is_valid_token(tokens)
-		|| ft_strcmp((char *)(*tokens)->content, ")")))
+		|| ft_strcmp((char *)(*tokens)->content, ")")) && shell->err_print == false)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		if (!is_valid_token(tokens))
-			ft_putstr_fd("newline", 2);
-		else
-			ft_putendl_fd((char *)(*tokens)->content, 2);
-		ft_putendl_fd("`", 2);
+		shell->err_print = true;
+		print_unexpected_token(tokens);
 		free_ast(subtree);
 		return (NULL);
 	}

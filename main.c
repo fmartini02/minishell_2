@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/26 17:34:43 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:49:07 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ int	main(int ac, char **av, char **envp)
 	shell.cmd_info = NULL;
 	shell.tok_input = NULL;
 	shell.ast_root = NULL;
+	shell.err_print = false;
+	if (!shell.env)
+		ft_fatal_memerr(&shell);
 	if (!is_interactive)
 	{
 		input = get_next_line(0);

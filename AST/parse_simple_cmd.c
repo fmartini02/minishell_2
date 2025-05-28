@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/05/27 17:47:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:58:07 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
 	while (is_valid_token(tokens) && !is_control_operator((*tokens)->content))
 	{
 		token = (char *)(*tokens)->content;
-		if (!ft_strcmp(token, "("))
+		if (!ft_strcmp(token, "(") && shell->err_print == false)
 		{
+			shell->err_print = true;
 			ft_putendl_fd("minishell: syntax error near unexpected token `('", 2);
 			free_cmd_info(cmd);
 			return (NULL);
@@ -103,20 +104,16 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
 	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
 	{
-		if (parse_redirection(tokens, cmd) == false)
+		if (parse_redirection(tokens, cmd, shell) == false)
 		{
 			free_ast(shell->ast_root);
 			return (NULL);
 		}
 	}
-	if (!cmd->cmd_name)
+	if (!cmd->cmd_name && shell->err_print == false)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		if (!is_valid_token(tokens))
-			ft_putstr_fd("newline", 2);
-		else
-			ft_putstr_fd((char *)(*tokens)->content, 2);
-		ft_putstr_fd("`\n", 2);
+		shell->err_print = true;
+		print_unexpected_token(tokens);
 		free_cmd_info(cmd);
 		return (NULL);
 	}

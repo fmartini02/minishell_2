@@ -6,11 +6,25 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/05/27 17:43:36 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:09:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+/*for cases like (cmd)) or (cmd)cmd)*/
+bool	is_valid_operator(t_list **tokens)
+{
+	if (!is_valid_token(tokens))
+		return (false);
+	if (!(*tokens)->next)
+		return (true);
+	else if (!ft_strcmp((*tokens)->next->content, "&&")
+		|| !ft_strcmp((*tokens)->next->content, "||")
+		|| !ft_strcmp((*tokens)->next->content, "|"))
+		return (true);
+	return (false);
+}
 
 t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
 {
@@ -19,10 +33,18 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
 	t_ast_node	*node;
 
 	left = parse_simple_cmd(shell, tokens);
-	if ((is_valid_token(tokens)
-		&& ((!ft_strcmp((char *)(*tokens)->content, "("))
-		|| !ft_strcmp((char *)(*tokens)->content, ")"))))
-		left = parse_subshell(shell, tokens);
+	if (is_valid_token(tokens) && !ft_strcmp((char *)(*tokens)->content, ")"))
+	{
+		if (!is_valid_operator(tokens) && shell->err_print == false)
+		{
+			shell->err_print = true;
+			print_unexpected_token(tokens);
+			free_ast(left);
+			return (NULL); // syntax error after pipe
+		}
+		*tokens = (*tokens)->next; // consume ")"
+		return (left);// return left if next token is ")" and next there is a valid operator
+	}
 	if (!left)
 		return (NULL);
 	while (is_valid_token(tokens) && !ft_strcmp((*tokens)->content, "|"))
@@ -31,14 +53,10 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
 		right = parse_simple_cmd(shell, tokens);
 		if (!right && is_valid_token(tokens))
 			right = parse_subshell(shell, tokens);
-		if (!right)
+		if (!right && shell->err_print == false)
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			if (!is_valid_token(tokens))
-				ft_putstr_fd("newline", 2);
-			else
-				ft_putstr_fd((char *)(*tokens)->content, 2);
-			ft_putendl_fd("`", 2);
+			shell->err_print = true;
+			print_unexpected_token(tokens);
 			free_ast(left);
 			return (NULL); // syntax error after pipe
 		}
