@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 16:57:03 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:24:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void		ft_env(t_mini *shell);
 void		ft_exit(t_mini *shell, char **args);
 void		ft_pwd(t_mini *shell);
 void		ft_cd(t_mini *shell);
+void		ft_export(t_mini *shell);
+void		ft_unset(t_mini *shell);
 
 // env_var.c
 char		*ft_dollar_case(t_mini *shell, char *str, size_t *i);

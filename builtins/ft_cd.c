@@ -21,9 +21,9 @@ void	ft_setenv(t_list **env, const char *key, const char *value)
 	char	*new_entry;
 
 	node = *env;
-	key_len = ft_strlen(key);
 	if (!key || !value)
 		return ;
+	key_len = ft_strlen(key);
 	new_entry = str_key_value(key, value);
 	if (!new_entry)
 		return  ;
@@ -79,6 +79,7 @@ void	ft_cd(t_mini *shell)
 {
 	char	*oldpwd;
 	char	**args;
+	char	*home;
 
 	args = shell->cmd_info->cmd_args;
 	oldpwd = get_oldpwd();
@@ -89,9 +90,15 @@ void	ft_cd(t_mini *shell)
 	}
 	if (!args[1])
 	{
-		ft_putendl_fd("cd: missing argument", 2);
-		free(oldpwd);
-		shell->last_exit_code = 1;
+		home = getenv("HOME");
+		if (!home)
+		{
+			ft_putendl_fd("cd: HOME not set", 2);
+			free(oldpwd);
+			shell->last_exit_code = 1;
+			return ;
+		}
+		change_dir_and_update(shell, oldpwd, home);
 		return ;
 	}
 	change_dir_and_update(shell, oldpwd, args[1]);

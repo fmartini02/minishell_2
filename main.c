@@ -25,21 +25,20 @@ void	parsing(t_mini *shell)
 	// ft_print_list(shell->tok_input, 's');
 	//expand_wildcards(shell);
 	ast_init(shell);
-	print_ast(shell->ast_root, 0);
-	if (!ft_strcmp(shell->input, "env"))
+	if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
 		ft_env(shell);
-	else if (!ft_strcmp(shell->input, "pwd"))
+	else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))
 		ft_pwd(shell);
-	else if (!ft_strcmp(shell->input, "exit"))
+	else if (!ft_strcmp(shell->cmd_info->cmd_name, "exit"))
 		ft_exit(shell, NULL);
-	else if (!ft_strcmp(shell->input, "echo"))
+	else if (!ft_strcmp(shell->cmd_info->cmd_name, "echo"))
 		ft_echo(shell);
-	else if (!ft_strcmp(shell->input, "cd"))
+	else if (!ft_strcmp(shell->cmd_info->cmd_name, "cd"))
 		ft_cd(shell);
-//	else if (!ft_strcmp(shell->input, "export"))
-//		ft_export(shell); //da implementare
-///	else if (!ft_strcmp(shell->input, "unset"))
-//		ft_unset(shell); //da implementare
+	else if (!ft_strcmp(shell->cmd_info->cmd_name, "export"))
+		ft_export(shell);
+	else if (!ft_strcmp(shell->cmd_info->cmd_name, "unset"))
+		ft_unset(shell);
 	free(shell->input);
 }
 
