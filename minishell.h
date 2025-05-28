@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 15:53:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:52:19 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define _POSIX_C_SOURCE 200809L
 # include <unistd.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -109,7 +110,19 @@ char	*get_env_value(t_mini *shell, const char *var_name);
 // prompt.c
 char	*get_prompt(void);
 
-// parsing.c
+//AST-PARSING
+void	ast_init(t_mini *shell);
+void	print_ast(t_ast_node *node, int depth);
+t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens);
+t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens);
+bool	parse_redirection(t_list **tokens, t_cmd_info *cmd);
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens);
+t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens);
+void	free_ast(t_ast_node *node);
+void	free_redirections(t_redirection *redir);
+int	is_control_operator(char *token);
+void	free_cmd_info(t_cmd_info *cmd);
+bool	is_valid_token(t_list **tokens);
 
 // utils.c
 int 	is_all_spaces(const char *str);
@@ -128,7 +141,7 @@ char	*redi_case(t_mini *shell, char *content, size_t *i);
 char	*single_quotes_case(t_mini *shell, char *content, size_t *i);
 char	*subshell_case(t_mini *shell, char *content, size_t *i);
 char	*tok_dollar_case(t_mini *shell, size_t *i, char *content);
-void	tokenize_input(t_mini *shell);
+bool	tokenize_input(t_mini *shell);
 char	*word_case(t_mini *shell, char *content, size_t *i);
 char	*wildcard_case(t_mini *shell, char *content, size_t *i);
 

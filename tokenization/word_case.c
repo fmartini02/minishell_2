@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/05/16 15:52:54 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:21:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ char	*word_case(t_mini *shell, char *content, size_t *i)
 	len = 0;
 	while (s[*i + len]
 		&& !is_quote_or_dollar(s[*i + len]) && !is_special_char(s[*i + len])
-		&& s[*i + len] != '\n')
+		&& s[*i + len] != '\n'
+		&& !ft_ispace(s[*i + len]))
 		len++;
 	if (!safe_append(&content, s, i, &len))
-		return (NULL);
+		ft_fatal_memerr(shell);
 	c = s[*i + len];// check next char
 	if (!word_case_helper(shell, c, &content, i))
-		return (NULL);
+		ft_fatal_memerr(shell);
 	return (content);
 }

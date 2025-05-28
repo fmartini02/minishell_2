@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_init.c                                         :+:      :+:    :+:   */
+/*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 18:25:08 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 17:59:13 by francema         ###   ########.fr       */
+/*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
+/*   Updated: 2025/05/26 18:42:54 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	is_control_operator(char *token)
 		|| !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, "<<")
 		|| !ft_strcmp(token, ">>"));
+}
+
+bool	is_valid_token(t_list **tokens)
+{
+	return (tokens && *tokens && (*tokens)->content);
 }
 
 // Frees redirections linked list
@@ -77,15 +82,4 @@ void	free_ast(t_ast_node *node)
 	node->right = NULL;
 	node->content = NULL;
 	free(node);
-}
-
-void	ast_init(t_mini *shell)
-{
-	if (!shell || !shell->tok_input)
-		return ;
-	shell->ast_root = parse_cmd_line(shell, &(shell->tok_input));
-	if (!shell->ast_root)
-	{
-		ft_putendl_fd("minishell: syntax error", 2);
-	}
 }

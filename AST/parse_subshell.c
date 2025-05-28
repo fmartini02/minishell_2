@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/05/21 17:54:26 by francema         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:35:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,33 @@ t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
 	t_ast_node	*subtree;
 	t_ast_node	*node;
 
-	if (!tokens || !*tokens || !(*tokens)->next)
+	if (!is_valid_token(tokens))
 		return (NULL);
-	*tokens = (*tokens)->next;
-	subtree = parse_cmd_line(shell, tokens);
-	if (!subtree || !(*tokens)->content
-		|| ft_strcmp((char *)(*tokens)->content, ")") != 0)
+	if (!(*tokens)->next)
 	{
-		if (!*tokens || !(*tokens)->content)
-			ft_putendl_fd("minishell: syntax error near unexpected token `newline`", 2);
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putendl_fd("newline`", 2);
+		*tokens = (*tokens)->next;
+		return (NULL);
+	}
+	*tokens = (*tokens)->next; // skip the opening parenthesis
+	subtree = parse_cmd_line(shell, tokens);
+	if (!subtree)
+		return (NULL);
+	if ((!is_valid_token(tokens)
+		|| ft_strcmp((char *)(*tokens)->content, ")")))
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		if (!is_valid_token(tokens))
+			ft_putstr_fd("newline", 2);
 		else
-		{
-			ft_putendl_fd("minishell: syntax error near unexpected token `", 2);
 			ft_putendl_fd((char *)(*tokens)->content, 2);
-			ft_putendl_fd("`", 2);
-		}
+		ft_putendl_fd("`", 2);
 		free_ast(subtree);
 		return (NULL);
 	}
-	*tokens = (*tokens)->next;
+	if (is_valid_token(tokens))
+		*tokens = (*tokens)->next;
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 	{

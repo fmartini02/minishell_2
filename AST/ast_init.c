@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   and_case.c                                         :+:      :+:    :+:   */
+/*   ast_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:34:06 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 17:58:45 by francema         ###   ########.fr       */
+/*   Created: 2025/05/20 18:25:08 by francema          #+#    #+#             */
+/*   Updated: 2025/05/26 19:34:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*and_case(t_mini *shell, char *content, size_t *i)
+void ast_init(t_mini *shell)
 {
-	char	*s;
-
-	s = shell->input;
-	if (s[*i + 1] == '&')
+	if (!shell || !shell->tok_input)
+		return;
+	shell->ast_root = parse_cmd_line(shell, &(shell->tok_input));
+	if (shell->tok_input)
 	{
-		content = ft_strdup("&&");
-		if (!content)
-			ft_fatal_memerr(shell);
-		(*i) += 2;
+		free_ast(shell->ast_root);
 	}
-	else
+	/*if (!shell->ast_root)
 	{
-		content = NULL;
-		(*i)++;
-	}
-	return (content);
+		ft_putendl_fd("minishell: syntax error", 2);
+	}*/
 }
+
