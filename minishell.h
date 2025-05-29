@@ -111,6 +111,9 @@ char		*get_env_value(t_mini *shell, const char *var_name);
 // prompt.c
 char		*get_prompt(void);
 
+// redirections.c 
+int	apply_redirection(t_mini *shell);
+
 //AST-PARSING
 void		ast_init(t_mini *shell);
 void		print_ast(t_ast_node *node, int depth);

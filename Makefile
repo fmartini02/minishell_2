@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c prompt.c errors.c env_var.c utils.c \
+SRC = main.c prompt.c errors.c env_var.c utils.c redirections.c\
 
 TOK_SRC = and_case.c double_quotes_case.c single_quotes_case.c \
 		pipe_case.c redi_case.c subshell_case.c tok_dollar_case.c \
