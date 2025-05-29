@@ -9,7 +9,7 @@ static void update_env_var(t_list **env, const char *key, const char *value)
 	char	*new_var;
 
 	key_len = ft_strlen(key);
-	node = env;
+	node = *env;
 	while (node)
 	{
 		if (ft_strncmp(node->content, key, key_len) == 0 &&

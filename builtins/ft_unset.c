@@ -6,7 +6,7 @@ static void	remove_env_var(t_list **env, const char *key)
 	t_list	*curr = *env;
 	t_list	*prev = NULL;
 	t_list	*tmp;
-	size_t	key_len = ft_strleb(key);
+	size_t	key_len = ft_strlen(key);
 	
 	while (curr)
 	{

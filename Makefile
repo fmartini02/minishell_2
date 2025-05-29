@@ -10,13 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c prompt.c errors.c env_var.c parsing.c utils.c \
+SRC = main.c prompt.c errors.c env_var.c utils.c \
 
 TOK_SRC = and_case.c double_quotes_case.c single_quotes_case.c \
 		pipe_case.c redi_case.c subshell_case.c tok_dollar_case.c \
 		tokenization.c word_case.c wildcard_case.c \
 
-BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c \
+BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c ft_export.c ft_unset.c \
 
 SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 
