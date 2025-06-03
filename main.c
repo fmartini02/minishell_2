@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 15:49:07 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:01:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@ void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
-	// ft_print_list(shell->tok_input, 's');
+	ft_print_list(shell->tok_input, 's');
 	//expand_wildcards(shell);
 	ast_init(shell);
-	if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
-		ft_env(shell);
-	else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))
-		ft_pwd(shell);
-	else if (!ft_strcmp(shell->cmd_info->cmd_name, "exit"))
-		ft_exit(shell, NULL);
-	else if (!ft_strcmp(shell->cmd_info->cmd_name, "echo"))
-		ft_echo(shell);
-	else if (!ft_strcmp(shell->cmd_info->cmd_name, "cd"))
-		ft_cd(shell);
-	else if (!ft_strcmp(shell->cmd_info->cmd_name, "export"))
-		ft_export(shell);
-	else if (!ft_strcmp(shell->cmd_info->cmd_name, "unset"))
-		ft_unset(shell);
+	//if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
+	//	ft_env(shell);
+	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))
+	//	ft_pwd(shell);
+	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "exit"))
+	//	ft_exit(shell, NULL);
+	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "echo"))
+	//	ft_echo(shell);
+	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "cd"))
+	//	ft_cd(shell);
+	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "export"))
+	//	ft_export(shell);
+	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "unset"))
+	//	ft_unset(shell);
 	free(shell->input);
 }
 
@@ -70,6 +70,7 @@ int	main(int ac, char **av, char **envp)
 	int		is_interactive;
 
 	(void)av;
+	(void)ac;
 	is_interactive = isatty(STDIN_FILENO);
 	setup_sig_handler(is_interactive);
 	shell.envp = envp;
@@ -95,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 	}
 	else
 	{
-		while(ac)
+		while(1)
 		{
 			prompt = get_prompt();
 			if (!prompt)
@@ -111,6 +112,8 @@ int	main(int ac, char **av, char **envp)
 			{
 				add_history(shell.input);
 				parsing(&shell);
+				shell.subshell_flag = 0;
+				shell.err_print = false;
 			}
 			free(prompt);
 		}

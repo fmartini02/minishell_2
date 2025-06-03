@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 15:56:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:13:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static t_redirection	*new_redirection(t_redir_type type, char *target)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
+	if (is_control_operator(target))
+	{
+		free(redir);
+		return (NULL);
+	}
 	redir->target = strdup(target);
 	if (!redir->target)
 	{
@@ -81,6 +86,7 @@ bool	parse_redirection(t_list **tokens, t_cmd_info *cmd, t_mini *shell)
 		redir = new_redirection(type, (char *)(*tokens)->content);
 		if (!redir || add_redirection(cmd, redir) == -1)
 		{
+			print_unexpected_token(tokens);
 			free_redirections(cmd->redirections);
 			cmd->redirections = NULL;
 			if (redir)

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 16:56:32 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:52:09 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,19 @@ t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
 	left = parse_pipeline(shell, tokens);
 	if (!left)
 		return (NULL);
-	while (is_valid_token(tokens) && (!ft_strcmp((*tokens)->content, "&&")
-			|| !ft_strcmp((*tokens)->content, "||")))
+	while (is_valid_token(tokens) && (is_control_operator((*tokens)->content)))
 	{
-		if (ft_strcmp((*tokens)->content, "&&") == 0)
+		if (!ft_strcmp((*tokens)->content, "&&"))
 			type = NODE_AND;
-		else
+		else if (!ft_strcmp((*tokens)->content, "||"))
 			type = NODE_OR;
+		else if (!ft_strcmp((*tokens)->content, "("))
+		{
+			type = NODE_SUBSHELL;
+			right = parse_subshell(shell, tokens);
+		}
+		if (!right)
+			return (NULL);
 		*tokens = (*tokens)->next;
 		if (shell->err_print == false)
 			right = parse_pipeline(shell, tokens);
@@ -65,7 +71,7 @@ t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
 	}
 	if (is_valid_token(tokens)
 		&& !is_control_operator((*tokens)->content)
-		&& ft_strcmp((*tokens)->content, ")") != 0
+		&& !ft_strcmp((*tokens)->content, ")")
 		&& shell->err_print == false)
 	{
 		shell->err_print = true;

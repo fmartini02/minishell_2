@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 18:09:50 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:44:26 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,27 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
 	while (is_valid_token(tokens) && !ft_strcmp((*tokens)->content, "|"))
 	{
 		*tokens = (*tokens)->next;// consume "|"
+		if (is_valid_token(tokens) && is_control_operator((*tokens)->content))
+		{
+			if (ft_strchr((*tokens)->content, '>' || ft_strchr((*tokens)->content, '<')))
+			{
+				right = parse_simple_cmd(shell, tokens);
+				if (!right && shell->err_print == false)
+				{
+					shell->err_print = true;
+					print_unexpected_token(tokens);
+					free_ast(left);
+					return (NULL);// syntax error after pipe
+				}
+			}
+			else
+			{
+				shell->err_print = true;
+				print_unexpected_token(tokens);
+				free_ast(left);
+				return (NULL);
+			}
+		}
 		right = parse_simple_cmd(shell, tokens);
 		if (!right && is_valid_token(tokens))
 			right = parse_subshell(shell, tokens);
