@@ -6,41 +6,16 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 16:57:32 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:22:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
+t_ast_node	*create_subshell_node(t_ast_node *subtree)
 {
-	t_ast_node	*subtree;
 	t_ast_node	*node;
 
-	if (!is_valid_token(tokens))
-		return (NULL);
-	if (!(*tokens)->next && shell->err_print == false)
-	{
-		shell->err_print = true;
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putendl_fd("newline`", 2);
-		*tokens = (*tokens)->next;
-		return (NULL);
-	}
-	*tokens = (*tokens)->next; // skip the opening parenthesis
-	subtree = parse_cmd_line(shell, tokens);
-	if (!subtree)
-		return (NULL);
-	if ((!is_valid_token(tokens)
-		|| ft_strcmp((char *)(*tokens)->content, ")")) && shell->err_print == false)
-	{
-		shell->err_print = true;
-		print_unexpected_token(tokens);
-		free_ast(subtree);
-		return (NULL);
-	}
-	if (is_valid_token(tokens))
-		*tokens = (*tokens)->next;
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 	{
@@ -54,3 +29,53 @@ t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
 	node->next = NULL;
 	return (node);
 }
+
+bool	handle_opening_paren(t_mini *shell, t_list **tokens)
+{
+	if (!is_valid_token(tokens))
+		return (false);
+	if (!(*tokens)->next && shell->err_print == false)
+	{
+		shell->err_print = true;
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putendl_fd("newline`", 2);
+		*tokens = (*tokens)->next;
+		return (false);
+	}
+	*tokens = (*tokens)->next; // skip "("
+	return (true);
+}
+
+bool	handle_closing_paren(t_mini *shell, t_list **tokens)
+{
+	if (!is_valid_token(tokens)
+		|| ft_strcmp((char *)(*tokens)->content, ")"))
+	{
+		if (shell->err_print == false)
+		{
+			shell->err_print = true;
+			print_unexpected_token(tokens);
+		}
+		return (false);
+	}
+	*tokens = (*tokens)->next; // skip ")"
+	return (true);
+}
+
+t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
+{
+	t_ast_node	*subtree;
+
+	if (!handle_opening_paren(shell, tokens))
+		return (NULL);
+	subtree = parse_cmd_line(shell, tokens);
+	if (!subtree)
+		return (NULL);
+	if (!handle_closing_paren(shell, tokens))
+	{
+		free_ast(subtree);
+		return (NULL);
+	}
+	return (create_subshell_node(subtree));
+}
+

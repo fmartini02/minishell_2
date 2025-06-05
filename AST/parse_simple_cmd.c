@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 16:58:07 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:05:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,23 +64,10 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 	return (cmd);
 }
 
-t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
+bool	simple_cmd_loop(t_mini *shell, t_list **tokens, t_cmd_info **cmd)
 {
-	t_cmd_info	*cmd;
-	t_ast_node	*node;
-	char		*token;
+	char	*token;
 
-	if (!tokens || !*tokens || !(*tokens)->content)
-		return (NULL);
-	if (!ft_strcmp((char *)(*tokens)->content, "(")
-		|| !ft_strcmp((char *)(*tokens)->content, ")"))
-		return (parse_subshell(shell, tokens));
-	cmd = malloc(sizeof(t_cmd_info));
-	if (!cmd)
-		return (NULL);
-	cmd->cmd_name = NULL;
-	cmd->cmd_args = NULL;
-	cmd->redirections = NULL;
 	while (is_valid_token(tokens) && !is_control_operator((*tokens)->content))
 	{
 		token = (char *)(*tokens)->content;
@@ -88,29 +75,64 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
 		{
 			shell->err_print = true;
 			ft_putendl_fd("minishell: syntax error near unexpected token `('", 2);
-			free_cmd_info(cmd);
-			return (NULL);
+			free_cmd_info(*cmd);
+			return (false);
 		}
 		else
 		{
-			if (!cmd->cmd_name)
-				cmd->cmd_name = ft_strdup(token);
-			cmd = add_arg_to_cmd(cmd, token);
+			if (!(*cmd)->cmd_name)
+				(*cmd)->cmd_name = ft_strdup(token);
+			*cmd = add_arg_to_cmd(*cmd, token);
 			*tokens = (*tokens)->next;
 		}
 	}
-	if (is_valid_token(tokens))
-		token = (char *)(*tokens)->content;
+	return (true);
+}
+
+t_cmd_info	*create_cmd_info(void)
+{
+	t_cmd_info	*cmd;
+
+	cmd = malloc(sizeof(t_cmd_info));
+	if (!cmd)
+		return (NULL);
+	cmd->cmd_name = NULL;
+	cmd->cmd_args = NULL;
+	cmd->redirections = NULL;
+	return (cmd);
+}
+
+bool	is_parse_subshell(t_list **tokens)
+{
+	if (!is_valid_token(tokens))
+		return (false);
+	if (!ft_strcmp((char *)(*tokens)->content, "(")
+		|| !ft_strcmp((char *)(*tokens)->content, ")"))
+		return (true);
+	return (false);
+}
+
+bool	handle_redirections(t_list **tokens, t_cmd_info *cmd, t_mini *shell)
+{
+	char	*token;
+
+	if (!is_valid_token(tokens))
+		return (true);
+	token = (char *)(*tokens)->content;
 	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
 	{
 		if (parse_redirection(tokens, cmd, shell) == false)
-		{
-			free_ast(shell->ast_root);
-			return (NULL);
-		}
+			return (false);
 	}
-	if (!cmd->cmd_name && shell->err_print == false)
+	return (true);
+}
+
+t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell, t_list **tokens)
+{
+	t_ast_node	*node;
+
+	if (!cmd->cmd_name && shell->err_print == false && !cmd->redirections)
 	{
 		shell->err_print = true;
 		print_unexpected_token(tokens);
@@ -121,4 +143,30 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
 	if (!node)
 		return (free_cmd_info(cmd), NULL);
 	return (node);
+}
+
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
+{
+	t_cmd_info	*cmd;
+	char		*token;
+
+	if (!is_valid_token(tokens))
+		return (NULL);
+	if (is_parse_subshell(tokens))//there is a subshell??
+		return (parse_subshell(shell, tokens));
+	cmd = create_cmd_info();
+	if (!cmd)
+		return (NULL);
+	if (ft_strchr((*tokens)->content, '>') || ft_strchr((*tokens)->content, '<'))
+	{
+		if (!handle_redirections(tokens, cmd, shell))
+			return (free_ast(shell->ast_root), NULL);
+	}
+	if (!simple_cmd_loop(shell, tokens, &cmd))
+		return (NULL);
+	if (is_valid_token(tokens))
+		token = (char *)(*tokens)->content;
+	if (!handle_redirections(tokens, cmd, shell))
+		return (free_ast(shell->ast_root), NULL);
+	return (finalize_cmd_node(cmd, shell, tokens));
 }

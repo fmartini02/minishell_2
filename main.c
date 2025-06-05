@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/03 18:01:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:45:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
-	ft_print_list(shell->tok_input, 's');
+	//ft_print_list(shell->tok_input, 's');
 	//expand_wildcards(shell);
 	ast_init(shell);
+	print_ast(shell->ast_root, 0);
 	//if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
 	//	ft_env(shell);
 	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))

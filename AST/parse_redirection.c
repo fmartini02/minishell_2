@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/06/03 17:13:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:54:14 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,42 @@ static int	add_redirection(t_cmd_info *cmd, t_redirection *new_redir)
 	return (0);
 }
 
+t_redir_type	get_redir_type(char *token)
+{
+	if (ft_strcmp(token, "<") == 0)
+		return (REDIR_INPUT);
+	else if (ft_strcmp(token, ">") == 0)
+		return (REDIR_OUTPUT);
+	else if (ft_strcmp(token, ">>") == 0)
+		return (REDIR_APPEND);
+	else if (ft_strcmp(token, "<<") == 0)
+		return (REDIR_HEREDOC);
+	return (-1); // Invalid type
+}
+
+bool	parse_redi_utils(t_mini *shell, t_cmd_info *cmd)
+{
+	shell->err_print = true;
+	ft_putendl_fd("minishell: syntax error near unexpected token `newline`", 2);
+	free_redirections(cmd->redirections);
+	cmd->redirections = NULL;
+	return (false);
+}
+
 // Adds a redirection to the end of the list, returns 0 on success, -1 on failure
 bool	parse_redirection(t_list **tokens, t_cmd_info *cmd, t_mini *shell)
 {
 	t_redirection	*redir;
 	t_redir_type	type;
-	char		*token;
 
 	while (*tokens && (*tokens)->content)
 	{
-		token = (char *)(*tokens)->content;
-		if (ft_strcmp(token, "<") == 0)
-			type = REDIR_INPUT;
-		else if (ft_strcmp(token, ">") == 0)
-			type = REDIR_OUTPUT;
-		else if (ft_strcmp(token, ">>") == 0)
-			type = REDIR_APPEND;
-		else if (ft_strcmp(token, "<<") == 0)
-			type = REDIR_HEREDOC;
-		else
-			break;
+		type = get_redir_type((*tokens)->content);
+		if ((int)type == -1)
+			break ;
 		*tokens = (*tokens)->next;
 		if (!is_valid_token(tokens) && shell->err_print == false)
-		{
-			shell->err_print = true;
-			ft_putendl_fd("minishell: syntax error near unexpected token `newline`", 2);
-			free_redirections(cmd->redirections);
-			cmd->redirections = NULL;
-			return (false);
-		}
+			return (parse_redi_utils(shell, cmd));
 		redir = new_redirection(type, (char *)(*tokens)->content);
 		if (!redir || add_redirection(cmd, redir) == -1)
 		{

@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/06/03 17:44:26 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:30:48 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*for cases like (cmd)) or (cmd)cmd)*/
-bool	is_valid_operator(t_list **tokens)
+bool	is_logic_operator(t_list **tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
@@ -26,74 +26,109 @@ bool	is_valid_operator(t_list **tokens)
 	return (false);
 }
 
-t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
+static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 {
-	t_ast_node	*left;
-	t_ast_node	*right;
 	t_ast_node	*node;
 
-	left = parse_simple_cmd(shell, tokens);
+	node = malloc(sizeof(t_ast_node));
+	if (!node)
+	{
+		free_ast(left);
+		free_ast(right);
+		return (NULL);
+	}
+	node->type = NODE_PIPELINE;
+	node->left = left;
+	node->right = right;
+	node->next = NULL;
+	node->content = NULL;
+	return (node);
+}
+
+static t_ast_node	*check_closing_parenthesis(t_mini *shell, t_list **tokens, t_ast_node *left)
+{
 	if (is_valid_token(tokens) && !ft_strcmp((char *)(*tokens)->content, ")"))
 	{
-		if (!is_valid_operator(tokens) && shell->err_print == false)
+		if (!is_logic_operator(tokens) && shell->err_print == false)
 		{
 			shell->err_print = true;
 			print_unexpected_token(tokens);
 			free_ast(left);
-			return (NULL); // syntax error after pipe
+			return (NULL);
 		}
-		*tokens = (*tokens)->next; // consume ")"
-		return (left);// return left if next token is ")" and next there is a valid operator
+		*tokens = (*tokens)->next;
+		return (left);
 	}
-	if (!left)
-		return (NULL);
-	while (is_valid_token(tokens) && !ft_strcmp((*tokens)->content, "|"))
+	return (NULL);
+}
+
+static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_list **tokens, t_ast_node *right)
+{
+	if (ft_strchr((*tokens)->content, '>') || ft_strchr((*tokens)->content, '<'))
 	{
-		*tokens = (*tokens)->next;// consume "|"
-		if (is_valid_token(tokens) && is_control_operator((*tokens)->content))
-		{
-			if (ft_strchr((*tokens)->content, '>' || ft_strchr((*tokens)->content, '<')))
-			{
-				right = parse_simple_cmd(shell, tokens);
-				if (!right && shell->err_print == false)
-				{
-					shell->err_print = true;
-					print_unexpected_token(tokens);
-					free_ast(left);
-					return (NULL);// syntax error after pipe
-				}
-			}
-			else
-			{
-				shell->err_print = true;
-				print_unexpected_token(tokens);
-				free_ast(left);
-				return (NULL);
-			}
-		}
 		right = parse_simple_cmd(shell, tokens);
-		if (!right && is_valid_token(tokens))
-			right = parse_subshell(shell, tokens);
 		if (!right && shell->err_print == false)
 		{
 			shell->err_print = true;
 			print_unexpected_token(tokens);
-			free_ast(left);
-			return (NULL); // syntax error after pipe
+			free_ast(*left);
+			return (NULL);// syntax error after pipe
 		}
-		node = malloc(sizeof(t_ast_node));
-		if (!node)
+	}
+	else
+	{
+		shell->err_print = true;
+		print_unexpected_token(tokens);
+		free_ast(*left);
+		return (NULL);
+	}
+	return (right);
+}
+
+t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right, t_mini *shell, t_list **tokens)
+{
+	t_ast_node	*node;
+
+	node = NULL;
+	while (is_valid_token(tokens) && !ft_strcmp((*tokens)->content, "|"))
+	{
+		*tokens = (*tokens)->next;
+		if (is_valid_token(tokens) && is_control_operator((*tokens)->content))
+			*right = operator_case(left, shell, tokens, NULL);
+		if (!(*right))
+			*right = parse_simple_cmd(shell, tokens);
+		if (!(*right) && is_valid_token(tokens))
+			*right = parse_subshell(shell, tokens);
+		if (!(*right) && shell->err_print == false)
 		{
-			free_ast(left);
-			free_ast(right);
+			shell->err_print = true;
+			print_unexpected_token(tokens);
+			free_ast(*left);
 			return (NULL);
 		}
-		node->type = NODE_PIPELINE;
-		node->left = left;
-		node->right = right;
-		node->next = NULL;
-		node->content = NULL;
-		left = node; // chain left side
+		node = create_pipeline_node(*left, *right);
+		if (!node)
+			return (NULL);
+		*left = node;
 	}
+	return (*left);
+}
+
+t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens)
+{
+	t_ast_node	*left;
+	t_ast_node	*right;
+
+	left = parse_simple_cmd(shell, tokens);
+	right = NULL;
+	if (!left)
+		return (NULL);
+	if (is_valid_token(tokens) && !ft_strcmp((char *)(*tokens)->content, ")"))
+	{
+		left = check_closing_parenthesis(shell, tokens, left);
+		if (!left)
+			return (NULL); // syntax error after simple command
+	}
+	left = pipeline_loop(&left, &right, shell, tokens);
 	return (left);
 }

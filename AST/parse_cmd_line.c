@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/03 16:52:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:31:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,64 @@ void	print_unexpected_token(t_list **tokens)
 	ft_putendl_fd("`", 2);
 }
 
-t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
+t_node_type	get_node_type(t_list *token)
 {
-	t_ast_node	*left;
-	t_ast_node	*right;
+	if (!ft_strcmp(token->content, "&&"))
+		return (NODE_AND);
+	if (!ft_strcmp(token->content, "||"))
+		return (NODE_OR);
+	if (!ft_strcmp(token->content, "("))
+		return (NODE_SUBSHELL);
+	return (NODE_PIPELINE);
+}
+
+t_ast_node	*create_ast_node(t_node_type type, t_ast_node *left, t_ast_node *right)
+{
 	t_ast_node	*node;
+
+	node = malloc(sizeof(t_ast_node));
+	if (!node)
+	{
+		free_ast(left);
+		free_ast(right);
+		return (NULL);
+	}
+	node->type = type;
+	node->left = left;
+	node->right = right;
+	node->content = NULL;
+	node->next = NULL;
+	return (node);
+}
+
+bool	handle_cmdline_error(t_mini *shell, t_list **tokens, t_ast_node *left)
+{
+	if (is_valid_token(tokens)
+		&& !is_control_operator((*tokens)->content)
+		&& !ft_strcmp((*tokens)->content, ")")
+		&& shell->err_print == false)
+	{
+		shell->err_print = true;
+		print_unexpected_token(tokens);
+		free_ast(left);
+		return (true);
+	}
+	return (false);
+}
+
+t_ast_node	*cmd_line_loop(t_mini *shell, t_list **tokens, t_ast_node *left)
+{
+	t_ast_node	*right;
 	t_node_type	type;
 
-	left = parse_pipeline(shell, tokens);
-	if (!left)
-		return (NULL);
-	while (is_valid_token(tokens) && (is_control_operator((*tokens)->content)))
+	right = NULL;
+	type = NODE_PIPELINE;// Default type for the first node
+	while (is_valid_token(tokens) && is_control_operator((*tokens)->content))
 	{
-		if (!ft_strcmp((*tokens)->content, "&&"))
-			type = NODE_AND;
-		else if (!ft_strcmp((*tokens)->content, "||"))
-			type = NODE_OR;
-		else if (!ft_strcmp((*tokens)->content, "("))
-		{
-			type = NODE_SUBSHELL;
+		type = get_node_type(*tokens);
+		if (type == NODE_SUBSHELL)
 			right = parse_subshell(shell, tokens);
-		}
-		if (!right)
+		if (!right && type == NODE_SUBSHELL)
 			return (NULL);
 		*tokens = (*tokens)->next;
 		if (shell->err_print == false)
@@ -51,35 +87,26 @@ t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
 		if (!right && shell->err_print == false)
 		{
 			shell->err_print = true;
-			print_unexpected_token(tokens);
-			free_ast(left);
-			return (NULL);
+			return (print_unexpected_token(tokens), free_ast(left), NULL);
 		}
-		node = malloc(sizeof(t_ast_node));
-		if (!node)
-		{
-			free_ast(left);
-			free_ast(right);
+		left = create_ast_node(type, left, right);
+		if (!left)
 			return (NULL);
-		}
-		node->type = type;
-		node->left = left;
-		node->right = right;
-		node->content = NULL;
-		node->next = NULL;
-		left = node;
 	}
-	if (is_valid_token(tokens)
-		&& !is_control_operator((*tokens)->content)
-		&& !ft_strcmp((*tokens)->content, ")")
-		&& shell->err_print == false)
-	{
-		shell->err_print = true;
-		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-		ft_putstr_fd((char *)(*tokens)->content, 2);
-		ft_putendl_fd("`", 2);
-		free_ast(left);
+	return (left);
+}
+
+t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
+{
+	t_ast_node	*left;
+
+	left = parse_pipeline(shell, tokens);
+	if (!left)
 		return (NULL);
-	}
+	if (is_valid_token(tokens) && !ft_strcmp((*tokens)->content, ")"))
+		return (left);
+	left = cmd_line_loop(shell, tokens, left);
+	if (handle_cmdline_error(shell, tokens, left))
+		return (NULL);
 	return (left);
 }
