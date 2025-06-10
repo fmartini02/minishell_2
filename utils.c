@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/* Ritorna 1 se la stringa e' composta solo da spazi o tab*/
+/*  Returns 1 if string consists only of spaces or tabs */
 int	is_all_spaces(const char *str)
 {
 	while (*str)
@@ -12,7 +12,7 @@ int	is_all_spaces(const char *str)
 	return (1);
 }
 
-/* Se c e' uno dei caratteri non ammessi ritorna falso*/
+/* If there is one of the characters not allowed it returns false */
 bool	ft_ispecial_char(char c)
 {
 	if (c != '!' && c != '@' && c != '#' && c != '%' && c != '^' && c != '&'

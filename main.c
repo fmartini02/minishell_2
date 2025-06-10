@@ -14,10 +14,130 @@
 
 volatile sig_atomic_t sig_code = 0;
 
+void	free_exec_unit(t_exec_unit *unit)
+{
+	int	i;
 
-/* Processa il comando digitato:
-Aggiunge alla history, tokenizza, analizza i simboli speciali
-ed esegue camandi (env, pwd, exit)*/
+	if (!unit)
+		return ;
+	i = 0;
+	while (unit->argv[i])
+	{
+		free(unit->argv[i]);
+		i++;
+	}
+	free(unit->argv);
+	free(unit);
+}
+
+/* Extracts execution unit from a command AST node */
+t_exec_unit	*extract_exec_unit(t_ast_node *node)
+{
+	t_cmd_info	*cmd;
+	t_exec_unit	*unit;
+	int			i;
+	int			argc;
+	
+	if (!node || node->type != NODE_CMD)	// Check if node is valid and is a command node
+		return (NULL);
+	cmd = (t_cmd_info *)node->content;	// Get command info from node content
+	if (!cmd || !cmd->cmd_args)
+		return (NULL);
+	unit = malloc(sizeof(t_exec_unit));		// Allocate memory for execution unit
+	if (!unit)
+		return (NULL);
+	argc = 0;
+	while (cmd->cmd_args[argc])				// Count number of arguments
+		argc++;
+	unit->argv = malloc(sizeof(char *) *(argc + 1));	// Allocate memory for argv for argv array
+	if (!unit->argv)
+	{
+		free(unit);
+		return (NULL);
+	}
+	i = 0;
+	while (i < argc)		// Duplicate the arguments
+	{
+		unit->argv[i] = ft_strdup(cmd->cmd_args[i]);
+		if (!unit->argv[i])
+		{
+			while (--i >= 0)	// In case of error: free
+				free(unit->argv[i]);
+			free(unit->argv);
+			free(unit);
+			return (NULL);
+		}
+		i++;
+	}
+	unit->argv[argc] = NULL;
+	unit->redirs = cmd->redirections;	// Link redirection list (no need to duplicate here)
+	return (unit);
+}
+
+void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (apply_redirections(shell) != 0)	// Apply redirection in child process
+			exit(1);
+		execvp(unit->argv[0], unit->argv);
+		perror("execvp failed");
+		exit(127);
+	}
+	else if (pid > 0)
+	{
+		waitpid(pid, &status, 0);	// In father's process, waits for son's termination
+		if (WIFEXITED(status))
+			shell->last_exit_code = WEXITSTATUS(status);
+	}
+	else
+	{
+		perror("fork failed");
+		shell->last_exit_code = 1;
+	}
+}
+
+void	execute_ast(t_ast_node *node, t_mini *shell)
+{
+	if (!node)
+		return ;
+	if (node->type == NODE_CMD)
+	{
+		t_exec_unit	*unit;
+
+		unit = extract_exec_unit(node);
+		if (unit)
+		{
+			execute_exec_unit(unit, shell);
+			free_exec_unit(unit);
+		}
+	}
+	/* else if (node->type == NODE_PIPELINE)
+	{
+		// execute_pipeline
+	} */
+	else if (node->type == NODE_AND)
+	{
+		execute_ast(node->left, shell);
+		if (shell->last_exit_code == 0)
+			execute_ast(node->right, shell);
+	}
+	else if (node->type == NODE_OR)
+	{
+		execute_ast(node->left, shell);
+		if (shell->last_exit_code != 0)
+			execute_ast(node->right, shell);
+	}
+}
+
+
+
+
+/* Process of the command */
 void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
@@ -25,6 +145,7 @@ void	parsing(t_mini *shell)
 	//ft_print_list(shell->tok_input, 's');
 	//expand_wildcards(shell);
 	ast_init(shell);
+	execute_ast(shell->ast_root, shell);
 	print_ast(shell->ast_root, 0);
 	//if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
 	//	ft_env(shell);
@@ -43,8 +164,7 @@ void	parsing(t_mini *shell)
 	free(shell->input);
 }
 
-/* Inizializzazione ambiente
-Converte envp in una lista collegata (t_list) per una gestione presonallizata dell'ambiente*/
+/* Initializes a linked list of environment variabiles */
 t_list	*init_env(char **env)
 {
 	t_list	*head;

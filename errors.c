@@ -37,9 +37,9 @@ void	ft_free_cmd_info(t_cmd_info *cmd_info)
 	}
 }*/
 
-/* Gestisce un errore fatale di allocazione di memoria
-Libera tutte le risorse della shell, stampa un messaggio d'errore
-e termina il programma*/
+/* Handles a fatal memory allocation error.
+Frees all shell resources, prints an error message
+and terminates the program */
 void	ft_fatal_memerr(t_mini *shell)
 {
 	ft_putstr_fd("Error: malloc failure \n", 2);

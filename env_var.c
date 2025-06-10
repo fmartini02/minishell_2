@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/* Rstituisce il valore associato a una variabile d'ambiente */
+/* Rstitutes the value associated with an environment variable */
 char	*get_env_value(t_mini *shell, const char *var_name)
 {
 	t_list	*env_list;
@@ -19,8 +19,8 @@ char	*get_env_value(t_mini *shell, const char *var_name)
 	return (NULL);
 }
 
-/* Gestisce il caso speciale $?
-Restituisce la stringa contenente il valore del last_exit_code*/
+/* Handles the special case $?
+Returns the string containing the value of last_exit_code */
 static char	*expand_exit_code(t_mini *shell, size_t *i)
 {
 	char	*value;
@@ -33,7 +33,7 @@ static char	*expand_exit_code(t_mini *shell, size_t *i)
 	return (result);
 }
 
-/* Estrae il nome della variabile da una stringa dopo il simbolo '$*/
+/* Extracts the variable name from a string after the symbol '$' */
 static char	*extract_var_name(char *str, size_t start, size_t *end)
 {
 	size_t	j;
@@ -45,8 +45,8 @@ static char	*extract_var_name(char *str, size_t start, size_t *end)
 	return (ft_substr(str, start, j - start));
 }
 
-/* Espande una variabile d'ambiente in formato '$VAR' o '$?'
-Modifica *i per spostare l'indice oltre la variabile espansa*/
+/* Expands an environment variable in the format '$VAR' or '$?'
+Modifies *i to move the index beyond the expanded variable */
 char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 {
 	size_t	start;

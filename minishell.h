@@ -48,13 +48,20 @@ typedef enum e_redir_type
 	REDIR_HEREDOC// <<
 }	t_redir_type;
 
-//t_redirection represents redirection operators with targets
+// t_redirection represents redirection operators with targets
 typedef struct s_redirection
 {
 	t_redir_type			type;
 	char					*target;    // filename or here-doc delimiter
 	struct s_redirection	*next;
 }	t_redirection;
+
+// t_exec_unit Represents an executable command unit extracted from an AST node
+typedef struct s_exec_unit
+{
+	char			**argv;
+	t_redirection	*redirs;
+}	t_exec_unit;
 
 typedef struct s_cmd_info
 {
@@ -63,7 +70,7 @@ typedef struct s_cmd_info
 	t_redirection	*redirections;
 }	t_cmd_info;
 
-/*t_ast_node forms the parse tree, handling logical operators, pipelines, commands, and subshells.*/
+/* t_ast_node forms the parse tree, handling logical operators, pipelines, commands, and subshells.*/
 typedef struct s_ast_node
 {
 	t_node_type			type;
@@ -73,7 +80,7 @@ typedef struct s_ast_node
 	struct s_ast_node	*next;// next command in a pipeline
 }	t_ast_node;
 
-/*t_pipeline groups commands linked by pipes.*/
+/* t_pipeline groups commands linked by pipes.*/
 typedef struct s_pipeline
 {
 	struct s_ast_node	*commands;// linked list of commands or subshells
@@ -112,7 +119,7 @@ char		*get_env_value(t_mini *shell, const char *var_name);
 char		*get_prompt(void);
 
 // redirections.c 
-int	apply_redirection(t_mini *shell);
+int			apply_redirections(t_mini *shell);
 
 //AST-PARSING
 void		ast_init(t_mini *shell);
@@ -128,6 +135,11 @@ int			is_control_operator(char *token);
 void		free_cmd_info(t_cmd_info *cmd);
 bool		is_valid_token(t_list **tokens);
 void		print_unexpected_token(t_list **tokens);
+
+void		free_exec_unit(t_exec_unit *unit);
+t_exec_unit	*extract_exec_unit(t_ast_node *node);
+void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
+void		execute_ast(t_ast_node *node, t_mini *shell);
 
 // utils.c
 int			is_all_spaces(const char *str);
