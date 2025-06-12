@@ -14,6 +14,40 @@
 
 volatile sig_atomic_t sig_code = 0;
 
+bool	is_builtin(const char *cmd)
+{
+	return (ft_strcmp(cmd, "echo") == 0
+		|| ft_strcmp(cmd, "echo") == 0
+		|| ft_strcmp(cmd, "pwd") == 0
+		|| ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0
+		|| ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0);
+}
+
+int	execute_builtin(t_exec_unit *unit, t_mini *shell)
+{
+	char **args = unit->argv;
+
+	if (!args || !args[0])
+		return (1);
+	if (ft_strcmp(args[0], "echo") == 0)
+		ft_echo(shell);
+	else if (ft_strcmp(args[0], "cd") == 0)
+		ft_cd(shell);
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		ft_pwd(shell);
+	else if (ft_strcmp(args[0], "export") == 0)
+		ft_export(shell);
+	else if (ft_strcmp(args[0], "unset") == 0)
+		ft_unset(shell);
+	else if (ft_strcmp(args[0], "env") == 0)
+		ft_env(shell);
+	else if (ft_strcmp(args[0], "exit") == 0)
+		ft_exit(shell, NULL);
+	return (shell->last_exit_code);
+}
+
 void	free_exec_unit(t_exec_unit *unit)
 {
 	int	i;
@@ -79,18 +113,36 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 	pid_t	pid;
 	int		status;
 
-	pid = fork();
+	if (!unit || !unit->argv || !unit->argv[0])
+		return ;
+	if (is_builtin(unit->argv[0])	// Esegui nel padre se è un built-in critico
+		&& (ft_strcmp(unit->argv[0], "cd") == 0
+			|| ft_strcmp(unit->argv[0], "export") == 0
+			|| ft_strcmp(unit->argv[0], "unset") == 0
+			|| ft_strcmp(unit->argv[0], "exit") == 0))
+	{
+		if (apply_redirections(shell) != 0)	// Applichiamo anche eventuali redirection nel padre, se necessario
+		{
+			shell->last_exit_code = 1;
+			return ;
+		}
+		shell->last_exit_code = execute_builtin(unit, shell);
+		return ;
+	}
+	pid = fork();	// Altrimenti: fork e poi execvp o built-in non critico
 	if (pid == 0)
 	{
-		if (apply_redirections(shell) != 0)	// Apply redirection in child process
+		if (apply_redirections(shell) != 0)
 			exit(1);
+		if (is_builtin(unit->argv[0]))
+			exit(execute_builtin(unit, shell));
 		execvp(unit->argv[0], unit->argv);
 		perror("execvp failed");
 		exit(127);
 	}
 	else if (pid > 0)
 	{
-		waitpid(pid, &status, 0);	// In father's process, waits for son's termination
+		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			shell->last_exit_code = WEXITSTATUS(status);
 	}
@@ -103,12 +155,12 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 
 void	execute_ast(t_ast_node *node, t_mini *shell)
 {
+	t_exec_unit	*unit;
+
 	if (!node)
 		return ;
 	if (node->type == NODE_CMD)
 	{
-		t_exec_unit	*unit;
-
 		unit = extract_exec_unit(node);
 		if (unit)
 		{
@@ -134,9 +186,6 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	}
 }
 
-
-
-
 /* Process of the command */
 void	parsing(t_mini *shell)
 {
@@ -147,20 +196,6 @@ void	parsing(t_mini *shell)
 	ast_init(shell);
 	execute_ast(shell->ast_root, shell);
 	print_ast(shell->ast_root, 0);
-	//if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
-	//	ft_env(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))
-	//	ft_pwd(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "exit"))
-	//	ft_exit(shell, NULL);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "echo"))
-	//	ft_echo(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "cd"))
-	//	ft_cd(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "export"))
-	//	ft_export(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "unset"))
-	//	ft_unset(shell);
 	free(shell->input);
 }
 
