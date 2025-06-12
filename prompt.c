@@ -44,7 +44,8 @@ static char	*full_prompt(char *cwd)
 }
 
 /* Returns the prompt to display to the user.
-If the current directory is under $HOME, use '~', otherwise use the full path. */
+If the current directory is under $HOME, use '~', 
+otherwise use the full path. */
 char	*get_prompt(void)
 {
 	char	*cwd;

@@ -29,7 +29,7 @@
 # include <term.h>
 #include "libft/libft.h"
 
-extern volatile sig_atomic_t sig_code;
+extern volatile sig_atomic_t	sig_code;
 
 typedef enum e_node_type
 {
@@ -40,23 +40,26 @@ typedef enum e_node_type
 	NODE_SUBSHELL
 }	t_node_type;
 
+/* <, >, >>, <<*/
 typedef enum e_redir_type
 {
-	REDIR_INPUT,// <
-	REDIR_OUTPUT,// >
-	REDIR_APPEND,// >>
-	REDIR_HEREDOC// <<
+	REDIR_INPUT,
+	REDIR_OUTPUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
 }	t_redir_type;
 
-// t_redirection represents redirection operators with targets
+/* t_redirection represents redirection operators with 
+targets(filename or here-doc delimiter) */
 typedef struct s_redirection
 {
 	t_redir_type			type;
-	char					*target;    // filename or here-doc delimiter
+	char					*target;
 	struct s_redirection	*next;
 }	t_redirection;
 
-// t_exec_unit Represents an executable command unit extracted from an AST node
+/* t_exec_unit Represents an executable command unit 
+extracted from an AST node */
 typedef struct s_exec_unit
 {
 	char			**argv;
@@ -70,20 +73,21 @@ typedef struct s_cmd_info
 	t_redirection	*redirections;
 }	t_cmd_info;
 
-/* t_ast_node forms the parse tree, handling logical operators, pipelines, commands, and subshells.*/
+/* t_ast_node forms the parse tree, handling logical operators,
+pipelines, commands, and subshells.*/
 typedef struct s_ast_node
 {
 	t_node_type			type;
-	void				*content;// points to t_cmd_info, t_pipeline, or subtree for subshell
-	struct s_ast_node	*left;// left child for &&, || operators
-	struct s_ast_node	*right;// right child for &&, || operators
-	struct s_ast_node	*next;// next command in a pipeline
+	void				*content;	// points to t_cmd_info, t_pipeline, or subtree for subshell
+	struct s_ast_node	*left;		// left child for &&, || operators
+	struct s_ast_node	*right;		// right child for &&, || operators
+	struct s_ast_node	*next;		// next command in a pipeline
 }	t_ast_node;
 
 /* t_pipeline groups commands linked by pipes.*/
 typedef struct s_pipeline
 {
-	struct s_ast_node	*commands;// linked list of commands or subshells
+	struct s_ast_node	*commands;	// linked list of commands or subshells
 }	t_pipeline;
 
 typedef struct s_mini
@@ -96,11 +100,12 @@ typedef struct s_mini
 	t_list		*env;
 	t_list		*tok_input;
 	t_cmd_info	*cmd_info;
-	t_ast_node	*ast_root;// root of the parse tree
+	t_ast_node	*ast_root;	// root of the parse tree
 }	t_mini;
 
-// errors.c
+// free_errors.c
 void		ft_fatal_memerr(t_mini *shell);
+void		free_exec_unit(t_exec_unit *unit);
 
 //BUILTINS
 void		ft_echo(t_mini *shell);
@@ -136,14 +141,18 @@ void		free_cmd_info(t_cmd_info *cmd);
 bool		is_valid_token(t_list **tokens);
 void		print_unexpected_token(t_list **tokens);
 
-void		free_exec_unit(t_exec_unit *unit);
+// extraction.c
 t_exec_unit	*extract_exec_unit(t_ast_node *node);
+
+// execution.c
+int			execute_builtin(t_exec_unit *unit, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
 
 // utils.c
 int			is_all_spaces(const char *str);
 bool		ft_ispecial_char(char c);
+bool		is_builtin(const char *cmd);
 
 //SIGNALS
 void		ctrl_d_case(t_mini *shell);
