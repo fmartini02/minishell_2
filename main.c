@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/10 18:07:40 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/16 20:15:31 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,20 @@
 
 volatile sig_atomic_t sig_code = 0;
 
-
-/* Processa il comando digitato:
-Aggiunge alla history, tokenizza, analizza i simboli speciali
-ed esegue camandi (env, pwd, exit)*/
+/* Process of the command */
 void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
 	print_tok_lst(shell->tok_input);
 	//expand_wildcards(shell);
-	//ast_init(shell);
-	//print_ast(shell->ast_root, 0);
-	//if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
-	//	ft_env(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))
-	//	ft_pwd(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "exit"))
-	//	ft_exit(shell, NULL);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "echo"))
-	//	ft_echo(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "cd"))
-	//	ft_cd(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "export"))
-	//	ft_export(shell);
-	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "unset"))
-	//	ft_unset(shell);
+	ast_init(shell);
+	execute_ast(shell->ast_root, shell);
+	print_ast(shell->ast_root, 0);
 	free(shell->input);
 }
 
-/* Inizializzazione ambiente
-Converte envp in una lista collegata (t_list) per una gestione presonallizata dell'ambiente*/
+/* Initializes a linked list of environment variabiles */
 t_list	*init_env(char **env)
 {
 	t_list	*head;
