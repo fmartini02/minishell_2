@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:45:21 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 18:31:25 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:09:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	ft_fatal_memerr(t_mini *shell)
 	ft_putstr_fd("Error: malloc failure \n", 2);
 	free(shell->input);
 	ft_lstclear(&shell->env, free);
-	ft_lstclear(&shell->tok_input, free);
+	free_tok_lst(shell->tok_input);
+	//free_ast(shell->ast_root);
 	//ft_free_cmd_info(shell->cmd_info);
 	exit(EXIT_FAILURE);
 }

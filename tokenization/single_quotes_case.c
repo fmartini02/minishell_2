@@ -6,17 +6,18 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:36:22 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 18:37:48 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:53:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*single_quotes_case(t_mini *shell, char *content, size_t *i)
+int	single_quotes_case(t_mini *shell, char *content, size_t *i)
 {
 	size_t	start;
 	char	*tmp;
 	char	*s;
+	t_tok_lst	*node;
 
 	start = ++(*i); // skip opening quote
 	s = shell->input;
@@ -26,7 +27,7 @@ char	*single_quotes_case(t_mini *shell, char *content, size_t *i)
 	{
 		write(2, ">\nbash: unexpected EOF while looking for matching `\'", 53);
 		write(2, "\'\nbash: syntax error: unexpected end of file\n", 46);
-		return (NULL);
+		return (EXIT_FAILURE);
 	}
 	tmp = ft_substr(s, start, *i - start); // extract quoted part
 	if (!tmp)
@@ -36,5 +37,13 @@ char	*single_quotes_case(t_mini *shell, char *content, size_t *i)
 	if (!content)
 		ft_fatal_memerr(shell);
 	(*i)++; // skip closing quote
-	return (content);
+	node = new_tok_lst(content, SINGLE_QUOTES, NULL); // create token node
+	if (!node)
+		ft_fatal_memerr(shell);
+	add_back_tok_lst(&(shell->tok_input), node); // add to token list
+	if (!shell->tok_input)
+		ft_fatal_memerr(shell);
+	if (shell->tok_input->next)
+		shell->tok_input = shell->tok_input->next;
+	return (EXIT_SUCCESS);
 }

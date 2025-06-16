@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/06/05 16:54:14 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:58:40 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	parse_redi_utils(t_mini *shell, t_cmd_info *cmd)
 }
 
 // Adds a redirection to the end of the list, returns 0 on success, -1 on failure
-bool	parse_redirection(t_list **tokens, t_cmd_info *cmd, t_mini *shell)
+bool	parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 {
 	t_redirection	*redir;
 	t_redir_type	type;

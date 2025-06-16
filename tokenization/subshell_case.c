@@ -6,20 +6,23 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:05:37 by francema          #+#    #+#             */
-/*   Updated: 2025/05/27 18:05:41 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:21:25 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*subshell_case(t_mini *shell, char *content, size_t *i)
+int	subshell_case(t_mini *shell, char *content, size_t *i)
 {
-	char	*s;
-	size_t	tmp;
+	t_tok_lst	*node;
+	char		*s;
+	size_t		tmp;
 
 	s = shell->input;
 	tmp = *i;
-	if (s[tmp] == '(' && shell->subshell_flag == 0)
+	node = NULL;
+	content = NULL;
+	if (s[tmp] == '(')
 	{
 		while (s[tmp] && s[tmp] != ')')
 		{
@@ -27,19 +30,29 @@ char	*subshell_case(t_mini *shell, char *content, size_t *i)
 			if (s[tmp] == '(')
 			{
 				ft_putstr_fd("ERROR: NESTED SUBSHELLS NOT ALLOWED\n", 2);
-				return (NULL);
+				return (EXIT_FAILURE);
 			}
 		}
-		content = ft_strjoin_free(content, "(");
-		shell->subshell_flag = 1;
+		content = ft_strdup("(");
+		node = new_tok_lst(content, SUBSHELL, NULL);
 	}
 	else if (s[tmp] == ')')
 	{
-		shell->subshell_flag = 0;
-		content = ft_strjoin_free(content, ")");
+		content = ft_strdup(")");
+		node = new_tok_lst(content, SUBSHELL, NULL);
 	}
-	if (!content)
+	if (!node || !content)
+	{
+		if (content)
+			free(content);
 		ft_fatal_memerr(shell);
+	}
+	add_back_tok_lst(&(shell->tok_input), node);
+	if (!shell->tok_input)
+	{
+		free(content);
+		ft_fatal_memerr(shell);
+	}
 	*i += 1;
-	return (content);
+	return (EXIT_SUCCESS);
 }

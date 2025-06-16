@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/05/28 18:24:42 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:21:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@
 
 extern volatile sig_atomic_t sig_code;
 
+// needed during tokenization
+typedef enum e_tok_type
+{
+	WORD,
+	PIPE,
+	REDIRECT,
+	AND,
+	OR,
+	SUBSHELL,
+	DOUBLE_QUOTES,
+	SINGLE_QUOTES,
+	WILDCARD,
+	DOLLAR,
+}	t_tok_type;
+
+// t_node_type represents the type of AST node
 typedef enum e_node_type
 {
 	NODE_CMD,
@@ -79,15 +95,22 @@ typedef struct s_pipeline
 	struct s_ast_node	*commands;// linked list of commands or subshells
 }	t_pipeline;
 
+typedef struct s_tok_lst
+{
+	char				*content; // token content
+	int					type; // token type (e.g., WORD, PIPE, REDIRECT, etc.)
+	char				*tok_name;
+	struct s_tok_lst	*next; // pointer to the next token
+}	t_tok_lst;
+
 typedef struct s_mini
 {
 	char		*input;
 	char		**envp;
-	int			subshell_flag;
 	int			last_exit_code;
 	bool		err_print;
 	t_list		*env;
-	t_list		*tok_input;
+	t_tok_lst	*tok_input;
 	t_cmd_info	*cmd_info;
 	t_ast_node	*ast_root;// root of the parse tree
 }	t_mini;
@@ -111,23 +134,23 @@ char		*get_env_value(t_mini *shell, const char *var_name);
 // prompt.c
 char		*get_prompt(void);
 
-// redirections.c 
+// redirections.c
 int	apply_redirection(t_mini *shell);
 
 //AST-PARSING
 void		ast_init(t_mini *shell);
 void		print_ast(t_ast_node *node, int depth);
-t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens);
-t_ast_node	*parse_pipeline(t_mini *shell, t_list **tokens);
-bool		parse_redirection(t_list **tokens, t_cmd_info *cmd, t_mini *shell);
-t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens);
-t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens);
+t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst**tokens);
+t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst**tokens);
+bool		parse_redirection(t_tok_lst**tokens, t_cmd_info *cmd, t_mini *shell);
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens);
+t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst**tokens);
 void		free_ast(t_ast_node *node);
 void		free_redirections(t_redirection *redir);
 int			is_control_operator(char *token);
 void		free_cmd_info(t_cmd_info *cmd);
-bool		is_valid_token(t_list **tokens);
-void		print_unexpected_token(t_list **tokens);
+bool		is_valid_token(t_tok_lst**tokens);
+void		print_unexpected_token(t_tok_lst**tokens);
 
 // utils.c
 int			is_all_spaces(const char *str);
@@ -139,15 +162,20 @@ void		setup_sig_handler(int is_interactive);
 void		signal_handler(int sig);
 
 //TOKENIZATION
-char		*and_case(t_mini *shell, char *content, size_t *i);
-char		*double_quotes_case(t_mini *shell, char *content, size_t *i);
-char		*pipe_char_case(t_mini *shell, char *content, size_t *i);
-char		*redi_case(t_mini *shell, char *content, size_t *i);
-char		*single_quotes_case(t_mini *shell, char *content, size_t *i);
-char		*subshell_case(t_mini *shell, char *content, size_t *i);
-char		*tok_dollar_case(t_mini *shell, size_t *i, char *content);
+int			and_case(t_mini *shell, char *content, size_t *i);
+int			append_var(char *var_value, char *var_name, t_mini *shell, int j);
+int			double_quotes_case(t_mini *shell, char *content, size_t *i);
+int			pipe_char_case(t_mini *shell, char *content, size_t *i);
+int			redi_case(t_mini *shell, char *content, size_t *i);
+int			single_quotes_case(t_mini *shell, char *content, size_t *i);
+int			subshell_case(t_mini *shell, char *content, size_t *i);
+int			tok_dollar_case(t_mini *shell, size_t *i, char *content);
 bool		tokenize_input(t_mini *shell);
-char		*word_case(t_mini *shell, char *content, size_t *i);
-char		*wildcard_case(t_mini *shell, char *content, size_t *i);
+int			word_case(t_mini *shell, char *content, size_t *i);
+int			wildcard_case(t_mini *shell, char *content, size_t *i);
+void		add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node);
+t_tok_lst	*new_tok_lst(char *content, t_tok_type type, char *tok_name);
+void		free_tok_lst(t_tok_lst *head);
+void		print_tok_lst(t_tok_lst *head);
 
 #endif

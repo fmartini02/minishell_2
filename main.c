@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/05 17:45:08 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/10 18:07:40 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
-	//ft_print_list(shell->tok_input, 's');
+	print_tok_lst(shell->tok_input);
 	//expand_wildcards(shell);
-	ast_init(shell);
-	print_ast(shell->ast_root, 0);
+	//ast_init(shell);
+	//print_ast(shell->ast_root, 0);
 	//if (!ft_strcmp(shell->cmd_info->cmd_name, "env"))
 	//	ft_env(shell);
 	//else if (!ft_strcmp(shell->cmd_info->cmd_name, "pwd"))
@@ -76,7 +76,6 @@ int	main(int ac, char **av, char **envp)
 	setup_sig_handler(is_interactive);
 	shell.envp = envp;
 	shell.env = init_env(envp);
-	shell.subshell_flag = 0;
 	shell.last_exit_code = 0;
 	shell.input = NULL;
 	shell.cmd_info = NULL;
@@ -113,7 +112,6 @@ int	main(int ac, char **av, char **envp)
 			{
 				add_history(shell.input);
 				parsing(&shell);
-				shell.subshell_flag = 0;
 				shell.err_print = false;
 			}
 			free(prompt);

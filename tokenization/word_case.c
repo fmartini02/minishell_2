@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 18:21:33 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:12:32 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,39 +46,39 @@ static bool	safe_append(char **content, char *s, size_t *i, int *len)
 	return (true);
 }
 
-static bool	 word_case_helper(t_mini *shell, char c, char **content, size_t *i)
-{
-	char	*tmp;
+// static bool	word_case_helper(t_mini *shell, char c, char **content, size_t *i)
+// {
+// 	char	*tmp;
 
-	if (c == '\'')
-	{
-		tmp = single_quotes_case(shell, *content, i);
-		*content = ft_strdup(tmp);
-		if (!content)
-			return (false);
-	}
-	else if (c == '"')
-	{
-		tmp = double_quotes_case(shell, *content, i);
-		*content = ft_strdup(tmp);
-		if (!content)
-			return (false);
-	}
-	else if (c == '$')
-	{
-		tmp = tok_dollar_case(shell, i, *content);
-		*content = ft_strdup(tmp);
-		if (!content)
-			return (false);
-	}
-	return (true);
-}
+// 	if (c == '\'')
+// 	{
+// 		tmp = single_quotes_case(shell, *content, i);
+// 		*content = ft_strdup(tmp);
+// 		if (!content)
+// 			return (false);
+// 	}
+// 	else if (c == '"')
+// 	{
+// 		tmp = double_quotes_case(shell, *content, i);
+// 		*content = ft_strdup(tmp);
+// 		if (!content)
+// 			return (false);
+// 	}
+// 	else if (c == '$')
+// 	{
+// 		tmp = tok_dollar_case(shell, i, *content);
+// 		*content = ft_strdup(tmp);
+// 		if (!content)
+// 			return (false);
+// 	}
+// 	return (true);
+// }
 
-char	*word_case(t_mini *shell, char *content, size_t *i)
+int	word_case(t_mini *shell, char *content, size_t *i)
 {
-	char	*s;
-	int		len;
-	char	c;
+	t_tok_lst	*node;
+	char		*s;
+	int			len;
 
 	s = shell->input;
 	len = 0;
@@ -89,8 +89,18 @@ char	*word_case(t_mini *shell, char *content, size_t *i)
 		len++;
 	if (!safe_append(&content, s, i, &len))
 		ft_fatal_memerr(shell);
-	c = s[*i + len];// check next char
-	if (!word_case_helper(shell, c, &content, i))
+	node = new_tok_lst(content, WORD, NULL);
+	if (!node || !content)
+	{
+		if (content)
+			free(content);
 		ft_fatal_memerr(shell);
-	return (content);
+	}
+	add_back_tok_lst(&(shell->tok_input), node);
+	if (!shell->tok_input)
+	{
+		free(content);
+		ft_fatal_memerr(shell);
+	}
+	return (EXIT_SUCCESS);
 }

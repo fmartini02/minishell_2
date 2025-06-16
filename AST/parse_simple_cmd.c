@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/05 18:05:58 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:58:22 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 	return (cmd);
 }
 
-bool	simple_cmd_loop(t_mini *shell, t_list **tokens, t_cmd_info **cmd)
+bool	simple_cmd_loop(t_mini *shell, t_tok_lst**tokens, t_cmd_info **cmd)
 {
 	char	*token;
 
@@ -102,7 +102,7 @@ t_cmd_info	*create_cmd_info(void)
 	return (cmd);
 }
 
-bool	is_parse_subshell(t_list **tokens)
+bool	is_parse_subshell(t_tok_lst**tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
@@ -112,7 +112,7 @@ bool	is_parse_subshell(t_list **tokens)
 	return (false);
 }
 
-bool	handle_redirections(t_list **tokens, t_cmd_info *cmd, t_mini *shell)
+bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 {
 	char	*token;
 
@@ -145,7 +145,7 @@ t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell, t_list **tokens)
 	return (node);
 }
 
-t_ast_node	*parse_simple_cmd(t_mini *shell, t_list **tokens)
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
 {
 	t_cmd_info	*cmd;
 	char		*token;

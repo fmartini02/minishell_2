@@ -39,7 +39,7 @@ static char	*extract_var_name(char *str, size_t start, size_t *end)
 	size_t	j;
 
 	j = start;
-	while (str[j] && !ft_ispecial_char(str[j]))
+	while (str[j] && !ft_ispecial_char(str[j]) && str[j] != ' ')
 		j++;
 	*end = j;
 	return (ft_substr(str, start, j - start));

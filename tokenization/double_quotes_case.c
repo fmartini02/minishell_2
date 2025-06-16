@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/05/22 18:38:36 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:53:06 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
 
 	tmp_dollar = NULL;
 	s = shell->input;
-	if (s[*i] == '$') // if there is a $ in the string
+	if (s[*i] == '$')// if there is a $ in the string
 	{
-		if (*i > start) // if there is text before $
+		if (*i > start)// if there is text before $
 		{
 			content = get_chars_after_symbol(shell, i, start, content);
 			if (!content)
@@ -54,12 +54,13 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
 	return (content);
 }
 
-char	*double_quotes_case(t_mini *shell, char *content, size_t *i)
+int	double_quotes_case(t_mini *shell, char *content, size_t *i)
 {
-	size_t	start;
-	char	*s;
+	t_tok_lst	*node;
+	size_t		start;
+	char		*s;
 
-	start = ++(*i); // skip opening quote
+	start = ++(*i);// skip opening quote
 	s = shell->input;
 	while (s[*i] && s[*i] != '\"')
 	{
@@ -67,22 +68,31 @@ char	*double_quotes_case(t_mini *shell, char *content, size_t *i)
 		{
 			content = dollar_quotes_case(shell, i, start, content);
 			if (!content)
-				return (NULL);
+				return (EXIT_FAILURE);
 		}
-		(*i)++;
+		if (s[*i] != '"')
+			(*i)++;
 	}
-	if (s[*i] != '\"') // unmatched quote
+	if (s[*i] != '\"')// unmatched quote
 	{
 		write(2, ">\nbash: unexpected EOF while looking for matching `\"", 53);
 		write(2, "\'\nbash: syntax error: unexpected end of file\n", 46);
-		return (NULL);
+		return (EXIT_FAILURE);
 	}
-	if (*i > start) // trailing content after last $
+	if (*i > start)//if there is text before closing quote
 	{
 		content = get_chars_after_symbol(shell, i, start, content);
 		if (!content)
-			return (NULL);
+			return (EXIT_FAILURE);
 	}
 	(*i)++;
-	return (content);
+	node = new_tok_lst(content, DOUBLE_QUOTES, NULL);
+	if (!node)
+		ft_fatal_memerr(shell);
+	add_back_tok_lst(&(shell->tok_input), node);
+	if (!shell->tok_input)
+		ft_fatal_memerr(shell);
+	if (shell->tok_input->next)
+		shell->tok_input = shell->tok_input->next;
+	return (EXIT_SUCCESS);
 }

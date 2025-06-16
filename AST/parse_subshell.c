@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/06/05 16:22:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:57:34 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	handle_closing_paren(t_mini *shell, t_list **tokens)
 	return (true);
 }
 
-t_ast_node	*parse_subshell(t_mini *shell, t_list **tokens)
+t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst**tokens)
 {
 	t_ast_node	*subtree;
 

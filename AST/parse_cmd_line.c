@@ -6,13 +6,13 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/05 18:31:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:19:43 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_unexpected_token(t_list **tokens)
+void	print_unexpected_token(t_tok_lst **tokens)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	if (!is_valid_token(tokens))
@@ -96,7 +96,7 @@ t_ast_node	*cmd_line_loop(t_mini *shell, t_list **tokens, t_ast_node *left)
 	return (left);
 }
 
-t_ast_node	*parse_cmd_line(t_mini *shell, t_list **tokens)
+t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst **tokens)
 {
 	t_ast_node	*left;
 

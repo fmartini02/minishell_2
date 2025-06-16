@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/03 16:55:12 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:58:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_control_operator(char *token)
 		|| !ft_strcmp(token, ">>"));
 }
 
-bool	is_valid_token(t_list **tokens)
+bool	is_valid_token(t_tok_lst**tokens)
 {
 	return (tokens && *tokens && (*tokens)->content);
 }
