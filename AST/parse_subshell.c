@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 15:57:34 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:42:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_ast_node	*create_subshell_node(t_ast_node *subtree)
 	return (node);
 }
 
-bool	handle_opening_paren(t_mini *shell, t_list **tokens)
+bool	handle_opening_paren(t_mini *shell, t_tok_lst **tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
@@ -46,7 +46,7 @@ bool	handle_opening_paren(t_mini *shell, t_list **tokens)
 	return (true);
 }
 
-bool	handle_closing_paren(t_mini *shell, t_list **tokens)
+bool	handle_closing_paren(t_mini *shell, t_tok_lst **tokens)
 {
 	if (!is_valid_token(tokens)
 		|| ft_strcmp((char *)(*tokens)->content, ")"))

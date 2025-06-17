@@ -33,7 +33,7 @@ void	ft_fatal_memerr(t_mini *shell)
 	ft_putstr_fd("Error: malloc failure \n", 2);
 	free(shell->input);
 	ft_lstclear(&shell->env, free);
-	ft_lstclear(&shell->tok_input, free);
+	free_tok_lst(&shell->tok_input);
 	//ft_free_cmd_info(shell->cmd_info);
 	exit(EXIT_FAILURE);
 }

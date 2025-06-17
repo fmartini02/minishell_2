@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 18:34:08 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:35:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ void	add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node)
 	temp->next = new_node;
 }
 
-void	free_tok_lst(t_tok_lst *head)
+void	free_tok_lst(t_tok_lst **head)
 {
 	t_tok_lst	*node;
 	t_tok_lst	*next_node;
 
-	node = head;
+	node = *head;
 	while (node)
 	{
 		next_node = node->next;

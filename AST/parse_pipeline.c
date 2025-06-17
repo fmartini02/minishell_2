@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 15:57:16 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:41:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*for cases like (cmd)) or (cmd)cmd)*/
-bool	is_logic_operator(t_list **tokens)
+bool	is_logic_operator(t_tok_lst **tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
@@ -45,7 +45,7 @@ static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 	return (node);
 }
 
-static t_ast_node	*check_closing_parenthesis(t_mini *shell, t_list **tokens, t_ast_node *left)
+static t_ast_node	*check_closing_parenthesis(t_mini *shell, t_tok_lst **tokens, t_ast_node *left)
 {
 	if (is_valid_token(tokens) && !ft_strcmp((char *)(*tokens)->content, ")"))
 	{
@@ -62,7 +62,7 @@ static t_ast_node	*check_closing_parenthesis(t_mini *shell, t_list **tokens, t_a
 	return (NULL);
 }
 
-static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_list **tokens, t_ast_node *right)
+static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_tok_lst **tokens, t_ast_node *right)
 {
 	if (ft_strchr((*tokens)->content, '>') || ft_strchr((*tokens)->content, '<'))
 	{
@@ -85,7 +85,7 @@ static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_list **toke
 	return (right);
 }
 
-t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right, t_mini *shell, t_list **tokens)
+t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right, t_mini *shell, t_tok_lst **tokens)
 {
 	t_ast_node	*node;
 

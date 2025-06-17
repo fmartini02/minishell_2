@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 15:58:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:43:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 	return (cmd);
 }
 
-bool	simple_cmd_loop(t_mini *shell, t_tok_lst**tokens, t_cmd_info **cmd)
+bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 {
 	char	*token;
 
@@ -128,7 +128,7 @@ bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 	return (true);
 }
 
-t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell, t_list **tokens)
+t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell, t_tok_lst **tokens)
 {
 	t_ast_node	*node;
 
@@ -148,7 +148,6 @@ t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell, t_list **tokens)
 t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
 {
 	t_cmd_info	*cmd;
-	char		*token;
 
 	if (!is_valid_token(tokens))
 		return (NULL);
@@ -164,8 +163,6 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
 	}
 	if (!simple_cmd_loop(shell, tokens, &cmd))
 		return (NULL);
-	if (is_valid_token(tokens))
-		token = (char *)(*tokens)->content;
 	if (!handle_redirections(tokens, cmd, shell))
 		return (free_ast(shell->ast_root), NULL);
 	return (finalize_cmd_node(cmd, shell, tokens));

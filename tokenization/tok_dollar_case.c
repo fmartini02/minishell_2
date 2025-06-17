@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/06/16 20:03:58 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:14:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 {
 	char		*tmp;
 	t_tok_lst	*new_node;
+	t_tok_lst	*head;
 
+	j = ft_skip_spaces(var_value, j);
+	head = shell->tok_input;
 	while (var_value[j])
 	{
 		tmp = ft_substr(var_value, j, ft_strlen_till_space(var_value, j));
@@ -52,6 +55,7 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 		j += ft_strlen_till_space(var_value, j);
 		j = ft_skip_spaces(var_value, j);
 	}
+	shell->tok_input = head;
 	return (EXIT_SUCCESS);
 }
 
@@ -69,5 +73,7 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 	if (!content)
 		return (2);
 	append_var(content, var_name, shell, 0);
+	//free(var_name);
+	free(content);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/16 20:18:34 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:35:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int			word_case(t_mini *shell, char *content, size_t *i);
 int			wildcard_case(t_mini *shell, char *content, size_t *i);
 void		add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node);
 t_tok_lst	*new_tok_lst(char *content, t_tok_type type, char *tok_name);
-void		free_tok_lst(t_tok_lst *head);
+void		free_tok_lst(t_tok_lst **head);
 void		print_tok_lst(t_tok_lst *head);
 
 #endif

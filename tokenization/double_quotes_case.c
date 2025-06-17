@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/16 19:53:06 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:20:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,5 @@ int	double_quotes_case(t_mini *shell, char *content, size_t *i)
 	add_back_tok_lst(&(shell->tok_input), node);
 	if (!shell->tok_input)
 		ft_fatal_memerr(shell);
-	if (shell->tok_input->next)
-		shell->tok_input = shell->tok_input->next;
 	return (EXIT_SUCCESS);
 }
