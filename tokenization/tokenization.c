@@ -66,7 +66,7 @@ int	check_var_front(t_mini *shell, size_t *i)
 	t_tok_lst	*prev_node;
 	t_tok_lst	*new_node;
 	char		*tmp;
-	char		*var_value;
+	//char		*var_value;
 
 	return_value = EXIT_SUCCESS;
 	prev_node = last_token(shell->tok_input);

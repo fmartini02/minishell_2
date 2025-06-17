@@ -147,9 +147,7 @@ char		*get_env_value(t_mini *shell, const char *var_name);
 char		*get_prompt(void);
 
 // redirections.c
-int	apply_redirection(t_mini *shell);
-// redirections.c
-int			apply_redirections(t_mini *shell);
+int	apply_redirections(t_exec_unit *unit, t_mini *shell);
 
 //AST-PARSING
 void		ast_init(t_mini *shell);
@@ -173,6 +171,9 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node);
 int			execute_builtin(t_exec_unit *unit, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
+
+// pipeline.c
+void		execute_pipeline(t_ast_node *cmd_list, t_mini *shell);
 
 // utils.c
 int			is_all_spaces(const char *str);

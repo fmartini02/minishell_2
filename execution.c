@@ -34,7 +34,7 @@ static int	handle_critical_builtin(t_exec_unit *unit, t_mini *shell)
 		&& ft_strcmp(unit->argv[0], "unset") != 0
 		&& ft_strcmp(unit->argv[0], "exit") != 0)
 		return (0);
-	if (apply_redirections(shell) != 0)
+	if (apply_redirections(unit, shell) != 0)
 	{
 		shell->last_exit_code = 1;
 		return (1);
@@ -45,7 +45,7 @@ static int	handle_critical_builtin(t_exec_unit *unit, t_mini *shell)
 
 static void	child_process(t_exec_unit *unit, t_mini *shell)
 {
-	if (apply_redirections(shell) != 0)
+	if (apply_redirections(unit, shell) != 0)
 		exit(1);
 	if (is_builtin(unit->argv[0]))
 		exit(execute_builtin(unit, shell));
@@ -101,10 +101,10 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 			free_exec_unit(unit);
 		}
 	}
-	/* else if (node->type == NODE_PIPELINE)
+	else if (node->type == NODE_PIPELINE)
 	{
-		// execute_pipeline
-	} */
+		execute_pipeline((t_ast_node *)node->content, shell);
+	}
 	else if (node->type == NODE_AND)
 	{
 		execute_ast(node->left, shell);
