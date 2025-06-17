@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:36:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/16 19:53:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:26:09 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	single_quotes_case(t_mini *shell, char *content, size_t *i)
 {
-	size_t	start;
-	char	*tmp;
-	char	*s;
+	size_t		start;
+	char		*tmp;
+	char		*s;
 	t_tok_lst	*node;
 
 	start = ++(*i); // skip opening quote
@@ -43,7 +43,5 @@ int	single_quotes_case(t_mini *shell, char *content, size_t *i)
 	add_back_tok_lst(&(shell->tok_input), node); // add to token list
 	if (!shell->tok_input)
 		ft_fatal_memerr(shell);
-	if (shell->tok_input->next)
-		shell->tok_input = shell->tok_input->next;
 	return (EXIT_SUCCESS);
 }

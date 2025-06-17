@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/16 20:00:55 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:34:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ int	check_var_front(t_mini *shell, size_t *i)
 	t_tok_lst	*prev_node;
 	t_tok_lst	*new_node;
 	char		*tmp;
+	char		*var_value;
 
 	return_value = EXIT_SUCCESS;
-	prev_node = shell->tok_input;
+	prev_node = last_token(shell->tok_input);
 	if (shell->input[(*i) - 1] == ' ')
 		return(69);
 	if (shell->input[*i] == '\'')
@@ -77,7 +78,7 @@ int	check_var_front(t_mini *shell, size_t *i)
 		return_value = double_quotes_case(shell, NULL, i);
 	if (return_value == EXIT_SUCCESS)
 	{
-		new_node = shell->tok_input;
+		new_node = last_token(shell->tok_input);
 		tmp = ft_strdup(new_node->content);
 		if (!tmp)
 			ft_fatal_memerr(shell);
@@ -85,7 +86,6 @@ int	check_var_front(t_mini *shell, size_t *i)
 		free(new_node->content);
 		free(new_node);
 		prev_node->next = NULL;
-		shell->tok_input = prev_node;
 	}
 	return (10);
 }
@@ -93,14 +93,16 @@ int	check_var_front(t_mini *shell, size_t *i)
 /* Restituisce un token applicando anche alcune espansioni $*/
 int	get_tok(t_mini *shell, char *s, size_t *i)
 {
-	char	*content;
-	int		return_value;
+	char		*content;
+	int			return_value;
+	t_tok_lst	*curr_tok;
 
 	content = NULL;
 	return_value = EXIT_SUCCESS;
+	curr_tok = last_token(shell->tok_input);
 	if (s[*i] == '\'')
 	{
-		if (shell->tok_input && shell->tok_input->type == DOLLAR && s[(*i) - 1] != ' ')//if the previus is a dollar token
+		if (curr_tok && curr_tok->type == DOLLAR && s[(*i) - 1] != ' ')//if the previus is a dollar token
 		{
 			return_value =  check_var_front(shell, i);
 			if(return_value == EXIT_FAILURE)
@@ -113,7 +115,7 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	}
 	else if (s[*i] == '"')
 	{
-		if (shell->tok_input && shell->tok_input->type == DOLLAR && s[(*i) - 1] != ' ')//if the previus is a dollar token
+		if (curr_tok && curr_tok->type == DOLLAR && s[(*i) - 1] != ' ')//if the previus is a dollar token
 		{
 			return_value =  check_var_front(shell, i);
 			if(return_value == EXIT_FAILURE)
@@ -137,7 +139,18 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	else if (s[*i] == '<' || s[*i] == '>')
 		return_value = redi_case(shell, content, i);
 	else
-		return_value = word_case(shell, content, i);
+	{
+		if (curr_tok && curr_tok->type == DOLLAR && s[(*i) - 1] != ' ')//if the previus is a dollar token
+		{
+			return_value =  check_var_front(shell, i);
+			if(return_value == EXIT_FAILURE)
+				return (return_value);
+		}
+		if (return_value == EXIT_SUCCESS)
+			return_value = word_case(shell, NULL, i);
+		if (s[*i] == '$')
+			return_value = check_var_back(shell, i);
+	}
 	return (return_value);
 }
 

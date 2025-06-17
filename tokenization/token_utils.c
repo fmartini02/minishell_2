@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 15:35:33 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:33:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,18 @@ void	free_tok_lst(t_tok_lst **head)
 		free(node);
 		node = next_node;
 	}
+}
+
+t_tok_lst	*last_token(t_tok_lst *head)
+{
+	t_tok_lst	*node;
+
+	if (!head)
+		return (NULL);
+	node = head;
+	while (node->next)
+		node = node->next;
+	return (node);
 }
 
 void	print_tok_lst(t_tok_lst *head)
