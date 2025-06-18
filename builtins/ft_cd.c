@@ -75,13 +75,11 @@ static void change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
 	shell->last_exit_code = 0;
 }
 
-void	ft_cd(t_mini *shell)
+void	ft_cd(char **args, t_mini *shell)
 {
 	char	*oldpwd;
-	char	**args;
 	char	*home;
 
-	args = shell->cmd_info->cmd_args;
 	oldpwd = get_oldpwd();
 	if (!oldpwd)
 	{

@@ -14,11 +14,11 @@
 
 /* Implementazone di env
 Stampa le variabili d'ambiente presenti nella lista shell->env*/
-void	ft_env(t_mini *shell)
+void	ft_env(t_mini *shell, char **args)
 {
-	t_list	*tmp;
-
-	tmp = shell->env;
+	(void)args;
+	t_list	*tmp = shell->env;
 	ft_print_list(tmp, 's');
 }
+
 

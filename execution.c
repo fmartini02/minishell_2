@@ -9,19 +9,19 @@ int	execute_builtin(t_exec_unit *unit, t_mini *shell)
 	if (!args || !args[0])
 		return (1);
 	if (ft_strcmp(args[0], "echo") == 0)
-		ft_echo(shell);
+		ft_echo(args, shell);
 	else if (ft_strcmp(args[0], "cd") == 0)
-		ft_cd(shell);
+		ft_cd(args, shell);
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		ft_pwd(shell);
-	else if (ft_strcmp(args[0], "export") == 0)
-		ft_export(shell);
-	else if (ft_strcmp(args[0], "unset") == 0)
-		ft_unset(shell);
+		ft_pwd(shell, args);
 	else if (ft_strcmp(args[0], "env") == 0)
-		ft_env(shell);
+		ft_env(shell, args);
+	else if (ft_strcmp(args[0], "export") == 0)
+		ft_export(shell, args);
+	else if (ft_strcmp(args[0], "unset") == 0)
+		ft_unset(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		ft_exit(shell, NULL);
+		ft_exit(shell, args);
 	return (shell->last_exit_code);
 }
 
@@ -91,7 +91,10 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	t_exec_unit	*unit;
 
 	if (!node)
+	{
+		printf("execute_ast: nodo NULL\n");
 		return ;
+	}
 	if (node->type == NODE_CMD)
 	{
 		unit = extract_exec_unit(node);
@@ -103,6 +106,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	}
 	else if (node->type == NODE_PIPELINE)
 	{
+		printf("execute_ast: nodo PIPELINE\n");
 		execute_pipeline((t_ast_node *)node->content, shell);
 	}
 	else if (node->type == NODE_AND)
@@ -117,4 +121,6 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 		if (shell->last_exit_code != 0)
 			execute_ast(node->right, shell);
 	}
+	else
+		printf("execute_ast: tipo nodo sconosciuto (%d)\n", node->type);
 }

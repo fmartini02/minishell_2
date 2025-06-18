@@ -22,8 +22,8 @@ void	parsing(t_mini *shell)
 	print_tok_lst(shell->tok_input);
 	//expand_wildcards(shell);
 	ast_init(shell);
-	//execute_ast(shell->ast_root, shell);
-	//print_ast(shell->ast_root, 0);
+	print_ast(shell->ast_root, 0);
+	execute_ast(shell->ast_root, shell);
 	free(shell->input);
 }
 

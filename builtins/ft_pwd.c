@@ -14,12 +14,12 @@
 
 /* Implementazione di pwd
 Stampa la directory corrente*/
-void	ft_pwd(t_mini *shell)
+void	ft_pwd(t_mini *shell, char **args)
 {
-	char	*pwd;
-
 	(void)shell;
-	pwd = malloc(sizeof(char) * PATH_MAX);
+	(void)args;
+	char	*pwd = malloc(PATH_MAX);
+
 	if (!pwd)
 	{
 		perror("malloc");
@@ -34,3 +34,4 @@ void	ft_pwd(t_mini *shell)
 	ft_printf("%s\n", pwd);
 	free(pwd);
 }
+

@@ -28,7 +28,7 @@ bool	ft_ispecial_char(char c)
 /* Checks if the given command is a built-in shell command */
 bool	is_builtin(const char *cmd)
 {
-	return (ft_strcmp(cmd, "echo") == 0
+	return (ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "echo") == 0
 		|| ft_strcmp(cmd, "pwd") == 0
 		|| ft_strcmp(cmd, "export") == 0

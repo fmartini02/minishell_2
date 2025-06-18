@@ -32,15 +32,13 @@ static bool	is_n_option(const char *str)
 /* Implementazione di echo
 Stampa gli argomenti passati separati da spazi,
 se viene specificata l'opzione -n (o più meno -nn) il carattere new_line non viene stampato*/
-void	ft_echo(t_mini *shell)
+void	ft_echo(char **args, t_mini *shell)
 {
 	int		i;
 	bool	new_line;
-	char	**args;
 
 	i = 1;
 	new_line = true;
-	args = shell->cmd_info->cmd_args;
 	while (args[i] && is_n_option(args[i]))
 	{
 		new_line = false;
@@ -57,3 +55,4 @@ void	ft_echo(t_mini *shell)
 		ft_printf("\n");
 	shell->last_exit_code = 0;
 }
+

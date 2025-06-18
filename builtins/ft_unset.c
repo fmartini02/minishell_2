@@ -28,10 +28,10 @@ static void	remove_env_var(t_list **env, const char *key)
 }
 
 /* Rimuove una o piu' variabili d'ambiente dalla lista shell->env*/
-void	ft_unset(t_mini *shell)
+void	ft_unset(t_mini *shell, char **args)
 {
-	char	**args = shell->cmd_info->cmd_args;
 	int		i = 1;
+
 	while (args && args[i])
 	{
 		remove_env_var(&shell->env, args[i]);
