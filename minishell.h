@@ -171,6 +171,7 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node);
 int			execute_builtin(t_exec_unit *unit, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
+char		*get_path_command(t_mini *shell, const char *cmd);
 
 // pipeline.c
 void		execute_pipeline(t_ast_node *cmd_list, t_mini *shell);

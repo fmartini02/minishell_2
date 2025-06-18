@@ -12,7 +12,7 @@ int	is_all_spaces(const char *str)
 	return (1);
 }
 
-/* If there is one of the characters not allowed it returns false */
+/* If there is one of the characters not allowed it returns true */
 bool	ft_ispecial_char(char c)
 {
 	if (c != '!' && c != '@' && c != '#' && c != '%' && c != '^' && c != '&'

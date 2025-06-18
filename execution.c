@@ -1,5 +1,62 @@
 #include "minishell.h"
 
+static void	free_split(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return;
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
+static char *ft_strjoin3(const char *s1, const char *s2, const char *s3)
+{
+	char *tmp;
+	char *res;
+
+	tmp = ft_strjoin(s1, s2);
+	if (!tmp)
+		return (NULL);
+	res = ft_strjoin(tmp, s3);
+	free(tmp);
+	return (res);
+}
+
+char	*get_path_command(t_mini *shell, const char *cmd)
+{
+	char	**paths;
+	char	*full_path;
+	char	*path_var;
+	int		i;
+
+	if (!cmd || ft_strchr(cmd, '/'))
+		return (ft_strdup(cmd));
+	path_var = get_env_value(shell, "PATH");
+	if (!path_var)
+		return (NULL);
+	paths = ft_split(path_var, ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		full_path = ft_strjoin3(paths[i], "/", cmd);
+		if (access(full_path, X_OK) == 0)
+		{
+			free_split(paths);
+			return (full_path);
+		}
+		free(full_path);
+		i++;
+	}
+	free_split(paths);
+	return (NULL);
+}
+
+
 /* Execution builtins */
 int	execute_builtin(t_exec_unit *unit, t_mini *shell)
 {
@@ -25,6 +82,8 @@ int	execute_builtin(t_exec_unit *unit, t_mini *shell)
 	return (shell->last_exit_code);
 }
 
+
+
 static int	handle_critical_builtin(t_exec_unit *unit, t_mini *shell)
 {
 	if (!is_builtin(unit->argv[0]))
@@ -45,12 +104,23 @@ static int	handle_critical_builtin(t_exec_unit *unit, t_mini *shell)
 
 static void	child_process(t_exec_unit *unit, t_mini *shell)
 {
+	char *cmd_path;
+
 	if (apply_redirections(unit, shell) != 0)
 		exit(1);
 	if (is_builtin(unit->argv[0]))
 		exit(execute_builtin(unit, shell));
-	execvp(unit->argv[0], unit->argv);
-	perror("execvp failed");
+
+	cmd_path = get_path_command(shell, unit->argv[0]);
+	if (!cmd_path)
+	{
+		ft_putstr_fd(unit->argv[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		exit(127);
+	}
+	execve(cmd_path, unit->argv, shell->envp);
+	perror("execve failed");
+	free(cmd_path);
 	exit(127);
 }
 
@@ -107,7 +177,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	else if (node->type == NODE_PIPELINE)
 	{
 		printf("execute_ast: nodo PIPELINE\n");
-		execute_pipeline((t_ast_node *)node->content, shell);
+		execute_pipeline(node, shell);
 	}
 	else if (node->type == NODE_AND)
 	{
