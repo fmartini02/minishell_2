@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 17:34:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:15:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,82 @@ void	merge_tokens(char *var_value, char *var_name, t_mini *shell, int *j)
 }
 
 /*per input come: "qualcosa"$var e var contiene una stringa senza spazzi all'inizio*/
-int	check_var_back(t_mini *shell, size_t *i)
+int	check_var_back(t_mini *shell, size_t *i, bool is_dollar)
 {
-	char	*var_value;
-	char	*var_name;
-	int		j;
+	char		*var_value;
+	char		*var_name;
+	t_tok_lst	*curr_node;
+	t_tok_lst	*prev_node;
+	int			j;
 
 	j = 0;
-	var_name = ft_substr(shell->input, *i, ft_strlen_till_space(shell->input, *i));
-	var_value = ft_dollar_case(shell, shell->input, i);
-	if (var_value)
+	if (is_dollar)
 	{
-		if (!ft_ispace(var_value[j]))
+		var_name = ft_substr(shell->input, *i, ft_strlen_till_space(shell->input, *i));
+		var_value = ft_dollar_case(shell, shell->input, i);
+		if (var_value)
 		{
-			merge_tokens(var_value, var_name, shell, &j);
-			return (append_var(var_value, var_name, shell, j));
+			if (!ft_ispace(var_value[j]))
+			{
+				merge_tokens(var_value, var_name, shell, &j);
+				return (append_var(var_value, var_name, shell, j));
+			}
+			else if (ft_ispace(var_value[j]))
+				return (append_var(var_value, var_name, shell, j));
 		}
-		else if (ft_ispace(var_value[j]))
-			return (append_var(var_value, var_name, shell, j));
+		else
+			return(free(var_name), 2);
 	}
 	else
-		return(free(var_name), 2);
+	{
+		prev_node = last_token(shell->tok_input);
+		curr_node = NULL;
+		if (shell->input[*i] == '"')
+		{
+			if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+			curr_node = last_token(shell->tok_input);
+			var_value = curr_node->content;
+			prev_node->content = ft_strjoin_free(prev_node->content, var_value);
+		}
+		else if (shell->input[*i] == '\'')
+		{
+			if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+			curr_node = last_token(shell->tok_input);
+			var_value = curr_node->content;
+			prev_node->content = ft_strjoin_free(prev_node->content, var_value);
+		}
+		free(curr_node->content);
+		free(curr_node);
+		prev_node->next = NULL;
+	}
 	return (EXIT_SUCCESS);
+}
+
+char	*get_var_value(t_mini *shell)
+{
+	char		*var_name;
+	char		*var_value;
+	int			j;
+	t_tok_lst	*curr_node;
+
+	j = 1;
+	curr_node = last_token(shell->tok_input);
+	while (curr_node->tok_name[j]
+			&& !ft_ispecial_char(curr_node->tok_name[j]))
+		j++;
+	var_name = ft_substr(curr_node->tok_name, 1, j-1);
+	if (!var_name)
+	{
+		ft_fatal_memerr(shell);
+		return (NULL);
+	}
+	var_value = get_env_value(shell, var_name);
+	free(var_name);
+	if (!var_value)
+		return (NULL);
+	return (var_value);
 }
 
 int	check_var_front(t_mini *shell, size_t *i)
@@ -66,9 +120,14 @@ int	check_var_front(t_mini *shell, size_t *i)
 	t_tok_lst	*prev_node;
 	t_tok_lst	*new_node;
 	char		*tmp;
-	//char		*var_value;
+	char		*var_value;
 
 	return_value = EXIT_SUCCESS;
+	var_value = get_var_value(shell);
+	if (!var_value)
+		return(2);// Variable not found
+	else if (var_value[ft_strlen(var_value) - 1] == ' ')
+		return (EXIT_SUCCESS);
 	prev_node = last_token(shell->tok_input);
 	if (shell->input[(*i) - 1] == ' ')
 		return(69);
@@ -110,8 +169,8 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 		}
 		if (return_value == EXIT_SUCCESS)
 			return_value = single_quotes_case(shell, NULL, i);
-		if (s[*i] == '$')
-			return_value = check_var_back(shell, i);
+		if (s[*i] != ' ')
+			return_value = check_var_back(shell, i, true);
 	}
 	else if (s[*i] == '"')
 	{
@@ -123,8 +182,8 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 		}
 		if (return_value == EXIT_SUCCESS)
 			return_value = double_quotes_case(shell, NULL, i);
-		if (s[*i] == '$')
-			return_value = check_var_back(shell, i);
+		if (s[*i] != ' ')
+			return_value = check_var_back(shell, i, true);
 	}
 	else if (s[*i] == '$')
 		return_value  = tok_dollar_case(shell, i, content);
@@ -148,8 +207,8 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 		}
 		if (return_value == EXIT_SUCCESS)
 			return_value = word_case(shell, NULL, i);
-		if (s[*i] == '$')
-			return_value = check_var_back(shell, i);
+		if (s[*i] != ' ')
+			return_value = check_var_back(shell, i, false);
 	}
 	return (return_value);
 }

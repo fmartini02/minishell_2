@@ -6,9 +6,11 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/17 15:37:41 by francema         ###   ########.fr        #
+#    Updated: 2025/06/18 15:41:51 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+.SILENT:
 
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
 	execution.c extraction.c pipeline.c
