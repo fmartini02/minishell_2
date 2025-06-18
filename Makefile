@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+.SILENT:
+
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
 	execution.c extraction.c pipeline.c
 

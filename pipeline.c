@@ -1,5 +1,5 @@
-#include "minishell.h"
-
+ #include "minishell.h"
+/*
 static int	count_pipeline_commands(t_ast_node *cmd_list)
 {
 	int	count;
@@ -176,3 +176,65 @@ void	execute_pipeline(t_ast_node *cmd_list, t_mini *shell)
 	shell->last_exit_code = WEXITSTATUS(status);
 	free(pids);
 }
+ */
+
+void execute_pipeline(t_ast_node *node, t_mini *shell)
+{
+    if (!node)
+        return;
+
+    if (node->type == NODE_PIPELINE)
+    {
+        int pipe_fd[2];
+        pid_t pid1, pid2;
+        int status;
+
+        if (pipe(pipe_fd) == -1)
+        {
+            perror("pipe");
+            return;
+        }
+        pid1 = fork();
+        if (pid1 == 0)
+        {
+            close(pipe_fd[0]);
+            dup2(pipe_fd[1], STDOUT_FILENO);
+            close(pipe_fd[1]);
+            execute_pipeline(node->left, shell);
+            exit(shell->last_exit_code);
+        }
+        else if (pid1 < 0)
+        {
+            perror("fork");
+            return;
+        }
+        pid2 = fork();
+        if (pid2 == 0)
+        {
+            close(pipe_fd[1]);
+            dup2(pipe_fd[0], STDIN_FILENO);
+            close(pipe_fd[0]);
+            execute_pipeline(node->right, shell);
+            exit(shell->last_exit_code);
+        }
+        else if (pid2 < 0)
+        {
+            perror("fork");
+            return;
+        }
+        close(pipe_fd[0]);
+        close(pipe_fd[1]);
+        waitpid(pid1, &status, 0);
+        waitpid(pid2, &status, 0);
+        shell->last_exit_code = WEXITSTATUS(status);
+    }
+    else if (node->type == NODE_CMD)
+    {
+        t_exec_unit *unit = extract_exec_unit(node);
+        if (!unit)
+            return;
+        execute_exec_unit(unit, shell);
+        free_exec_unit(unit);
+    }
+}
+

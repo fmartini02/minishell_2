@@ -1,4 +1,4 @@
-#.SILENT:
+.SILENT:
 
 SRC = main_bonus.c \
 	flag_dot/dot_int_case.c \

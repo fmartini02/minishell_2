@@ -31,7 +31,7 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node)
 	t_cmd_info	*cmd;
 	t_exec_unit	*unit;
 	int			argc;
-
+	printf("dentro extract exec_unit \n");
 	if (!node || node->type != NODE_CMD)
 		return (NULL);
 	cmd = (t_cmd_info *)node->content;
