@@ -6,18 +6,19 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:34:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:12:06 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:32:19 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	and_case(t_mini *shell, char *content, size_t *i)
+static t_tok_lst	*and_case_utils(t_mini *shell, char *s, size_t *i)
 {
+	char		*content;
 	t_tok_lst	*node;
-	char		*s;
 
-	s = shell->input;
+	content = NULL;
+	node = NULL;
 	if (s[*i + 1] == '&')
 	{
 		content = ft_strdup("&&");
@@ -35,8 +36,20 @@ int	and_case(t_mini *shell, char *content, size_t *i)
 		content = NULL;
 		node = NULL;
 		(*i)++;
-		return (EXIT_FAILURE);
+		return (NULL);
 	}
+	return (node);
+}
+
+int	and_case(t_mini *shell, char *content, size_t *i)
+{
+	t_tok_lst	*node;
+	char		*s;
+
+	s = shell->input;
+	node = and_case_utils(shell, s, i);
+	if (!node)
+		return (EXIT_FAILURE);
 	add_back_tok_lst(&(shell->tok_input), node);
 	if (!shell->tok_input)
 	{

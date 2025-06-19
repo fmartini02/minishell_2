@@ -6,22 +6,19 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:05:37 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:21:25 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:55:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	subshell_case(t_mini *shell, char *content, size_t *i)
+static int	subshell_utils(t_mini *shell, size_t *i, char **content, t_tok_lst **node)
 {
-	t_tok_lst	*node;
-	char		*s;
-	size_t		tmp;
+	size_t	tmp;
+	char	*s;
 
-	s = shell->input;
 	tmp = *i;
-	node = NULL;
-	content = NULL;
+	s = shell->input;
 	if (s[tmp] == '(')
 	{
 		while (s[tmp] && s[tmp] != ')')
@@ -41,6 +38,19 @@ int	subshell_case(t_mini *shell, char *content, size_t *i)
 		content = ft_strdup(")");
 		node = new_tok_lst(content, SUBSHELL, NULL);
 	}
+	return (EXIT_SUCCESS);
+}
+
+int	subshell_case(t_mini *shell, char *content, size_t *i)
+{
+	t_tok_lst	*node;
+	char		*s;
+
+	s = shell->input;
+	node = NULL;
+	content = NULL;
+	if (subshell_utils(shell, i, &content, &node) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (!node || !content)
 	{
 		if (content)

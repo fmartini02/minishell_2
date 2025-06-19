@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 16:20:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:40:37 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,43 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
 	return (content);
 }
 
-int	double_quotes_case(t_mini *shell, char *content, size_t *i)
+static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i, char *s)
 {
-	t_tok_lst	*node;
-	size_t		start;
-	char		*s;
+	size_t	start;
 
-	start = ++(*i);// skip opening quote
-	s = shell->input;
+	start = *i;
 	while (s[*i] && s[*i] != '\"')
 	{
 		if (s[*i] == '$')
 		{
 			content = dollar_quotes_case(shell, i, start, content);
 			if (!content)
-				return (EXIT_FAILURE);
+				return (NULL);
 		}
 		if (s[*i] != '"')
 			(*i)++;
 	}
 	if (s[*i] != '\"')// unmatched quote
 	{
-		write(2, ">\nbash: unexpected EOF while looking for matching `\"", 53);
-		write(2, "\'\nbash: syntax error: unexpected end of file\n", 46);
-		return (EXIT_FAILURE);
+		write(2, "ERROR OPEN DOUBLE QUOTE\n", 25);
+		return (NULL);
 	}
 	if (*i > start)//if there is text before closing quote
 	{
 		content = get_chars_after_symbol(shell, i, start, content);
 		if (!content)
-			return (EXIT_FAILURE);
+			return (NULL);
 	}
+}
+
+int	double_quotes_case(t_mini *shell, char *content, size_t *i)
+{
+	t_tok_lst	*node;
+	char		*content;
+
+	content = double_quotes_utils(shell, content, i, shell->input);
+	if (!content)
+		return (EXIT_FAILURE);
 	(*i)++;
 	node = new_tok_lst(content, DOUBLE_QUOTES, NULL);
 	if (!node)

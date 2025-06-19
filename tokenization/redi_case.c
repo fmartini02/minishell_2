@@ -6,18 +6,17 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:38:41 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:12:23 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:43:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	redi_case(t_mini *shell, char *content, size_t *i)
+static char	*redi_utils(t_mini *shell, char *s, size_t *i)
 {
-	t_tok_lst	*node;
-	char		*s;
+	char	*content;
 
-	s = shell->input;
+	content = NULL;
 	if (s[*i] == '<')
 	{
 		if (s[*i + 1] == '<')
@@ -32,6 +31,18 @@ int	redi_case(t_mini *shell, char *content, size_t *i)
 		else
 			content = ft_strdup(">");
 	}
+	if (!content)
+		ft_fatal_memerr(shell);
+	return (content);
+}
+
+int	redi_case(t_mini *shell, char *content, size_t *i)
+{
+	t_tok_lst	*node;
+	char		*s;
+
+	s = shell->input;
+	content = redi_utils(shell, s, i);
 	node = new_tok_lst(content, REDIRECT, NULL);
 	if (!node || !content)
 	{
