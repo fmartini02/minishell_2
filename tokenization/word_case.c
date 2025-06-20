@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/06/19 16:17:20 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:18:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static bool	get_content(char **content, char *s, size_t *i, int *len)
 {
 	if (*len > 0)
 	{
-		content = ft_substr(s, *i, *len);
+		*content = ft_substr(s, *i, *len);
 		if (!content)
 			return (false);
 		*i += *len;
