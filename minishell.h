@@ -172,9 +172,13 @@ int			execute_builtin(t_exec_unit *unit, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
 char		*get_path_command(t_mini *shell, const char *cmd);
+void		free_split(char **arr);
 
 // pipeline.c
 void		execute_pipeline(t_ast_node *cmd_list, t_mini *shell);
+
+// pipeline_utils.c
+char		**env_list_to_array(t_list *env);
 
 // utils.c
 int			is_all_spaces(const char *str);
