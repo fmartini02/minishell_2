@@ -177,11 +177,14 @@ void		execute_ast(t_ast_node *node, t_mini *shell);
 char		*get_path_command(t_mini *shell, const char *cmd);
 void		free_split(char **arr);
 
-// pipeline.c
-void		execute_pipeline(t_ast_node *cmd_list, t_mini *shell);
-
-// pipeline_utils.c
+//PIPELINE
 char		**env_list_to_array(t_list *env);
+void		close_all_pipes(int **pipes, int count);
+void		free_pipes(int **pipes, int count);
+int			count_pipeline_commands(t_ast_node *cmd_list);
+int			**create_pipes(int count);
+void		child_pipeline(t_ast_node *node, t_mini *shell, int **pipes, int idx, int count);
+void		execute_pipeline(t_ast_node *cmds, t_mini *shell);
 
 // utils.c
 int			is_all_spaces(const char *str);
