@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 15:41:51 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 18:44:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right, t_mini *shell, 
 		if (!node)
 			return (NULL);
 		*left = node;
+		*right = NULL;
 	}
 	return (*left);
 }
