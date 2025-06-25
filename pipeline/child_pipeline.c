@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child_pipeline.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 16:08:57 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static bool	input_redir_exists(t_redirection *r)
@@ -22,7 +34,8 @@ static bool	output_redir_exists(t_redirection *r)
 	return (false);
 }
 
-static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes, int idx, int count)
+static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes,
+	int idx, int count)
 {
 	if (idx > 0 && !input_redir_exists(unit->redirs))
 		dup2(pipes[idx - 1][0], STDIN_FILENO);
@@ -41,10 +54,17 @@ static void	exec_child_command(t_exec_unit *unit, t_mini *shell)
 		exit(execute_builtin(unit, shell));
 	cmd_path = get_path_command(shell, unit->argv[0]);
 	if (!cmd_path)
-		ft_putendl_fd(": command not found", 2), exit(127);
+	{
+		ft_putendl_fd(": command not found", 2);
+		exit(127);
+	}
 	envp = env_list_to_array(shell->env);
 	if (!envp)
-		perror("env"), free(cmd_path), exit(1);
+	{
+		perror("env");
+		free(cmd_path);
+		exit(1);
+	}
 	execve(cmd_path, unit->argv, envp);
 	perror(cmd_path);
 	free_split(envp);
@@ -52,7 +72,8 @@ static void	exec_child_command(t_exec_unit *unit, t_mini *shell)
 	exit(127);
 }
 
-void	child_pipeline(t_ast_node *node, t_mini *shell, int **pipes, int idx, int count)
+void	child_pipeline(t_ast_node *node, t_mini *shell,
+	int **pipes, int idx, int count)
 {
 	t_exec_unit	*unit;
 

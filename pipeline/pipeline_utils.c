@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 16:12:20 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 16:12:29 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	close_all_pipes(int **pipes, int count)
@@ -25,6 +37,7 @@ void	free_pipes(int **pipes, int count)
 	}
 	free(pipes);
 }
+
 int	count_pipeline_commands(t_ast_node *cmd_list)
 {
 	int	count;
