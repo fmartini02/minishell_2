@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:17 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:22:18 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:14:50 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,25 @@ char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 	size_t	j;
 	char	*var_name;
 	char	*var_value;
+	char	*ret;
 
 	start = *i + 1;
 	if (str[*i + 1] == '?')
 		return (expand_exit_code(shell, i));
 	var_name = extract_var_name(str, start, &j);
 	if (!var_name)
-		return (NULL);
+		return (ft_strdup(""));
 	var_value = get_env_value(shell, var_name);
-	free(var_name);
 	*i = j;
 	if (!var_value)
-		return (NULL);
-	return (ft_strdup(var_value));
+	{
+		free(var_name);
+		ret = ft_strdup("");
+		if (!ret)
+			return (NULL);
+		return (ret);
+	}
+	ret = ft_strdup(var_value);
+	free(var_name);
+	return (ret);
 }

@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipeline_utils2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 16:12:36 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 16:12:58 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static int	env_list_count(t_list *env)
 {
-	int	count = 0;
+	int	count;
 
+	count = 0;
 	while (env)
 	{
 		count++;
@@ -14,8 +27,9 @@ static int	env_list_count(t_list *env)
 
 static int	fill_env_array(char **envp, t_list *env)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (env)
 	{
 		envp[i] = ft_strdup((char *)env->content);

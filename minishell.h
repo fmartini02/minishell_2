@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/20 13:16:43 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:34:24 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,11 +171,17 @@ void		print_unexpected_token(t_tok_lst **tokens);
 t_exec_unit	*extract_exec_unit(t_ast_node *node);
 
 // execution.c
-int			execute_builtin(t_exec_unit *unit, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
-char		*get_path_command(t_mini *shell, const char *cmd);
+
+// execution_utils.c
+void		exit_command_not_found(t_exec_unit *unit);
 void		free_split(char **arr);
+char		*get_path_command(t_mini *shell, const char *cmd);
+
+// execute_builtin.c
+int			execute_builtin(t_exec_unit *unit, t_mini *shell);
+int			handle_critical_builtin(t_exec_unit *unit, t_mini *shell);
 
 //PIPELINE
 char		**env_list_to_array(t_list *env);
