@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/20 13:17:32 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:38:37 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 			*return_value = single_quotes_case(shell, NULL, i);
 		else if (c == '"')
 			*return_value = double_quotes_case(shell, NULL, i);
-		else if (!ft_ispecial_char(c) && c != ' ')
+		else if ((!ft_ispecial_char(c) && c != ' ') || c == '.')
 			*return_value = word_case(shell, NULL, i);
 	}
 	if (s[*i] != ' ')
