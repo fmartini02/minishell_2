@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:19:01 by francema          #+#    #+#             */
-/*   Updated: 2025/05/20 15:55:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:21:14 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 Stampa la directory corrente*/
 void	ft_pwd(t_mini *shell, char **args)
 {
+	char	*pwd;
+
 	(void)shell;
 	(void)args;
-	char	*pwd = malloc(PATH_MAX);
-
+	pwd = malloc(PATH_MAX);
 	if (!pwd)
 	{
 		perror("malloc");
@@ -34,4 +35,3 @@ void	ft_pwd(t_mini *shell, char **args)
 	ft_printf("%s\n", pwd);
 	free(pwd);
 }
-

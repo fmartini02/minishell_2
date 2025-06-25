@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/05/20 15:55:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:20:49 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 - Se il secondo argomento non e' numerico segnala eroore*/
 int	ft_exit_args_check(char **args)
 {
-	int	i = 0;
-	int	arg_count = ft_matlen((void **)args);
+	int	i;
+	int	arg_count;
 
+	i = 0;
+	arg_count = ft_matlen((void **)args);
 	if (arg_count > 2)
 	{
 		ft_putstr_fd("exit\n", 2);
@@ -45,10 +47,14 @@ int	ft_exit_args_check(char **args)
 /* Converte una stringa in long controllando l'overflow/underflow*/
 int	ft_atol_check(const char *str, long *out)
 {
-	int		sign = 1;
-	long	res = 0;
-	int		i = 0;
+	int		sign;
+	long	res;
+	int		i;
+	int		digit;
 
+	sign = 1;
+	res = 0;
+	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
@@ -59,8 +65,7 @@ int	ft_atol_check(const char *str, long *out)
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
-
-		int digit = str[i] - '0';
+		digit = str[i] - '0';
 		if (res > (LONG_MAX - digit) / 10)
 			return (0);
 		res = res * 10 + digit;
@@ -97,13 +102,11 @@ void	ft_exit(t_mini *shell, char **args)
 		return ;
 	else if (ret_err == 2)
 		ft_non_digit_exit(args[1]);
-
 	if (ft_matlen((void **)args) == 2)
 	{
 		valid = ft_atol_check(args[1], &exit_val);
 		if (!valid)
 			ft_non_digit_exit(args[1]);
-
 		exit_val %= 256;
 		if (exit_val < 0)
 			exit_val += 256;
