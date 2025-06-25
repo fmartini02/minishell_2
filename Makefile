@@ -6,7 +6,7 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/20 13:08:55 by francema         ###   ########.fr        #
+#    Updated: 2025/06/25 12:30:12 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,7 @@ SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 AST_SRC = ast_init.c ast_utils.c parse_cmd_line.c parse_pipeline.c \
 		parse_redirection.c parse_simple_cmd.c parse_subshell.c print_ast.c \
 
-PIPELINE_SRC = child_pipeline.c execute_pipeline.c pipeline_utils.c \
-			pipeline_utils2.c
+PIPELINE_SRC = child_pipeline.c execute_pipeline.c pipeline_utils.c pipeline_utils2.c
 
 OBJ = $(SRC:.c=.o)
 
