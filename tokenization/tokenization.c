@@ -6,11 +6,22 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 14:20:03 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:06:49 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	is_word_delimiter(char c)
+{
+	if (c != '!' && c != '@' && c != '#' && c != '%' && c != '^' && c != '&'
+		&& c != '*' && c != '(' && c != ')' && c != '+' && c != '=' && c != '['
+		&& c != ']' && c != '{' && c != '}' && c != '\\' && c != '|' && c != ';'
+		&& c != ':' && c != '\''&& c != '"' && c != '<' && c != '>' && c != ','
+		&& c != '?' && c != '/' && c != '~' && c != '`' && c != '\0' && c != '$')
+		return (false);
+	return (true);
+}
 
 /*gestisce quei token che vanno uniti se non ci sono spazzi con un focus specifico per il caso <"c"$var"d"> */
 static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
@@ -32,11 +43,17 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 			*return_value = single_quotes_case(shell, NULL, i);
 		else if (c == '"')
 			*return_value = double_quotes_case(shell, NULL, i);
-		else if ((!ft_ispecial_char(c) && c != ' ') || c == '.' || c == '-')
+		else if (!is_word_delimiter(c) && c != ' ')
 			*return_value = word_case(shell, NULL, i);
 	}
 	if (s[*i] != ' ')
-		*return_value = check_tok_back(shell, i, true);
+	{
+		if (s[*i] == '$')
+			*return_value = check_tok_back(shell, i, true);
+		else
+			*return_value = check_tok_back(shell, i, false);
+	}
+	*i = ft_skip_spaces(s, *i);
 }
 
 /* Restituisce un token applicando anche alcune espansioni <$var> e alcuni merge dei token*/
