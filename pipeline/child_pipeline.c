@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 16:08:57 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/25 18:18:56 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,14 @@ static bool	output_redir_exists(t_redirection *r)
 	return (false);
 }
 
-static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes,
-	int idx, int count)
+static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes, int idx, int count)
 {
-	if (idx > 0 && !input_redir_exists(unit->redirs))
-		dup2(pipes[idx - 1][0], STDIN_FILENO);
-	if (idx < count - 1 && !output_redir_exists(unit->redirs))
-		dup2(pipes[idx][1], STDOUT_FILENO);
+    if (idx > 0 && !input_redir_exists(unit->redirs))
+        if (dup2(pipes[idx - 1][0], STDIN_FILENO) == -1)
+            perror("dup2 stdin");
+    if (idx < count - 1 && !output_redir_exists(unit->redirs))
+        if (dup2(pipes[idx][1], STDOUT_FILENO) == -1)
+            perror("dup2 stdout");
 }
 
 static void	exec_child_command(t_exec_unit *unit, t_mini *shell)

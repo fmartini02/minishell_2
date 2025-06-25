@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extraction.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:43 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:22:44 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/25 18:19:43 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node)
 	t_exec_unit	*unit;
 	int			argc;
 
+	//////////////////////////////////////////////////////////////////////////////////////////
+	fprintf(stderr, "type %u\n", node->type);
+	fprintf(stderr, "node_cmd %u\n", NODE_CMD);
 	if (!node || node->type != NODE_CMD)
 		return (NULL);
 	cmd = (t_cmd_info *)node->content;
