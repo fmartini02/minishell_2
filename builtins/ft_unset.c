@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:21:33 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:21:35 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:20:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	remove_env_var(t_list **env, const char *key)
 	t_list	*tmp;
 	size_t	key_len;
 
-	curr = env;
+	curr = *env;
 	prev = NULL;
 	key_len = ft_strlen(key);
 	while (curr)
