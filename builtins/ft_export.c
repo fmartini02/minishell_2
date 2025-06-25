@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 12:21:00 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 /* Aggiorna il valore di una variabile esistente o la aggiunge se non esiste*/
-static void update_env_var(t_list **env, const char *key, const char *value)
+static void	update_env_var(t_list **env, const char *key, const char *value)
 {
 	t_list	*node;
 	size_t	key_len;
@@ -12,8 +24,8 @@ static void update_env_var(t_list **env, const char *key, const char *value)
 	node = *env;
 	while (node)
 	{
-		if (ft_strncmp(node->content, key, key_len) == 0 &&
-			((char *)node->content)[key_len] == '=')
+		if (ft_strncmp(node->content, key, key_len) == 0
+			&& ((char *)node->content)[key_len] == '=')
 		{
 			free(node->content);
 			node->content = ft_strjoin(key, "=");

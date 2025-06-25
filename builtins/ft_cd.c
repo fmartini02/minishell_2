@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:19:38 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 12:19:40 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 // Funzione helper: concatena "key=value"
@@ -26,11 +38,11 @@ void	ft_setenv(t_list **env, const char *key, const char *value)
 	key_len = ft_strlen(key);
 	new_entry = str_key_value(key, value);
 	if (!new_entry)
-		return  ;
+		return ;
 	while (node)
 	{
-		if (!ft_strncmp((char *)node->content, key, key_len) &&
-			((char *)node->content)[key_len] == '=')
+		if (!ft_strncmp((char *)node->content, key, key_len)
+			&& ((char *)node->content)[key_len] == '=')
 		{
 			free(node->content);
 			node->content = new_entry;
@@ -51,9 +63,9 @@ static char	*get_oldpwd(void)
 	return (oldpwd);
 }
 
-static void change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
+static void	change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
 {
-	char cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
 
 	if (chdir(path) != 0)
 	{
