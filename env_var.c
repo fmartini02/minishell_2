@@ -61,21 +61,30 @@ static char	*extract_var_name(char *str, size_t start, size_t *end)
 Modifies *i to move the index beyond the expanded variable */
 char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 {
-	size_t	start;
-	size_t	j;
-	char	*var_name;
-	char	*var_value;
+    size_t	start;
+    size_t	j;
+    char	*var_name;
+    char	*var_value;
+    char	*ret;
 
-	start = *i + 1;
-	if (str[*i + 1] == '?')
-		return (expand_exit_code(shell, i));
-	var_name = extract_var_name(str, start, &j);
-	if (!var_name)
-		return (NULL);
-	var_value = get_env_value(shell, var_name);
-	free(var_name);
-	*i = j;
-	if (!var_value)
-		return (NULL);
-	return (ft_strdup(var_value));
+    start = *i + 1;
+    if (str[*i + 1] == '?')
+        return (expand_exit_code(shell, i));
+    var_name = extract_var_name(str, start, &j);
+    if (!var_name)
+        return (ft_strdup("")); // Defensive: return empty string if allocation fails
+    var_value = get_env_value(shell, var_name);
+    *i = j;
+    if (!var_value)
+    {
+        free(var_name);
+        ret = ft_strdup("");
+        if (!ret)
+            return NULL; // propagate malloc failure
+        return ret;
+    }
+    ret = ft_strdup(var_value);
+    free(var_name);
+    return ret;
 }
+

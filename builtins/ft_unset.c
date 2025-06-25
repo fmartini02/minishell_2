@@ -20,7 +20,7 @@ static void	remove_env_var(t_list **env, const char *key)
 	t_list	*tmp;
 	size_t	key_len;
 
-	curr = env;
+	curr = *env;
 	prev = NULL;
 	key_len = ft_strlen(key);
 	while (curr)
