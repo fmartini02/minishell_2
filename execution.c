@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void	free_split(char **arr)
+void	free_split(char **arr)
 {
 	int	i;
 
@@ -118,8 +118,16 @@ static void	child_process(t_exec_unit *unit, t_mini *shell)
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(127);
 	}
-	execve(cmd_path, unit->argv, shell->envp);
+	char **envp = env_list_to_array(shell->env);
+	if (!envp)
+	{
+		perror(("env_list_to_array failed"));
+		free(cmd_path);
+		exit(1);
+	}
+	execve(cmd_path, unit->argv, envp);
 	perror("execve failed");
+	free_split(envp);
 	free(cmd_path);
 	exit(127);
 }

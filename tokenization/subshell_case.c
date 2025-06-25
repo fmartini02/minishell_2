@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:05:37 by francema          #+#    #+#             */
-/*   Updated: 2025/06/19 15:55:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:14:10 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static int	subshell_utils(t_mini *shell, size_t *i, char **content, t_tok_lst **
 				return (EXIT_FAILURE);
 			}
 		}
-		content = ft_strdup("(");
-		node = new_tok_lst(content, SUBSHELL, NULL);
+		*content = ft_strdup("(");
+		*node = new_tok_lst(*content, SUBSHELL, NULL);
 	}
 	else if (s[tmp] == ')')
 	{
-		content = ft_strdup(")");
-		node = new_tok_lst(content, SUBSHELL, NULL);
+		*content = ft_strdup(")");
+		*node = new_tok_lst(*content, SUBSHELL, NULL);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -44,9 +44,9 @@ static int	subshell_utils(t_mini *shell, size_t *i, char **content, t_tok_lst **
 int	subshell_case(t_mini *shell, char *content, size_t *i)
 {
 	t_tok_lst	*node;
-	char		*s;
+//	char		*s;
 
-	s = shell->input;
+//	s = shell->input;
 	node = NULL;
 	content = NULL;
 	if (subshell_utils(shell, i, &content, &node) == EXIT_FAILURE)

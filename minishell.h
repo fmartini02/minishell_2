@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 16:35:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/20 13:16:43 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@
 # include <term.h>
 #include "libft/libft.h"
 
+#define VAR_NOT_FOUND 2
+#define IS_SPACE 69
+#define SUCCESS 10
 extern volatile sig_atomic_t	sig_code;
 
 // needed during tokenization
@@ -172,9 +175,16 @@ int			execute_builtin(t_exec_unit *unit, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
 char		*get_path_command(t_mini *shell, const char *cmd);
+void		free_split(char **arr);
 
-// pipeline.c
-void		execute_pipeline(t_ast_node *cmd_list, t_mini *shell);
+//PIPELINE
+char		**env_list_to_array(t_list *env);
+void		close_all_pipes(int **pipes, int count);
+void		free_pipes(int **pipes, int count);
+int			count_pipeline_commands(t_ast_node *cmd_list);
+int			**create_pipes(int count);
+void		child_pipeline(t_ast_node *node, t_mini *shell, int **pipes, int idx, int count);
+void		execute_pipeline(t_ast_node *cmds, t_mini *shell);
 
 // utils.c
 int			is_all_spaces(const char *str);
@@ -196,6 +206,8 @@ int			single_quotes_case(t_mini *shell, char *content, size_t *i);
 int			subshell_case(t_mini *shell, char *content, size_t *i);
 int			tok_dollar_case(t_mini *shell, size_t *i, char *content);
 bool		tokenize_input(t_mini *shell);
+int			check_tok_front(t_mini *shell, size_t *i);
+int			check_tok_back(t_mini *shell, size_t *i, bool is_dollar);
 int			word_case(t_mini *shell, char *content, size_t *i);
 int			wildcard_case(t_mini *shell, char *content, size_t *i);
 void		add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node);
