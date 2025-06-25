@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 14:41:49 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:03:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 		var_value = curr_node->content;
 		prev_node->content = ft_strjoin_free(prev_node->content, var_value);
 	}
-	free(curr_node->content);
-	free(curr_node);
+	if (curr_node && curr_node->content)
+	{
+		free(curr_node->content);
+		free(curr_node);
+	}
 	prev_node->next = NULL;
 	return (EXIT_SUCCESS);
 }
