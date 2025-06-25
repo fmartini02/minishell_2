@@ -50,7 +50,6 @@ int	ft_atol_check(const char *str, long *out)
 	int		sign;
 	long	res;
 	int		i;
-	int		digit;
 
 	sign = 1;
 	res = 0;
@@ -65,10 +64,9 @@ int	ft_atol_check(const char *str, long *out)
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
-		digit = str[i] - '0';
-		if (res > (LONG_MAX - digit) / 10)
+		if (res > (LONG_MAX - (str[i] - '0')) / 10)
 			return (0);
-		res = res * 10 + digit;
+		res = res * 10 + (str[i] - '0');
 		i++;
 	}
 	*out = res * sign;
