@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:12:20 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 16:12:29 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:42:25 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	close_all_pipes(int **pipes, int count)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
+		fprintf(stderr, "[%d] chiudo pipe[%d][0]=%d pipe[%d][1]=%d\n", getpid(), i, pipes[i][0], i, pipes[i][1]);
 		i++;
 	}
 }
@@ -38,18 +39,15 @@ void	free_pipes(int **pipes, int count)
 	free(pipes);
 }
 
-int	count_pipeline_commands(t_ast_node *cmd_list)
+int	count_pipeline_commands(t_ast_node *node)
 {
-	int	count;
-
-	count = 0;
-	while (cmd_list)
-	{
-		count++;
-		cmd_list = cmd_list->next;
-	}
-	return (count);
+	if (!node)
+		return (0);
+	if (node->type == NODE_PIPELINE)
+		return count_pipeline_commands(node->left) + count_pipeline_commands(node->right);
+	return 1;
 }
+
 
 int	**create_pipes(int count)
 {

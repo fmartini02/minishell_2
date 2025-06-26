@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 16:34:24 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 10:46:14 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node);
 // execution.c
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
+void		child_process(t_exec_unit *unit, t_mini *shell);
 
 // execution_utils.c
 void		exit_command_not_found(t_exec_unit *unit);

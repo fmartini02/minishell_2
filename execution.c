@@ -6,13 +6,13 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 17:27:38 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 10:45:35 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	child_process(t_exec_unit *unit, t_mini *shell)
+void	child_process(t_exec_unit *unit, t_mini *shell)
 {
 	char	*cmd_path;
 	char	**envp;

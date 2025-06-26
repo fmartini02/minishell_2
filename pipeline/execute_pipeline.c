@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 18:04:07 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:46:34 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,35 @@ static int	setup_pipeline(int count, int ***pipes, pid_t **pids)
 	return (0);
 }
 
-static int	fork_pipeline_procs(t_ast_node *cmds, t_mini *shell,
+static void	fork_recursive(t_ast_node *node, t_mini *shell,
+	int **pipes, pid_t *pids, int *index, int total)
+{
+	if (!node)
+		return ;
+	if (node->type == NODE_PIPELINE)
+	{
+		fork_recursive(node->left, shell, pipes, pids, index, total);
+		fork_recursive(node->right, shell, pipes, pids, index, total);
+	}
+	else
+	{
+		pids[*index] = fork();
+		if (pids[*index] < 0)
+			perror("fork");
+		else if (pids[*index] == 0)
+			child_pipeline(node, shell, pipes, *index, total);
+		(*index)++;
+	}
+}
+
+int	fork_pipeline_procs(t_ast_node *node, t_mini *shell,
 	int **pipes, pid_t *pids)
 {
-	int			idx;
-	t_ast_node	*curr;
-
-	idx = 0;
-	curr = cmds;
-	while (curr)
-	{
-		pids[idx] = fork();
-		if (pids[idx] < 0)
-			return (perror("fork"), -1);
-		else if (pids[idx] == 0)
-			child_pipeline(curr, shell, pipes, idx,
-				count_pipeline_commands(cmds));
-		curr = curr->next;
-		idx++;
-	}
+	int	index = 0;
+	fork_recursive(node, shell, pipes, pids, &index, count_pipeline_commands(node));
 	return (0);
 }
+
 
 /* static void	wait_for_pipeline(pid_t *pids, int count, t_mini *shell)
 {
@@ -109,11 +117,13 @@ void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
         free(pids);
         return ;
     }
+    // *** FIX: chiudi le pipe della pipeline SUBITO dopo i fork ***
     if (pipes)
     {
         close_all_pipes(pipes, count);
         free_pipes(pipes, count);
     }
+    // Ora puoi aspettare i figli
     i = 0;
     while (i < count)
     {
