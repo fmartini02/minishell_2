@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 15:58:40 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:23:02 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// Helper function to create a new redirection node
+// Helper function to create a direction node
 static t_redirection	*new_redirection(t_redir_type type, char *target)
 {
 	t_redirection	*redir;
@@ -32,6 +32,7 @@ static t_redirection	*new_redirection(t_redir_type type, char *target)
 		free(redir);
 		return (NULL);
 	}
+	redir->heredoc_fd = -1;
 	redir->next = NULL;
 	return (redir);
 }

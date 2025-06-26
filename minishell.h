@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 10:46:14 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:08:07 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_redirection
 	t_redir_type			type;
 	char					*target;
 	struct s_redirection	*next;
+	int						heredoc_fd; // used for heredocs to store pipe fd
 }	t_redirection;
 
 /* t_exec_unit Represents an executable command unit
@@ -151,6 +152,7 @@ char		*get_prompt(void);
 
 // redirections.c
 int	apply_redirections(t_exec_unit *unit, t_mini *shell);
+void prepare_heredocs(t_ast_node *ast);
 
 //AST-PARSING
 void		ast_init(t_mini *shell);

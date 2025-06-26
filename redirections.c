@@ -6,11 +6,52 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:23:20 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 11:21:28 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:33:37 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void prepare_heredocs(t_ast_node *ast)
+{
+    if (!ast)
+        return;
+    if (ast->type == NODE_PIPELINE)
+    {
+        prepare_heredocs(ast->left);
+        prepare_heredocs(ast->right);
+    }
+    else if (ast->type == NODE_CMD)
+    {
+        t_cmd_info *cmd = (t_cmd_info *)ast->content;
+        t_redirection *redir = cmd->redirections;
+        while (redir)
+        {
+            if (redir->type == REDIR_HEREDOC)
+            {
+                int pipefd[2];
+                if (pipe(pipefd) == -1)
+                    exit(1);
+                while (1)
+                {
+                    char *line = readline("> ");
+                    if (!line || ft_strcmp(line, redir->target) == 0)
+                    {
+                        free(line);
+                        break;
+                    }
+                    write(pipefd[1], line, ft_strlen(line));
+                    write(pipefd[1], "\n", 1);
+                    free(line);
+                }
+                close(pipefd[1]);
+                redir->heredoc_fd = pipefd[0];
+				fprintf(stderr, "prepare heredoc: fd=%d\n", redir->heredoc_fd);
+            }
+            redir = redir->next;
+        }
+    }
+}
 
 // here_doc gestito nella pipeline
 static int	open_redir_fd(t_redirection *redir)
@@ -93,7 +134,7 @@ static int	open_redir_fd(t_redirection *redir)
 	return (0);
 } */
 
-static int	handle_heredoc(t_redirection *redir, int *last_in)
+/* static int	handle_heredoc(t_redirection *redir, int *last_in)
 {
     int		pipe_fds[2];
     char	*line;
@@ -120,7 +161,7 @@ static int	handle_heredoc(t_redirection *redir, int *last_in)
     close(pipe_fds[0]); // <--- CHIUDI SEMPRE QUI!
     *last_in = -1;      // <--- NON SERVE PIU' GESTIRE last_in PER HEREDOC
     return (0);
-}
+} */
 
 static int	handle_input_redirection(t_redirection *redir, t_mini *shell,
 	int *last_in)
@@ -162,15 +203,22 @@ static int	handle_output_redirection(t_redirection *redir, t_mini *shell)
 int	apply_redirections(t_exec_unit *unit, t_mini *shell)
 {
     t_redirection	*redir;
-    int				last_in;
+    int				last_in = -1;
 
     redir = unit->redirs;
-    last_in = -1;
     while (redir)
     {
-        if (redir->type == REDIR_HEREDOC
-            && handle_heredoc(redir, &last_in) < 0)
-            return (-1);
+        if (redir->type == REDIR_HEREDOC)
+		{
+			fprintf(stderr, "[%d] apply heredoc: fd=%d\n", getpid(), redir->heredoc_fd);
+			if (redir->heredoc_fd != -1)
+			{
+				if (dup2(redir->heredoc_fd, STDIN_FILENO) == -1)
+            		return (perror("dup2 heredoc"), -1);
+        		close(redir->heredoc_fd);
+        		redir->heredoc_fd = -1; // <--- segna come chiuso!
+    		}
+		}
         else if (redir->type == REDIR_INPUT
             && handle_input_redirection(redir, shell, &last_in) < 0)
             return (-1);
