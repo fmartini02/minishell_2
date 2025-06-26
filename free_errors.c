@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 14:05:19 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:40:30 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,15 @@ void	free_exec_unit(t_exec_unit *unit)
 
 	if (!unit)
 		return ;
-	i = 0;
-	while (unit->argv[i])
+	if (unit->argv)
 	{
-		free(unit->argv[i]);
-		i++;
+		i = 0;
+		while (unit->argv[i])
+		{
+			free(unit->argv[i]);
+			i++;
+		}
+		free(unit->argv);
 	}
-	free(unit->argv);
 	free(unit);
 }

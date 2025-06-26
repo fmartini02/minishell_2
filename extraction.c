@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:43 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 14:04:56 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:35:18 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node)
 	if (!node || node->type != NODE_CMD)
 		return (NULL);
 	cmd = (t_cmd_info *)node->content;
-	if (!cmd || !cmd->cmd_args)
+	if (!cmd || !cmd->cmd_args || !cmd->cmd_args[0])
 		return (NULL);
 	unit = malloc(sizeof(t_exec_unit));
 	if (!unit)

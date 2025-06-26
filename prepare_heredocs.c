@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:11:11 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 14:24:22 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:41:36 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void	process_cmd_heredocs(t_cmd_info *cmd)
 {
 	t_redirection	*redir;
 
+	if (!cmd)
+		return ;
 	redir = cmd->redirections;
 	while (redir)
 	{
@@ -68,6 +70,7 @@ void	prepare_heredocs(t_ast_node *ast)
 	else if (ast->type == NODE_CMD)
 	{
 		cmd = (t_cmd_info *)ast->content;
-		process_cmd_heredocs(cmd);
+		if (cmd)
+			process_cmd_heredocs(cmd);
 	}
 }
