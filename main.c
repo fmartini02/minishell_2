@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 13:36:22 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:09:35 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	is_interactive = isatty(STDIN_FILENO);
 	setup_sig_handler(is_interactive);
+	rl_catch_signals = 0;
 	shell.envp = envp;
 	shell.env = init_env(envp);
 	shell.last_exit_code = 0;
@@ -87,20 +88,25 @@ int	main(int ac, char **av, char **envp)
 			shell.input = readline(prompt);
 			if (!shell.input)
 				ctrl_d_case(&shell);
+			if (sig_code == SIGINT || sig_code == SIGQUIT)
+			{
+				sig_code = 0;
+				free(prompt);
+				free(shell.input);
+				continue;
+			}
 			if (shell.input[0] == '\0' || is_all_spaces(shell.input))
 			{
-				free(shell.input); // <-- AGGIUNGI QUESTA RIGA
+				free(shell.input);
 				free(prompt);
 				continue ;
 			}
-			if (sig_code == SIGINT)
-				sig_code = 0;
-			else
-			{
-				add_history(shell.input);
-				parsing(&shell);
-				shell.err_print = false;
-			}
+			//else
+			//{
+			add_history(shell.input);
+			parsing(&shell);
+			shell.err_print = false;
+			//}
 			free(prompt);
 			free(shell.input);
 		}

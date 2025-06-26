@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:55:51 by francema          #+#    #+#             */
-/*   Updated: 2025/05/20 17:56:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:20:40 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	/*else if (sig == SIGQUIT)
+	else if (sig == SIGQUIT)
 	{
 		sig_code = SIGQUIT;
 		write (STDOUT_FILENO, "Quit (core dumped)\n", 19);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}*/
+	}
 }

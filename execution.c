@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 16:39:42 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:08:56 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	char	*cmd_path;
 	char	**envp;
 
+	signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
 	if (!unit |!unit->argv || !unit->argv[0])
 		exit(0);
 	if (apply_redirections(unit, shell) != 0)
@@ -29,7 +31,6 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	envp = env_list_to_array(shell->env);
 	if (!envp)
 	{
-		perror("env_list_to_array failed");
 		free(cmd_path);
 		exit(1);
 	}
@@ -58,6 +59,8 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			shell->last_exit_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+            shell->last_exit_code = 128 + WTERMSIG(status);
 	}
 	else
 	{
