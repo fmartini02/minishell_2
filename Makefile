@@ -6,14 +6,15 @@
 #    By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/25 16:29:35 by mdalloli         ###   ########.fr        #
+#    Updated: 2025/06/26 14:17:11 by mdalloli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .SILENT:
 
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
-	execution.c extraction.c execution_utils.c execute_builtin.c
+	execution.c extraction.c execution_utils.c execute_builtin.c \
+	prepare_heredocs.c
 
 TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \

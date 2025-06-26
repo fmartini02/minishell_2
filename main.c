@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 15:56:01 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:36:22 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
-	print_tok_lst(shell->tok_input);
+	//print_tok_lst(shell->tok_input);
 	//expand_wildcards(shell);
 	ast_init(shell);
-	print_ast(shell->ast_root, 0);
+	//print_ast(shell->ast_root, 0);
 	execute_ast(shell->ast_root, shell);
 	//free(shell->input);
 }

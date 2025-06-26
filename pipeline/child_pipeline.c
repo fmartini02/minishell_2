@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 11:27:01 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:56:39 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,74 +34,46 @@ static bool	output_redir_exists(t_redirection *r)
 	return (false);
 }
 
-static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes, int idx, int count)
+static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes,
+	int idx, int count)
 {
-    if (idx > 0) {
-        if (!input_redir_exists(unit->redirs)) {
-            if (dup2(pipes[idx - 1][0], STDIN_FILENO) == -1)
-                perror("dup2 stdin");
-        }
-        // Chiudi SEMPRE la pipe, anche se non fai il dup2!
-        close(pipes[idx - 1][0]);
-    }
-    if (idx < count - 1) {
-        if (!output_redir_exists(unit->redirs)) {
-            if (dup2(pipes[idx][1], STDOUT_FILENO) == -1)
-                perror("dup2 stdout");
-        }
-        // Chiudi SEMPRE la pipe, anche se non fai il dup2!
-        close(pipes[idx][1]);
-    }
+	if (idx > 0)
+	{
+		if (!input_redir_exists(unit->redirs))
+		{
+			if (dup2(pipes[idx - 1][0], STDIN_FILENO) == -1)
+				perror("dup2 stdin");
+		}
+		close(pipes[idx - 1][0]);
+	}
+	if (idx < count - 1)
+	{
+		if (!output_redir_exists(unit->redirs))
+		{
+			if (dup2(pipes[idx][1], STDOUT_FILENO) == -1)
+				perror("dup2 stdout");
+		}
+		close(pipes[idx][1]);
+	}
 }
 
-/* static void	exec_child_command(t_exec_unit *unit, t_mini *shell)
+void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 {
-	char	*cmd_path;
-	char	**envp;
+	t_exec_unit	*unit;
 
-	if (!unit->argv || !unit->argv[0])
-		exit(0);
-	if (is_builtin(unit->argv[0]))
-		exit(execute_builtin(unit, shell));
-	cmd_path = get_path_command(shell, unit->argv[0]);
-	if (!cmd_path)
+	unit = extract_exec_unit(node);
+	if (!unit)
+		exit(EXIT_FAILURE);
+	redirect_pipeline_io(unit, info->pipes, info->idx, info->count);
+	if (apply_redirections(unit, info->shell) != 0)
 	{
-		ft_putendl_fd(": command not found", 2);
-		exit(127);
+		free_exec_unit(unit);
+		exit(EXIT_FAILURE);
 	}
-	envp = env_list_to_array(shell->env);
-	if (!envp)
-	{
-		perror("env");
-		free(cmd_path);
-		exit(1);
-	}
-	execve(cmd_path, unit->argv, envp);
-	perror(cmd_path);
-	free_split(envp);
-	free(cmd_path);
-	exit(127);
-} */
-
-void	child_pipeline(t_ast_node *node, t_mini *shell,
-            int **pipes, int idx, int count)
-{
-    t_exec_unit	*unit;
-
-    unit = extract_exec_unit(node);
-    if (!unit)
-        exit(EXIT_FAILURE);
-    redirect_pipeline_io(unit, pipes, idx, count);
-    if (apply_redirections(unit, shell) != 0)
-    {
-        free_exec_unit(unit);
-        exit(EXIT_FAILURE);
-    }
-    close_all_pipes(pipes, count);
-    if (unit->argv && is_builtin(unit->argv[0]))
-        exit(execute_builtin(unit, shell));
-    else
-        child_process(unit, shell);
-    free_exec_unit(unit);
-    exit(EXIT_SUCCESS);
+	close_all_pipes(info->pipes, info->count);
+	if (unit->argv && is_builtin(unit->argv[0]))
+		exit(execute_builtin(unit, info->shell));
+	child_process(unit, info->shell);
+	free_exec_unit(unit);
+	exit(EXIT_SUCCESS);
 }

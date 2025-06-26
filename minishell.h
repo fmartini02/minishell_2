@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 12:08:07 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:27:59 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,15 @@ typedef struct s_mini
 	t_ast_node	*ast_root;	// root of the parse tree
 }	t_mini;
 
+typedef struct s_pipeinfo
+{
+	int		**pipes;
+	pid_t	*pids;
+	int		idx;
+	int		count;
+	t_mini	*shell;
+}	t_pipeinfo;
+
 // free_errors.c
 void		ft_fatal_memerr(t_mini *shell);
 void		free_exec_unit(t_exec_unit *unit);
@@ -151,8 +160,15 @@ char		*get_env_value(t_mini *shell, const char *var_name);
 char		*get_prompt(void);
 
 // redirections.c
-int	apply_redirections(t_exec_unit *unit, t_mini *shell);
-void prepare_heredocs(t_ast_node *ast);
+int			apply_redirections(t_exec_unit *unit, t_mini *shell);
+
+// handle_redirections.c
+int			handle_input_redirection(t_redirection *redir, t_mini *shell, int *last_in);
+int			handle_output_redirection(t_redirection *redir, t_mini *shell);
+int			handle_heredoc(t_redirection *redir);
+
+// prepare_heredocs.c
+void		prepare_heredocs(t_ast_node *ast);
 
 //AST-PARSING
 void		ast_init(t_mini *shell);
@@ -192,7 +208,7 @@ void		close_all_pipes(int **pipes, int count);
 void		free_pipes(int **pipes, int count);
 int			count_pipeline_commands(t_ast_node *cmd_list);
 int			**create_pipes(int count);
-void		child_pipeline(t_ast_node *node, t_mini *shell, int **pipes, int idx, int count);
+void		child_pipeline(t_ast_node *node, t_pipeinfo *info);
 void		execute_pipeline(t_ast_node *cmds, t_mini *shell);
 
 // utils.c

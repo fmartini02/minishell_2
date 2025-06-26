@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 12:24:44 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:19:55 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	t_exec_unit	*unit;
 
 	if (!node)
-		return ((void)printf("execute_ast: nodo NULL\n"));
+		return ((void)printf("execute_ast: nodo NULL\n")); //////////////////////////
 	if (node->type == NODE_CMD)
 	{
 		prepare_heredocs(node);
@@ -98,10 +98,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 		}
 	}
 	else if (node->type == NODE_PIPELINE)
-	{
-		printf("execute_ast: nodo PIPELINE\n");
 		execute_pipeline(node, shell);
-	}
 	else
 		execute_logic(node, shell);
 }
