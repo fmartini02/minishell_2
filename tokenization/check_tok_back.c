@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/20 13:11:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:03:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 	curr_node = NULL;
 	if (shell->input[*i] == '"')
 	{
+		*i += 1;
 		if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		curr_node = last_token(shell->tok_input);
@@ -54,8 +55,11 @@ int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 		var_value = curr_node->content;
 		prev_node->content = ft_strjoin_free(prev_node->content, var_value);
 	}
-	free(curr_node->content);
-	free(curr_node);
+	if (curr_node && curr_node->content)
+	{
+		free(curr_node->content);
+		free(curr_node);
+	}
 	prev_node->next = NULL;
 	return (EXIT_SUCCESS);
 }
@@ -86,9 +90,12 @@ int	check_tok_back(t_mini *shell, size_t *i, bool is_dollar)
 {
 	char	*var_value;
 
-	var_value = ft_dollar_case(shell, shell->input, i);
+	var_value = NULL;
 	if (is_dollar)
+	{
+		var_value = ft_dollar_case(shell, shell->input, i);
 		return (check_tok_back_dollar(shell, i, var_value));
+	}
 	else
 	{
 		if (check_tok_back_words(shell, var_value, i) == EXIT_FAILURE)

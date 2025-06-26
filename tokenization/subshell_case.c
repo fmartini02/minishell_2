@@ -44,9 +44,9 @@ static int	subshell_utils(t_mini *shell, size_t *i, char **content, t_tok_lst **
 int	subshell_case(t_mini *shell, char *content, size_t *i)
 {
 	t_tok_lst	*node;
-	char		*s;
+//	char		*s;
 
-	s = shell->input;
+//	s = shell->input;
 	node = NULL;
 	content = NULL;
 	if (subshell_utils(shell, i, &content, &node) == EXIT_FAILURE)

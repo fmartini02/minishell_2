@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extraction.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:22:43 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 18:19:43 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	**dup_argv(char **cmd_args, int argc)
@@ -31,7 +43,10 @@ t_exec_unit	*extract_exec_unit(t_ast_node *node)
 	t_cmd_info	*cmd;
 	t_exec_unit	*unit;
 	int			argc;
-	printf("dentro extract exec_unit \n");
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	fprintf(stderr, "type %u\n", node->type);
+	fprintf(stderr, "node_cmd %u\n", NODE_CMD);
 	if (!node || node->type != NODE_CMD)
 		return (NULL);
 	cmd = (t_cmd_info *)node->content;

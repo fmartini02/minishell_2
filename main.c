@@ -24,7 +24,7 @@ void	parsing(t_mini *shell)
 	ast_init(shell);
 //	print_ast(shell->ast_root, 0);
 	execute_ast(shell->ast_root, shell);
-	free(shell->input);
+	//free(shell->input);
 }
 
 /* Initializes a linked list of environment variabiles */
@@ -88,7 +88,11 @@ int	main(int ac, char **av, char **envp)
 			if (!shell.input)
 				ctrl_d_case(&shell);
 			if (shell.input[0] == '\0' || is_all_spaces(shell.input))
+			{
+				free(shell.input); // <-- AGGIUNGI QUESTA RIGA
+				free(prompt);
 				continue ;
+			}
 			if (sig_code == SIGINT)
 				sig_code = 0;
 			else
@@ -98,6 +102,7 @@ int	main(int ac, char **av, char **envp)
 				shell.err_print = false;
 			}
 			free(prompt);
+			free(shell.input);
 		}
 	}
 }

@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/20 13:08:55 by francema         ###   ########.fr        #
+#    Updated: 2025/06/25 16:29:35 by mdalloli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .SILENT:
 
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
-	execution.c extraction.c pipeline.c
+	execution.c extraction.c execution_utils.c execute_builtin.c
 
 TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \
@@ -27,6 +27,8 @@ SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 AST_SRC = ast_init.c ast_utils.c parse_cmd_line.c parse_pipeline.c \
 		parse_redirection.c parse_simple_cmd.c parse_subshell.c print_ast.c \
 
+PIPELINE_SRC = child_pipeline.c execute_pipeline.c pipeline_utils.c pipeline_utils2.c
+
 OBJ = $(SRC:.c=.o)
 
 TOK_OBJ = $(addprefix tokenization/, $(TOK_SRC:.c=.o))
@@ -37,7 +39,9 @@ SIG_OBJ = $(addprefix signals/, $(SIG_SRC:.c=.o))
 
 AST_OBJ = $(addprefix AST/, $(AST_SRC:.c=.o))
 
-ALL_OBJS = $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(SIG_OBJ) $(AST_OBJ)
+PIPELINE_OBJ = $(addprefix pipeline/, $(PIPELINE_SRC:.c=.o))
+
+ALL_OBJS = $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(SIG_OBJ) $(AST_OBJ) $(PIPELINE_OBJ)
 
 CC = clang
 

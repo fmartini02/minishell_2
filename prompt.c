@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 12:23:02 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/06/25 12:23:03 by mdalloli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 /* Creates the prompt from the home directory
@@ -54,7 +66,10 @@ char	*get_prompt(void)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (NULL);
+	{
+		perror("getcwd");
+		return (ft_strdup("minishell$ "));
+	}
 	home = getenv("HOME");
 	if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
 		prompt = home_prompt(cwd, home);
