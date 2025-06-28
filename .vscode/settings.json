@@ -4,6 +4,7 @@
 		"stdlib.h": "c",
 		"ft_printf.h": "c",
 		"std_fun.h": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"stdio.h": "c"
 	}
 }

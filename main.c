@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 14:20:50 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:40:15 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,11 @@ int	main(int ac, char **av, char **envp)
 			prompt = get_prompt();
 			if (!prompt)
 				prompt = ft_strdup("minishell$ ");
-			sig_code = -42; // <--- SEI AL PROMPT!
+			sig_code = -42;
 			shell.input = readline(prompt);
-			sig_code = 0; // Reset signal code after readline
+			sig_code = 0;
 			if (!shell.input)
 				ctrl_d_case(&shell);
-			/* if (sig_code == SIGINT || sig_code == SIGQUIT)
-			{
-				sig_code = 0;
-				free(prompt);
-				free(shell.input);
-				continue;
-			} */
 			if (shell.input[0] == '\0' || is_all_spaces(shell.input))
 			{
 				free(shell.input);
