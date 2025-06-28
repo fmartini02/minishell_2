@@ -6,14 +6,15 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/26 16:10:05 by francema         ###   ########.fr        #
+#    Updated: 2025/06/28 11:57:31 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .SILENT:
 
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
-	execution.c extraction.c execution_utils.c execute_builtin.c
+	execution.c extraction.c execution_utils.c execute_builtin.c \
+	prepare_heredocs.c handle_redirections.c
 
 TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \

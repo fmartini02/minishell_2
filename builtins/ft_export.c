@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:21:00 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:57:34 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	is_valid_varname(const char *name)
+{
+	int	i;
+
+	if (!name || !*name)
+		return (0);
+	if (!(ft_isalpha(name[0]) || name[0] == '_'))
+		return (0);
+	i = 1;
+	while (name[i] && name[i] != '=')
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 /* Aggiorna il valore di una variabile esistente o la aggiunge se non esiste*/
 static void	update_env_var(t_list **env, const char *key, const char *value)
@@ -56,9 +74,14 @@ void	ft_export(t_mini *shell, char **args)
 		if (eq)
 		{
 			*eq = '\0';
-			update_env_var(&shell->env, args[i], eq + 1);
+			if (is_valid_varname(args[i]))
+				update_env_var(&shell->env, args[i], eq + 1);
+			else
+				ft_putendl_fd("minishell: export: not a valid identifier", 2);
 			*eq = '=';
 		}
+		else if (!is_valid_varname(args[i]))
+			ft_putendl_fd("minishell: export: not a valid identifier", 2);
 		i++;
 	}
 }

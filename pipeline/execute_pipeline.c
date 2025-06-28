@@ -6,137 +6,85 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 11:46:34 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:01:05 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	setup_pipeline(int count, int ***pipes, pid_t **pids)
+static int	setup_pipeline(t_pipeinfo *info, int count)
 {
 	if (count >= 1)
 	{
-		*pipes = create_pipes(count);
-		if (!*pipes)
+		info->pipes = create_pipes(count);
+		if (!info->pipes)
 			return (perror("pipe"), -1);
 	}
-	*pids = malloc(sizeof(pid_t) * count);
-	if (!*pids)
+	info->pids = malloc(sizeof(pid_t) * count);
+	if (!info->pids)
 		return (perror("malloc pids"), -1);
+	info->idx = 0;
 	return (0);
 }
 
-static void	fork_recursive(t_ast_node *node, t_mini *shell,
-	int **pipes, pid_t *pids, int *index, int total)
+static void	fork_recursive(t_ast_node *node, t_pipeinfo *info)
 {
 	if (!node)
 		return ;
 	if (node->type == NODE_PIPELINE)
 	{
-		fork_recursive(node->left, shell, pipes, pids, index, total);
-		fork_recursive(node->right, shell, pipes, pids, index, total);
+		fork_recursive(node->left, info);
+		fork_recursive(node->right, info);
 	}
 	else
 	{
-		pids[*index] = fork();
-		if (pids[*index] < 0)
+		info->pids[info->idx] = fork();
+		if (info->pids[info->idx] < 0)
 			perror("fork");
-		else if (pids[*index] == 0)
-			child_pipeline(node, shell, pipes, *index, total);
-		(*index)++;
+		else if (info->pids[info->idx] == 0)
+			child_pipeline(node, info);
+		info->idx++;
 	}
 }
 
-int	fork_pipeline_procs(t_ast_node *node, t_mini *shell,
-	int **pipes, pid_t *pids)
+static void	wait_all(t_pipeinfo *info)
 {
-	int	index = 0;
-	fork_recursive(node, shell, pipes, pids, &index, count_pipeline_commands(node));
-	return (0);
-}
-
-
-/* static void	wait_for_pipeline(pid_t *pids, int count, t_mini *shell)
-{
-	int	status;
 	int	i;
+	int	status;
+	int	last_status;
 
-	i = -1;
-	while (++i < count - 1)
-		waitpid(pids[i], NULL, 0);
-	waitpid(pids[count - 1], &status, 0);
-	if (WIFEXITED(status))
-		shell->last_exit_code = WEXITSTATUS(status);
-	else
-		shell->last_exit_code = 128 + WTERMSIG(status);
+	i = 0;
+	last_status = 0;
+	while (i < info->count)
+	{
+		if (waitpid(info->pids[i], &status, 0) > 0)
+		{
+			if (i == info->count - 1)
+				last_status = status;
+		}
+		i++;
+	}
+	if (WIFEXITED(last_status))
+		info->shell->last_exit_code = WEXITSTATUS(last_status);
+	else if (WIFSIGNALED(last_status))
+		info->shell->last_exit_code = 128 + WTERMSIG(last_status);
 }
 
 void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
 {
-	int		count;
-	int		**pipes;
-	pid_t	*pids;
+	t_pipeinfo	info;
 
-	count = count_pipeline_commands(cmds);
-	pipes = NULL;
-	if (count == 0 || setup_pipeline(count, &pipes, &pids) < 0)
+	prepare_heredocs(cmds);
+	info.count = count_pipeline_commands(cmds);
+	info.shell = shell;
+	if (info.count == 0 || setup_pipeline(&info, info.count) < 0)
 		return ;
-	write(1, "qua1\n", 5);
-	if (fork_pipeline_procs(cmds, shell, pipes, pids) < 0)
+	fork_recursive(cmds, &info);
+	if (info.pipes)
 	{
-		write(1, "qua2\n", 5);
-		free(pids);
-		return ;
+		close_all_pipes(info.pipes, info.count);
+		free_pipes(info.pipes, info.count);
 	}
-	if (pipes)
-	{
-		write(1, "qua3\n", 5);
-		close_all_pipes(pipes, count);
-		free_pipes(pipes, count);
-	}
-	write(1, "qua4\n", 5);
-	wait_for_pipeline(pids, count, shell);
-	write(1, "qua5\n", 5);
-	free(pids);
-} */
-void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
-{
-    int		count;
-    int		**pipes;
-    pid_t	*pids;
-    int		status;
-    int		i;
-    int		last_status = 0;
-
-    count = count_pipeline_commands(cmds);
-    pipes = NULL;
-    if (count == 0 || setup_pipeline(count, &pipes, &pids) < 0)
-        return ;
-    if (fork_pipeline_procs(cmds, shell, pipes, pids) < 0)
-    {
-        free(pids);
-        return ;
-    }
-    // *** FIX: chiudi le pipe della pipeline SUBITO dopo i fork ***
-    if (pipes)
-    {
-        close_all_pipes(pipes, count);
-        free_pipes(pipes, count);
-    }
-    // Ora puoi aspettare i figli
-    i = 0;
-    while (i < count)
-    {
-        if (waitpid(pids[i], &status, 0) > 0)
-        {
-            if (i == count - 1)
-                last_status = status;
-        }
-        i++;
-    }
-    if (WIFEXITED(last_status))
-        shell->last_exit_code = WEXITSTATUS(last_status);
-    else if (WIFSIGNALED(last_status))
-        shell->last_exit_code = 128 + WTERMSIG(last_status);
-    free(pids);
+	wait_all(&info);
+	free(info.pids);
 }

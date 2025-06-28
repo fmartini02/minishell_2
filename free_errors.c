@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:19:11 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:40:30 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_fatal_memerr(t_mini *shell)
 	free(shell->input);
 	ft_lstclear(&shell->env, free);
 	free_tok_lst(&shell->tok_input);
-	//ft_free_cmd_info(shell->cmd_info);
 	exit(EXIT_FAILURE);
 }
 
@@ -59,12 +58,15 @@ void	free_exec_unit(t_exec_unit *unit)
 
 	if (!unit)
 		return ;
-	i = 0;
-	while (unit->argv[i])
+	if (unit->argv)
 	{
-		free(unit->argv[i]);
-		i++;
+		i = 0;
+		while (unit->argv[i])
+		{
+			free(unit->argv[i]);
+			i++;
+		}
+		free(unit->argv);
 	}
-	free(unit->argv);
 	free(unit);
 }

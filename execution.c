@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 10:45:35 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:39:42 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	char	*cmd_path;
 	char	**envp;
 
+	if (!unit |!unit->argv || !unit->argv[0])
+		exit(0);
 	if (apply_redirections(unit, shell) != 0)
 		exit(1);
 	if (is_builtin(unit->argv[0]))
@@ -86,21 +88,20 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	t_exec_unit	*unit;
 
 	if (!node)
-		return ((void)printf("execute_ast: nodo NULL\n"));
+		return ;
 	if (node->type == NODE_CMD)
 	{
+		prepare_heredocs(node);
 		unit = extract_exec_unit(node);
 		if (unit)
 		{
 			execute_exec_unit(unit, shell);
 			free_exec_unit(unit);
+			shell->err_print = false;
 		}
 	}
 	else if (node->type == NODE_PIPELINE)
-	{
-		printf("execute_ast: nodo PIPELINE\n");
 		execute_pipeline(node, shell);
-	}
 	else
 		execute_logic(node, shell);
 }
