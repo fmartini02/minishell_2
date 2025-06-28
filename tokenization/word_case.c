@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 11:44:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:53:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,21 @@
 /*controlla se incontri un carattere delimitatore per le parole*/
 static bool	is_word_delimiter(char c)
 {
-	if (c == '<' || c == '>' || c == '|' || c == '&'
+	if (c == '<' || c == '>' || c == '|' || c == '&' || c == ' '
 		|| c == '(' || c == ')' || c == '\'' || c == '"' || c == '$')
 		return (true);
 	return (false);
 }
 
 /*inizializza content basically*/
-static bool	get_content(char **content, char *s, size_t *i, int *len)
+static bool	get_content(char **content, char *s, size_t *i, int len)
 {
-	if (*len > 0)
+	if (len > 0)
 	{
-		*content = ft_substr(s, *i, *len - *i);
+		*content = ft_substr(s, *i, len - *i);
 		if (!content)
 			return (false);
-		*i += *len;
-		*len = 0;
+		*i = len;
 	}
 	return (true);
 }
@@ -59,6 +58,7 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 
 	char		*s;
 	int			len;
+	int			end;
 
 	s = shell->input;
 	len = 0;
@@ -67,7 +67,8 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 		&& s[*i + len] != '\n'
 		&& !ft_ispace(s[*i + len]))
 		len++;
-	if (!get_content(&content, s, i, &len))
+	end = len + *i;
+	if (!get_content(&content, s, i, end))
 		ft_fatal_memerr(shell);
 	append_new_node(shell, content);
 	return (EXIT_SUCCESS);

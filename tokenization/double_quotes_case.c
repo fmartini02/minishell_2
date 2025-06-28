@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 12:17:01 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:08:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_chars_after_symbol(t_mini *shell, size_t *i, size_t start, char *conte
 	return (content);
 }
 
-char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
+char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t *start, char *content)
 {
 	char	*tmp_dollar;
 	char	*s;
@@ -37,9 +37,9 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
 	s = shell->input;
 	if (s[*i] == '$')// if there is a $ in the string
 	{
-		if (*i > start)// if there is text before $
+		if (*i > *start)// if there is text before $
 		{
-			content = get_chars_after_symbol(shell, i, start, content);
+			content = get_chars_after_symbol(shell, i, *start, content);
 			if (!content)
 				ft_fatal_memerr(shell);
 		}
@@ -51,6 +51,7 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t start, char *content)
 			return (NULL);
 		free(tmp_dollar);
 	}
+	*start = *i;
 	return (content);
 }
 
@@ -63,7 +64,7 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i, char *
 	{
 		if (s[*i] == '$')
 		{
-			content = dollar_quotes_case(shell, i, start, content);
+			content = dollar_quotes_case(shell, i, &start, content);
 			if (!content)
 				return (NULL);
 		}
