@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 12:22:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:17:01 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	double_quotes_case(t_mini *shell, char *content, size_t *i)
 {
 	t_tok_lst	*node;
 
+	(*i)++;
 	content = double_quotes_utils(shell, content, i, shell->input);
 	if (!content)
 		return (EXIT_FAILURE);

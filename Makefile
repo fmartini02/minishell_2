@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+         #
+#    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/26 14:59:46 by mdalloli         ###   ########.fr        #
+#    Updated: 2025/06/28 11:57:31 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \
 		redi_case.c subshell_case.c tok_dollar_case.c \
 		tokenization.c word_case.c wildcard_case.c token_utils.c \
+		get_var_name.c
 
 BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c ft_export.c ft_unset.c \
 

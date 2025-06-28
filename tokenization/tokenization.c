@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 15:06:49 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:49:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,17 @@ bool	is_word_delimiter(char c)
 		&& c != '*' && c != '(' && c != ')' && c != '+' && c != '=' && c != '['
 		&& c != ']' && c != '{' && c != '}' && c != '\\' && c != '|' && c != ';'
 		&& c != ':' && c != '\''&& c != '"' && c != '<' && c != '>' && c != ','
-		&& c != '?' && c != '/' && c != '~' && c != '`' && c != '\0' && c != '$')
+		&& c != '?' && c != '~' && c != '`' && c != '\0' && c != '$')
 		return (false);
 	return (true);
+}
+
+bool	is_word_char(char c)
+{
+	if (c != '$' && c != '>' && c != '<' && c != '|' && c != '&'
+		&& c != '*')
+		return (true);
+	return (false);
 }
 
 /*gestisce quei token che vanno uniti se non ci sono spazzi con un focus specifico per il caso <"c"$var"d"> */
@@ -53,7 +61,6 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 		else
 			*return_value = check_tok_back(shell, i, false);
 	}
-	*i = ft_skip_spaces(s, *i);
 }
 
 /* Restituisce un token applicando anche alcune espansioni <$var> e alcuni merge dei token*/
@@ -64,7 +71,8 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 
 	content = NULL;
 	return_value = EXIT_SUCCESS;
-	pettish_tokens(shell, s, i, &return_value);
+	if (s[*i] == '\'' || s[*i] == '"' || is_word_char(s[*i]))
+		pettish_tokens(shell, s, i, &return_value);
 	if (return_value == EXIT_FAILURE)
 		return (return_value);
 	if (s[*i] == '$')
