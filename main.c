@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 17:25:14 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:43:36 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	init_shell(t_mini *shell, char **envp)
 	shell->ast_root = NULL;
 	shell->err_print = false;
 	if (!shell->env)
-		ft_fatal_memerr(&shell);
+		ft_fatal_memerr(shell);
 }
 
 void	loop_shell(t_mini *shell)
@@ -72,7 +72,7 @@ void	loop_shell(t_mini *shell)
 		shell->input = readline(prompt);
 		g_sig_code = 0;
 		if (!shell->input)
-			ctrl_d_case(&shell);
+			ctrl_d_case(shell);
 		if (shell->input[0] == '\0' || is_all_spaces(shell->input))
 		{
 			free(shell->input);
@@ -80,7 +80,7 @@ void	loop_shell(t_mini *shell)
 			continue ;
 		}
 		add_history(shell->input);
-		parsing(&shell);
+		parsing(shell);
 		shell->err_print = false;
 		free(prompt);
 		free(shell->input);
@@ -96,8 +96,8 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)ac;
 	is_interactive = isatty(STDIN_FILENO);
-	setup_sig_handler(is_interactive);
 	init_shell(&shell, envp);
+	setup_sig_handler(is_interactive);
 	if (!is_interactive)
 	{
 		input = get_next_line(0);

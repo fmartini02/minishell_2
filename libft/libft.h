@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 17:36:42 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:07:12 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:29:39 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	*ft_itoa(int n);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 char	**ft_split(char const *s, char c);
-long	ft_strtol(const char *nptr, char **endptr, int base);
 char	*ft_utoa(unsigned long long int n, int cast_type);
 
 /*memory functions*/
