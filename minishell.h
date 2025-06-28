@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 10:46:14 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:50:43 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,12 +205,14 @@ void		signal_handler(int sig);
 
 //TOKENIZATION
 int			and_case(t_mini *shell, char *content, size_t *i);
+char		*get_var_name(char *s, char *content, size_t *i, t_mini *shell);
 int			append_var(char *var_value, char *var_name, t_mini *shell, int j);
 int			double_quotes_case(t_mini *shell, char *content, size_t *i);
 int			pipe_char_case(t_mini *shell, char *content, size_t *i);
 int			redi_case(t_mini *shell, char *content, size_t *i);
 int			single_quotes_case(t_mini *shell, char *content, size_t *i);
 int			subshell_case(t_mini *shell, char *content, size_t *i);
+size_t		get_doll_indx(char *s, size_t i);
 int			tok_dollar_case(t_mini *shell, size_t *i, char *content);
 bool		tokenize_input(t_mini *shell);
 int			check_tok_front(t_mini *shell, size_t *i);

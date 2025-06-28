@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 16:03:46 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:18:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	merge_tokens(char *var_value, char *var_name, t_mini *shell, int *j)
 {
-	char	*tmp;
+	char		*tmp;
+	t_tok_lst	*head;
 
+	head = shell->tok_input;
+	shell->tok_input = last_token(head);
 	tmp = ft_substr(var_value, 0, ft_strlen_till_space(var_value, *j));
 	if (!tmp)
 	{
@@ -29,6 +32,7 @@ void	merge_tokens(char *var_value, char *var_name, t_mini *shell, int *j)
 		return (free(tmp), ft_fatal_memerr(shell));
 	free(tmp);
 	*j += ft_strlen_till_space(var_value, *j);
+	shell->tok_input = head;
 }
 
 int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
@@ -40,7 +44,6 @@ int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 	curr_node = NULL;
 	if (shell->input[*i] == '"')
 	{
-		*i += 1;
 		if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		curr_node = last_token(shell->tok_input);
@@ -49,7 +52,7 @@ int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 	}
 	else if (shell->input[*i] == '\'')
 	{
-		if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
+		if (single_quotes_case(shell, NULL, i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		curr_node = last_token(shell->tok_input);
 		var_value = curr_node->content;
@@ -70,7 +73,9 @@ int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 	char	*var_name;
 	int		j;
 
-	var_name = ft_substr(shell->input, *i, ft_strlen_till_space(shell->input, *i));
+	var_name = get_var_name(shell->input, var_value, i, shell);
+	if (!var_name)
+		ft_fatal_memerr(shell);
 	j = 0;
 	if (var_value)
 	{

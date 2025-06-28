@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/06/19 16:07:55 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:10:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 
 	j = ft_skip_spaces(var_value, j);
 	head = shell->tok_input;
+	shell->tok_input = last_token(shell->tok_input);
 	while (var_value[j])
 	{
 		append_var_utils(shell, var_value, var_name, j);
@@ -68,6 +69,8 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 	return (EXIT_SUCCESS);
 }
 
+
+
 /*aggiunge alla t_tok_lst il contenuto della <$var>*/
 int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 {
@@ -75,12 +78,12 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 	char		*var_name;
 
 	s = shell->input;
-	var_name = ft_substr(s, *i, ft_strlen_till_space(shell->input, *i));
-	if (!var_name)
-		ft_fatal_memerr(shell);
 	content = ft_dollar_case(shell, s, i);
 	if (!content)
 		return (2);
+	var_name =	get_var_name(s, content, i, shell);
+	if (!var_name)
+		ft_fatal_memerr(shell);
 	append_var(content, var_name, shell, 0);
 	free(content);
 	return (EXIT_SUCCESS);

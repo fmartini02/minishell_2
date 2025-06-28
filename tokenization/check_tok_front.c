@@ -6,25 +6,27 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/20 13:16:48 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:05:41 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*get_var_value(t_mini *shell)
+static char	*get_var_value(t_mini *shell, size_t *i)
 {
 	char		*var_name;
 	char		*var_value;
-	int			j;
+	int			end;
+	int			start;
 	t_tok_lst	*curr_node;
 
-	j = 1;
+	start = get_doll_indx(shell->input, *i) + 1;
+	end = start;
 	curr_node = last_token(shell->tok_input);
-	while (curr_node->tok_name[j]
-			&& !ft_ispecial_char(curr_node->tok_name[j]))
-		j++;
-	var_name = ft_substr(curr_node->tok_name, 1, j-1);
+	while (shell->input[end]
+			&& !ft_ispecial_char(shell->input[end]))
+		end++;
+	var_name = ft_substr(shell->input,start, end -start);
 	if (!var_name)
 	{
 		ft_fatal_memerr(shell);
@@ -59,7 +61,7 @@ int	check_tok_front(t_mini *shell, size_t *i)
 	char		*var_value;
 
 	return_value = EXIT_SUCCESS;
-	var_value = get_var_value(shell);
+	var_value = get_var_value(shell, i);
 	if (!var_value)
 		return(VAR_NOT_FOUND);
 	else if (var_value[ft_strlen(var_value) - 1] == ' ')
