@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:55:51 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 12:01:20 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:27:03 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,7 @@ void	signal_handler(int sig)
 		return ;
 	if (sig == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		// Evita che Ctrl+\ stampi `^\`
+		write(STDOUT_FILENO, "^C\n", 3);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();

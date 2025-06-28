@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/28 12:22:36 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:28:09 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 
 	signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
-	if (!unit |!unit->argv || !unit->argv[0])
+	if (!unit ||!unit->argv || !unit->argv[0])
 		exit(0);
 	if (apply_redirections(unit, shell) != 0)
 		exit(1);
@@ -62,18 +62,17 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			shell->last_exit_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
+		if (WIFSIGNALED(status))
 		{
 			int sig = WTERMSIG(status);
 			shell->last_exit_code = 128 + sig;
-			dprintf(2, "DEBUG: Signal %d received\n", sig); // <--- ADD THIS
 			if (sig == SIGQUIT)
 				write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
 			else if (sig == SIGINT)
 				write(STDOUT_FILENO, "\n", 1);
 		}
+		else if (WIFEXITED(status))
+			shell->last_exit_code = WEXITSTATUS(status);
 	}
 }
 
