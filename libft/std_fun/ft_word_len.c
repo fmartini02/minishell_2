@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_word_len.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:08:37 by francema          #+#    #+#             */
-/*   Updated: 2025/05/08 15:21:18 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:03:38 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ size_t	ft_word_len(char *s)
 	i = 0;
 	len = 0;
 	if (!s)
-		return(0);
+		return (0);
 	i = ft_skip_spaces(s, i);
-	while(s[i] && !ft_ispace(s[i]))
+	while (s[i] && !ft_ispace(s[i]))
 	{
 		len++;
 		i++;

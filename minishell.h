@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 16:00:35 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:15:22 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@
 # include <readline/history.h>
 # include <curses.h>
 # include <term.h>
-#include "libft/libft.h"
+# include "libft/libft.h"
 
-#define VAR_NOT_FOUND 2
-#define IS_SPACE 69
-#define SUCCESS 10
-extern volatile sig_atomic_t	sig_code;
+# define VAR_NOT_FOUND 2
+# define IS_SPACE 69
+# define SUCCESS 10
+
+extern volatile sig_atomic_t	g_sig_code;
 
 // needed during tokenization
 typedef enum e_tok_type
@@ -75,7 +76,7 @@ typedef struct s_redirection
 	t_redir_type			type;
 	char					*target;
 	struct s_redirection	*next;
-	int						heredoc_fd; // used for heredocs to store pipe fd
+	int						heredoc_fd;
 }	t_redirection;
 
 /* t_exec_unit Represents an executable command unit
@@ -98,24 +99,24 @@ pipelines, commands, and subshells.*/
 typedef struct s_ast_node
 {
 	t_node_type			type;
-	void				*content;	// points to t_cmd_info, t_pipeline, or subtree for subshell
-	struct s_ast_node	*left;		// left child for &&, || operators
-	struct s_ast_node	*right;		// right child for &&, || operators
-	struct s_ast_node	*next;		// next command in a pipeline
+	void				*content;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+	struct s_ast_node	*next;
 }	t_ast_node;
 
 /* t_pipeline groups commands linked by pipes.*/
 typedef struct s_pipeline
 {
-	struct s_ast_node	*commands;	// linked list of commands or subshells
+	struct s_ast_node	*commands;
 }	t_pipeline;
 
 typedef struct s_tok_lst
 {
-	char				*content; // token content
-	int					type; // token type (e.g., WORD, PIPE, REDIRECT, etc.)
+	char				*content;
+	int					type;
 	char				*tok_name;
-	struct s_tok_lst	*next; // pointer to the next token
+	struct s_tok_lst	*next;
 }	t_tok_lst;
 
 typedef struct s_mini
@@ -127,7 +128,7 @@ typedef struct s_mini
 	t_list		*env;
 	t_tok_lst	*tok_input;
 	t_cmd_info	*cmd_info;
-	t_ast_node	*ast_root;	// root of the parse tree
+	t_ast_node	*ast_root;
 }	t_mini;
 
 typedef struct s_pipeinfo
@@ -163,8 +164,10 @@ char		*get_prompt(void);
 int			apply_redirections(t_exec_unit *unit, t_mini *shell);
 
 // handle_redirections.c
-int			handle_input_redirection(t_redirection *redir, t_mini *shell, int *last_in);
-int			handle_output_redirection(t_redirection *redir, t_mini *shell);
+int			handle_input_redirection(t_redirection *redir,
+				t_mini *shell, int *last_in);
+int			handle_output_redirection(t_redirection *redir,
+				t_mini *shell);
 int			handle_heredoc(t_redirection *redir);
 
 // prepare_heredocs.c
@@ -175,7 +178,8 @@ void		ast_init(t_mini *shell);
 void		print_ast(t_ast_node *node, int depth);
 t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst**tokens);
 t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst**tokens);
-bool		parse_redirection(t_tok_lst**tokens, t_cmd_info *cmd, t_mini *shell);
+bool		parse_redirection(t_tok_lst**tokens, t_cmd_info *cmd,
+				t_mini *shell);
 t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens);
 t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst**tokens);
 void		free_ast(t_ast_node *node);

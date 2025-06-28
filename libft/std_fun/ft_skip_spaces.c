@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_skip_spaces.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:15:43 by francema          #+#    #+#             */
-/*   Updated: 2025/05/08 15:20:59 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:03:09 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 size_t	ft_skip_spaces(char *s, size_t i)
 {
 	if (!s)
-		return(0);
-	while(s[i] && ft_ispace(s[i]))
+		return (0);
+	while (s[i] && ft_ispace(s[i]))
 		i++;
-	return(i);
+	return (i);
 }

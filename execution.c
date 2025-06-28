@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/28 16:00:22 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:09:36 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	char	**envp;
 
 	signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (!unit ||!unit->argv || !unit->argv[0])
 		exit(0);
 	if (apply_redirections(unit, shell) != 0)
@@ -41,39 +41,44 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	exit(127);
 }
 
-/**/
+static void	wait_for_child(pid_t pid, t_mini *shell)
+{
+	int	status;
+	int	sig;
+
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		shell->last_exit_code = 128 + sig;
+		if (sig == SIGQUIT)
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		else if (sig == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+	}
+	else if (WIFEXITED(status))
+		shell->last_exit_code = WEXITSTATUS(status);
+}
+
 void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 {
 	pid_t	pid;
-	int		status;
 
 	if (!unit || !unit->argv || !unit->argv[0])
 		return ;
 	if (handle_critical_builtin(unit, shell))
 		return ;
 	pid = fork();
-	if(pid < 0)
+	if (pid < 0)
 	{
 		perror("fork failed");
 		shell->last_exit_code = 1;
+		return ;
 	}
-	else if (pid == 0)
+	if (pid == 0)
 		child_process(unit, shell);
 	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status))
-		{
-			int sig = WTERMSIG(status);
-			shell->last_exit_code = 128 + sig;
-			if (sig == SIGQUIT)
-				write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
-			else if (sig == SIGINT)
-				write(STDOUT_FILENO, "\n", 1);
-		}
-		else if (WIFEXITED(status))
-			shell->last_exit_code = WEXITSTATUS(status);
-	}
+		wait_for_child(pid, shell);
 }
 
 /* Recursively executes an AST node based on its type */

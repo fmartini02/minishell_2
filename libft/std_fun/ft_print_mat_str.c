@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_mat_str.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:48:45 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 17:34:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:02:53 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_print_mat_str(void *mat, int depth)
 	int		i;
 
 	if (!mat)
-		return;
+		return ;
 	i = 0;
 	if (depth == 1)
 	{

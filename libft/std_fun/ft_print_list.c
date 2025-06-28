@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 18:02:13 by francema          #+#    #+#             */
-/*   Updated: 2025/04/30 18:26:44 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:02:39 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	ft_print_list(t_list *lst, char cast)
 {
 	t_list	*tmp;
 
-	if(!lst)
+	if (!lst)
 		return ;
 	tmp = lst;
-	while(tmp)
+	while (tmp)
 	{
 		if (cast == 's')
 			ft_printf("%s\n", (char *)tmp->content);
