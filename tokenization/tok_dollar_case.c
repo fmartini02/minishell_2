@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 16:10:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:08:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 	content = ft_dollar_case(shell, s, i);
 	if (!content)
 		return (2);
-	var_name =	get_var_name(s, content, i, shell);
+	var_name = get_var_name(s, content, i, shell);
 	if (!var_name)
 		ft_fatal_memerr(shell);
 	append_var(content, var_name, shell, 0);

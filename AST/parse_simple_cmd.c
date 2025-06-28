@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 15:43:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:51:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,13 @@ bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 
 	if (!is_valid_token(tokens))
 		return (true);
+	if ((*tokens)->next && (*tokens)->next->type == DOLLAR && (*tokens)->next->next && (*tokens)->next->next->type == DOLLAR)
+	{
+		write(2,"minishell: ", 12);
+		write(2, (*tokens)->next->tok_name, ft_strlen((*tokens)->next->tok_name));
+		write(2, ": ambiguous redirect\n", 22);
+		return (false);
+	}
 	token = (char *)(*tokens)->content;
 	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))

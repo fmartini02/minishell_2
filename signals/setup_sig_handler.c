@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:54:34 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 17:06:01 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:26:54 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ ignora tutti i segnali tranne SIGKILL, SIGSTOP, SIGINT*/
 void	setup_sig_handler(int is_interactive)
 {
 	struct sigaction	sa;
+
 
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
@@ -33,6 +34,7 @@ void	setup_sig_handler(int is_interactive)
 		sigaction(SIGINT, &sa, NULL);
 		sa.sa_handler = SIG_IGN;
 		sigaction(SIGQUIT, &sa, NULL);
+		sigaction(SIGINT, &sa, NULL);
 	}
 }
 
