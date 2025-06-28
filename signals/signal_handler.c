@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:55:51 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 14:12:59 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:35:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@ void	signal_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "^C\n", 3);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/28 14:31:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/28 14:35:01 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 
 	signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
-	if (!unit |!unit->argv || !unit->argv[0])
+	if (!unit ||!unit->argv || !unit->argv[0])
 		exit(0);
 	if (apply_redirections(unit, shell) != 0)
 		exit(1);
@@ -70,12 +70,10 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 			if (sig == SIGQUIT)
 				write(2, "Quit (core dumped)\n", 20);
 			else if (sig == SIGINT)
-				write(1, "\n", 1);
+				write(STDOUT_FILENO, "\n", 1);
 		}
 		else if (WIFEXITED(status))
-		{
 			shell->last_exit_code = WEXITSTATUS(status);
-		}
 	}
 }
 
