@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:56:42 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:18:49 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 		if (!ft_strcmp(token, "(") && shell->err_print == false)
 		{
 			shell->err_print = true;
-			ft_putendl_fd("minishell: syntax error near unexpected token `('",
-				2);
+			ft_putendl_fd("minishell: syntax error near unexpected token `('", 2);
 			free_cmd_info(*cmd);
 			return (false);
 		}

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:45:36 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:19:22 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,27 @@ void	init_shell(t_mini *shell, char **envp)
 
 void	loop_shell(t_mini *shell)
 {
-	char	*prompt;
 
 	while (1)
 	{
-		prompt = get_prompt();
-		if (!prompt)
-			prompt = ft_strdup("minishell$ ");
+		shell->prompt = get_prompt();
+		if (!shell->prompt)
+			shell->prompt = ft_strdup("minishell$ ");
 		g_sig_code = -42;
-		shell->input = readline(prompt);
+		shell->input = readline(shell->prompt);
 		g_sig_code = 0;
 		if (!shell->input)
 			ctrl_d_case(shell);
 		if (shell->input[0] == '\0' || is_all_spaces(shell->input))
 		{
 			free(shell->input);
-			free(prompt);
+			free(shell->prompt);
 			continue ;
 		}
 		add_history(shell->input);
 		parsing(shell);
 		shell->err_print = false;
-		free(prompt);
+		free(shell->prompt);
 		free(shell->input);
 		free_tok_lst(shell->tok_input);
 		free_ast(shell->ast_root);
