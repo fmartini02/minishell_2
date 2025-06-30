@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 15:58:33 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:10:16 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,40 @@ void	free_exec_unit(t_exec_unit *unit)
 
 void	cleanup_shell(t_mini *shell, int exit_code)
 {
-	if (!shell)
-		exit(exit_code);
-	if (shell->env)
-		ft_lstclear(&shell->env, free);
-	if (shell->ast_root)
-		free_ast(shell->ast_root);
-	if (shell->tok_input)
-		free_tok_lst(shell->tok_input);
-	if (shell->cmd_info)
-		free_cmd_info(shell->cmd_info);
-	if (shell->input)
-		free(shell->input);
-	free(shell->prompt);
-	if (exit_code > 0)
-		exit(exit_code);
+    if (!shell)
+        exit(exit_code);
+    if (shell->env)
+    {
+        ft_lstclear(&shell->env, free);
+        shell->env = NULL;
+    }
+    if (shell->ast_root)
+    {
+        free_ast(shell->ast_root);
+        shell->ast_root = NULL;
+    }
+    if (shell->tok_input)
+    {
+        free_tok_lst(shell->tok_input);
+        shell->tok_input = NULL;
+    }
+    if (shell->cmd_info)
+    {
+        free_cmd_info(shell->cmd_info);
+        shell->cmd_info = NULL;
+    }
+    if (shell->input)
+    {
+        free(shell->input);
+        shell->input = NULL;
+    }
+    if (shell->prompt)
+    {
+        free(shell->prompt);
+        shell->prompt = NULL;
+    }
+    if (exit_code > 0)
+        exit(exit_code);
 }
+
 

@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 16:00:21 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:17:04 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ volatile sig_atomic_t	g_sig_code = 0;
 void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
+	{
+		if (shell)
+			cleanup_shell(shell, -1);
 		return ;
+	}
 	ast_init(shell);
 	execute_ast(shell->ast_root, shell);
 }
