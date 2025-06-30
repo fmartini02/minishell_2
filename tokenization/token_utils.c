@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:51:09 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:15:10 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,26 @@ void	add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node)
 	temp->next = new_node;
 }
 
-void	free_tok_lst(t_tok_lst **head)
+void	free_tok_lst(t_tok_lst *head)
 {
 	t_tok_lst	*node;
 	t_tok_lst	*next_node;
+	int i = 0;
 
-	node = *head;
+	node = head;
+	next_node = NULL;
 	while (node)
 	{
-		next_node = node->next;
+		printf("iter %d pointer = %p", i, node->next);
+		i++;
+		if (node->next)
+			next_node = node->next;
 		free(node->content);
 		free(node->tok_name);
 		free(node);
 		node = next_node;
 	}
-	free(node);
+	head = NULL;
 }
 
 t_tok_lst	*last_token(t_tok_lst *head)

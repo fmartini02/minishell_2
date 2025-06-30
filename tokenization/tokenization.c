@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 11:00:59 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:08:30 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 	}
 }
 
-/* Restituisce un token applicando anche alcune espansioni <$var> 
+/* Restituisce un token applicando anche alcune espansioni <$var>
 e alcuni merge dei token*/
 int	get_tok(t_mini *shell, char *s, size_t *i)
 {
@@ -103,8 +103,8 @@ bool	tokenize_input(t_mini *shell)
 
 	i = 0;
 	s = shell->input;
-	i = ft_skip_spaces(s, i);
 	shell->tok_input = NULL;
+	i = ft_skip_spaces(s, i);
 	return_value = EXIT_FAILURE;
 	while (s[i])
 	{

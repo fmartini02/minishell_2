@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 16:40:30 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:05:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_fatal_memerr(t_mini *shell)
 	ft_putstr_fd("Error: malloc failure \n", 2);
 	free(shell->input);
 	ft_lstclear(&shell->env, free);
-	free_tok_lst(&shell->tok_input);
+	free_tok_lst(shell->tok_input);
 	exit(EXIT_FAILURE);
 }
 
