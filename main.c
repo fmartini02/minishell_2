@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 15:02:53 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:53:43 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ void	loop_shell(t_mini *shell)
 		free(shell->prompt);
 		free(shell->input);
 		free_tok_lst(shell->tok_input);
+		free_ast(shell->ast_root);
 		shell->tok_input = NULL;
+		shell->ast_root = NULL;
 	}
 }
 

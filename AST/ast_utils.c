@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:46:30 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:57:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	free_cmd_info(t_cmd_info *cmd)
 	i = 0;
 	if (!cmd)
 		return ;
-	if (cmd->cmd_name)
-		free(cmd->cmd_name);
 	if (cmd->cmd_args)
 	{
 		while (cmd->cmd_args[i])
