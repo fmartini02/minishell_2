@@ -6,36 +6,11 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 13:59:39 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:16:34 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* Libera una lista collegata di strutture t_cmd_info
-void	ft_free_cmd_info(t_cmd_info *cmd_info)
-{
-	int			i;
-	t_cmd_info	*next;
-
-	while (cmd_info)
-	{
-		i = 0;
-		free(cmd_info->cmd_name);
-		if (cmd_info->cmd_args)
-		{
-			while (cmd_info->cmd_args[i])
-			{
-				free(cmd_info->cmd_args[i]);
-				i++;
-			}
-			free(cmd_info->cmd_args);
-		}
-		next = cmd_info->next;
-		free(cmd_info);
-		cmd_info = next;
-	}
-}*/
 
 /* Handles a fatal memory allocation error.
 Frees all shell resources, prints an error message
@@ -85,6 +60,7 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 		free_cmd_info(shell->cmd_info);
 	if (shell->input)
 		free(shell->input);
+	free(shell->prompt);
 	exit(exit_code);
 }
 

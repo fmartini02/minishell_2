@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:59:58 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:11:22 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct s_mini
 	char		**envp;
 	int			last_exit_code;
 	bool		err_print;
+	char		*prompt;
 	t_list		*env;
 	t_tok_lst	*tok_input;
 	t_cmd_info	*cmd_info;
