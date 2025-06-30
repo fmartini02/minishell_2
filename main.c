@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 14:19:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:50:06 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,58 +57,39 @@ void	init_shell(t_mini *shell, char **envp)
 		ft_fatal_memerr(shell);
 }
 
-void	loop_shell(t_mini *shell)
-{
-
-	while (1)
+	void	loop_shell(t_mini *shell)
 	{
-		shell->prompt = get_prompt();
-		if (!shell->prompt)
-			shell->prompt = ft_strdup("minishell$ ");
-		g_sig_code = -42;
-		shell->input = readline(shell->prompt);
-		g_sig_code = 0;
-		if (!shell->input)
-			ctrl_d_case(shell);
-		if (shell->input[0] == '\0' || is_all_spaces(shell->input))
+
+		while (1)
 		{
-			free(shell->input);
-			free(shell->prompt);
-			continue ;
+			shell->prompt = get_prompt();
+			if (!shell->prompt)
+				shell->prompt = ft_strdup("minishell$ ");
+			g_sig_code = -42;
+			shell->input = readline(shell->prompt);
+			g_sig_code = 0;
+			if (!shell->input)
+				ctrl_d_case(shell);
+			if (shell->input[0] == '\0' || is_all_spaces(shell->input))
+			{
+				free(shell->input);
+				free(shell->prompt);
+				continue ;
+			}
+			add_history(shell->input);
+			parsing(shell);
+			shell->err_print = false;
+			cleanup_shell(shell, -1);
 		}
-		add_history(shell->input);
-		parsing(shell);
-		shell->err_print = false;
-		free(shell->prompt);
-		free(shell->input);
-		free_tok_lst(shell->tok_input);
-		free_ast(shell->ast_root);
-		shell->tok_input = NULL;
-		shell->ast_root = NULL;
 	}
-}
 
-int	main(int ac, char **av, char **envp)
-{
-	t_mini	shell;
-	char	*input;
-	int		is_interactive;
-
-	(void)av;
-	(void)ac;
-	is_interactive = isatty(STDIN_FILENO);
-	init_shell(&shell, envp);
-	setup_sig_handler(is_interactive);
-	if (!is_interactive)
+	int	main(int ac, char **av, char **envp)
 	{
-		input = get_next_line(0);
-		while (input)
-		{
-			shell.input = ft_strdup(input);
-			free(input);
-		}
-		parsing(&shell);
-	}
-	else
+		t_mini	shell;
+
+		(void)av;
+		(void)ac;
+		init_shell(&shell, envp);
+		setup_sig_handler();
 		loop_shell(&shell);
-}
+	}

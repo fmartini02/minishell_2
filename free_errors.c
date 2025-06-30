@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 14:16:34 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:25:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 	if (shell->input)
 		free(shell->input);
 	free(shell->prompt);
-	exit(exit_code);
+	if (exit_code > 0)
+		exit(exit_code);
 }
 
