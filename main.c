@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 15:53:43 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:00:21 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	init_shell(t_mini *shell, char **envp)
 
 void	loop_shell(t_mini *shell)
 {
-
 	while (1)
 	{
 		shell->prompt = get_prompt();
@@ -84,36 +83,16 @@ void	loop_shell(t_mini *shell)
 		}
 		parsing(shell);
 		shell->err_print = false;
-		free(shell->prompt);
-		free(shell->input);
-		free_tok_lst(shell->tok_input);
-		free_ast(shell->ast_root);
-		shell->tok_input = NULL;
-		shell->ast_root = NULL;
+		cleanup_shell(shell, -1);
 	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	shell;
-	char	*input;
-	int		is_interactive;
-
 	(void)av;
 	(void)ac;
-	is_interactive = isatty(STDIN_FILENO);
 	init_shell(&shell, envp);
-	setup_sig_handler(is_interactive);
-	if (!is_interactive)
-	{
-		input = get_next_line(0);
-		while (input)
-		{
-			shell.input = ft_strdup(input);
-			free(input);
-		}
-		parsing(&shell);
-	}
-	else
-		loop_shell(&shell);
+	setup_sig_handler();
+	loop_shell(&shell);
 }

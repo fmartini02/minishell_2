@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 14:11:22 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:36:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ bool		is_builtin(const char *cmd);
 
 //SIGNALS
 void		ctrl_d_case(t_mini *shell);
-void		setup_sig_handler(int is_interactive);
+void		setup_sig_handler(void);
 void		signal_handler(int sig);
 
 //TOKENIZATION
