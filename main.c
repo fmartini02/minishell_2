@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:30:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:45:36 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ void	loop_shell(t_mini *shell)
 		free(prompt);
 		free(shell->input);
 		free_tok_lst(shell->tok_input);
+		free_ast(shell->ast_root);
 		shell->tok_input = NULL;
+		shell->ast_root = NULL;
 	}
 }
 

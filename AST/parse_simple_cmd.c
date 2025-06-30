@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:26:01 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:56:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	**add_arg_to_array(char **args, char *new_arg)
 	i = 0;
 	while (i < len)
 	{
-		new_args[i] = args[i];
+		new_args[i] = ft_strdup(args[i]);
+		free(args[i]);
 		i++;
 	}
 	new_args[i++] = ft_strdup(new_arg);
@@ -83,9 +84,9 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 		}
 		else
 		{
-			if (!(*cmd)->cmd_name)
-				(*cmd)->cmd_name = ft_strdup(token);
 			*cmd = add_arg_to_cmd(*cmd, token);
+			if (!(*cmd)->cmd_name)
+				(*cmd)->cmd_name = (*cmd)->cmd_args[0];
 			tmp = tmp->next;
 		}
 	}

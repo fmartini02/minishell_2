@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:56:38 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 12:05:45 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:40:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 libera la memoria ed esce*/
 void	ctrl_d_case(t_mini *shell)
 {
-	if (shell->envp)
+	if (shell->env)
 		ft_lstclear(&shell->env, free);
 	if (shell->ast_root)
 		free_ast(shell->ast_root);
