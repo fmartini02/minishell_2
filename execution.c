@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 12:06:01 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:54:25 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 		exit(execute_builtin(unit, shell));
 	cmd_path = get_path_command(shell, unit->argv[0]);
 	if (!cmd_path)
+	{
+		cleanup_shell(shell, -1);
 		exit_command_not_found(unit);
+	}
 	envp = env_list_to_array(shell->env);
 	if (!envp)
 	{
@@ -36,6 +39,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	}
 	execve(cmd_path, unit->argv, envp);
 	perror("execve failed");
+	//cleanup_shell(shell, -1);
 	free_split(envp);
 	free(cmd_path);
 	exit(127);
@@ -111,7 +115,8 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 		if (unit)
 		{
 			execute_exec_unit(unit, shell);
-			free_exec_unit(unit);
+			if (unit)
+				free_exec_unit(unit);
 			shell->err_print = false;
 		}
 	}

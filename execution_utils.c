@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:18:34 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 16:27:08 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:52:27 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	exit_command_not_found(t_exec_unit *unit)
 {
 	ft_putstr_fd(unit->argv[0], STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	if (unit)
+		free_exec_unit(unit);
 	exit(127);
 }
 

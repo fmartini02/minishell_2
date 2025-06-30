@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:35:28 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:42:20 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 			tmp = tmp->next;
 		}
 	}
+	*tokens = tmp;
 	return (true);
 }
 
@@ -116,7 +117,7 @@ bool	is_parse_subshell(t_tok_lst**tokens)
 
 bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 {
-	char	*token;
+	char				*token;
 
 	if (!is_valid_token(tokens))
 		return (true);
@@ -129,7 +130,7 @@ bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 		write(2, ": ambiguous redirect\n", 22);
 		return (false);
 	}
-	token = (char *)(*tokens)->content;
+	token = (*tokens)->content;
 	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
 	{

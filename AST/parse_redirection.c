@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:42:35 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:10:46 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_redirection	*new_redirection(t_redir_type type, char *target)
 		return (NULL);
 	}
 	redir->target = strdup(target);
+	printf("New redirection: type=%d, target=%s\n", type, redir->target);
 	if (!redir->target)
 	{
 		free(redir);

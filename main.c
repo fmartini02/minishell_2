@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 14:12:11 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 15:02:53 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ void	loop_shell(t_mini *shell)
 			continue ;
 		}
 		add_history(shell->input);
+		if (ft_strncmp(shell->input, "exit", 4) == 0 && is_all_spaces(shell->input + 4))
+		{
+			parsing(shell); 
+			return ;
+		}
 		parsing(shell);
 		shell->err_print = false;
 		free(shell->prompt);
