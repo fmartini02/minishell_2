@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 15:39:31 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:33:30 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ bool	handle_cmdline_error(t_mini *shell, t_tok_lst **tokens,
 	return (false);
 }
 
+// type = get_node_type(*tokens);
+// if (type == NODE_SUBSHELL)
+// 	right = parse_subshell(shell, tokens);
+// if (!right && type == NODE_SUBSHELL)
+// 	return (NULL);
 t_ast_node	*cmd_line_loop(t_mini *shell, t_tok_lst **tokens, t_ast_node *left)
 {
 	t_ast_node	*right;
@@ -78,11 +83,6 @@ t_ast_node	*cmd_line_loop(t_mini *shell, t_tok_lst **tokens, t_ast_node *left)
 	type = NODE_PIPELINE;
 	while (is_valid_token(tokens) && is_control_operator((*tokens)->content))
 	{
-		type = get_node_type(*tokens);
-		if (type == NODE_SUBSHELL)
-			right = parse_subshell(shell, tokens);
-		if (!right && type == NODE_SUBSHELL)
-			return (NULL);
 		*tokens = (*tokens)->next;
 		if (shell->err_print == false)
 			right = parse_pipeline(shell, tokens);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extraction.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:43 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 15:20:10 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:53:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,5 @@ t_exec_unit	*extract_exec_units(t_ast_node *node)
 	if (!unit->argv)
 		return (free(unit), NULL);
 	unit->redirs = cmd->redirections;
-	printf("redirections: %p\n", unit->redirs);
 	return (unit);
 }

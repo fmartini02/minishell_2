@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 15:53:01 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:28:31 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,11 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 
 bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 {
-	char		*token;
-	t_tok_lst	*tmp;
+	char	*token;
 
-	tmp = *tokens;
-	while (is_valid_token(&tmp) && !is_control_operator(tmp->content))
+	while (is_valid_token(&(*tokens)) && !is_control_operator((*tokens)->content))
 	{
-		token = (char *)tmp->content;
+		token = (char *)(*tokens)->content;
 		if (!ft_strcmp(token, "(") && shell->err_print == false)
 		{
 			shell->err_print = true;
@@ -86,10 +84,11 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 			*cmd = add_arg_to_cmd(*cmd, token);
 			if (!(*cmd)->cmd_name)
 				(*cmd)->cmd_name = (*cmd)->cmd_args[0];
-			tmp = tmp->next;
+			if (!(*tokens)->next)
+				break ;
+			(*tokens) = (*tokens)->next;
 		}
 	}
-	*tokens = tmp;
 	return (true);
 }
 
@@ -165,8 +164,6 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
 
 	if (!is_valid_token(tokens))
 		return (NULL);
-	if (is_parse_subshell(tokens))
-		return (parse_subshell(shell, tokens));
 	cmd = create_cmd_info();
 	if (!cmd)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:57:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:30:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ int	is_control_operator(char *token)
 	if (!token)
 		return (0);
 	return (!ft_strcmp(token, "|")
-		|| !ft_strcmp(token, "&&")
-		|| !ft_strcmp(token, "||")
-		|| !ft_strcmp(token, "(")
-		|| !ft_strcmp(token, ")")
 		|| !ft_strcmp(token, "<")
 		|| !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, "<<")

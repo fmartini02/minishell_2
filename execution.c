@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 14:54:25 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:11:16 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	cmd_path = get_path_command(shell, unit->argv[0]);
 	if (!cmd_path)
 	{
-		cleanup_shell(shell, -1);
 		exit_command_not_found(unit);
+		cleanup_shell(shell, 127);
 	}
 	envp = env_list_to_array(shell->env);
 	if (!envp)
@@ -112,11 +112,15 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	{
 		prepare_heredocs(node);
 		unit = extract_exec_units(node);
+		shell->unit = unit;
 		if (unit)
 		{
 			execute_exec_unit(unit, shell);
 			if (unit)
+			{
 				free_exec_unit(unit);
+				shell->unit = NULL;
+			}
 			shell->err_print = false;
 		}
 	}

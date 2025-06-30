@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 14:36:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:43:32 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct s_mini
 	t_list		*env;
 	t_tok_lst	*tok_input;
 	t_cmd_info	*cmd_info;
+	t_exec_unit	*unit;
 	t_ast_node	*ast_root;
 }	t_mini;
 

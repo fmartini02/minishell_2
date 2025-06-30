@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 16:17:04 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:57:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	init_shell(t_mini *shell, char **envp)
 	shell->tok_input = NULL;
 	shell->ast_root = NULL;
 	shell->err_print = false;
+	shell->unit = NULL;
 	if (!shell->env)
 		ft_fatal_memerr(shell);
 }
@@ -80,11 +81,6 @@ void	loop_shell(t_mini *shell)
 			continue ;
 		}
 		add_history(shell->input);
-		if (ft_strncmp(shell->input, "exit", 4) == 0 && is_all_spaces(shell->input + 4))
-		{
-			parsing(shell); 
-			return ;
-		}
 		parsing(shell);
 		shell->err_print = false;
 		cleanup_shell(shell, -1);

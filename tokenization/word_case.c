@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 15:39:26 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:42:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 /*controlla se incontri un carattere delimitatore per le parole*/
 static bool	is_word_delimiter(char c)
 {
-	if (c == '<' || c == '>' || c == '|' || c == '&' || c == ' '
-		|| c == '(' || c == ')' || c == '\'' || c == '"' || c == '$')
+	if (c == '<' || c == '>' || c == '|'  || c == ' '
+		|| c == '\'' || c == '"' || c == '$')
 		return (true);
 	return (false);
 }
