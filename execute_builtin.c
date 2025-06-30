@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 14:59:28 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:02:00 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ int	execute_builtin(t_exec_unit *unit, t_mini *shell)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		ft_unset(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
-	{
-		//free_exec_unit(unit);
 		ft_exit(shell, args);
-	}
 	return (shell->last_exit_code);
 }
 

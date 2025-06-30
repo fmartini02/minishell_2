@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:36:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:52:06 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:44:39 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static char	*single_quotes_utils(t_mini *shell, char *s, size_t *i,
 		(*i)++;
 	if (s[*i] != '\'')
 	{
-		write(2, ">\nbash: unexpected EOF while looking for matching `\'", 53);
-		write(2, "\'\nbash: syntax error: unexpected end of file\n", 46);
+		write(2, ">\nminishell: unexpected EOF while looking for matching `\'", 58);
+		write(2, "\'\nminishell: syntax error: unexpected end of file\n", 51);
 		return (NULL);
 	}
 	tmp = ft_substr(s, start, *i - start);

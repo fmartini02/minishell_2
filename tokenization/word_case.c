@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 17:42:50 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:04:36 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*controlla se incontri un carattere delimitatore per le parole*/
 static bool	is_word_delimiter(char c)
 {
-	if (c == '<' || c == '>' || c == '|'  || c == ' '
+	if (c == '<' || c == '>' || c == '|' || c == ' '
 		|| c == '\'' || c == '"' || c == '$')
 		return (true);
 	return (false);

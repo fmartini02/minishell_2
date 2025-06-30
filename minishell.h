@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 16:43:32 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:22:34 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,11 @@ int			is_control_operator(char *token);
 void		free_cmd_info(t_cmd_info *cmd);
 bool		is_valid_token(t_tok_lst **tokens);
 void		print_unexpected_token(t_tok_lst **tokens);
+bool		is_parse_subshell(t_tok_lst**tokens);
+char		**add_arg_to_array(char **args, char *new_arg);
+t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg);
+bool		handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd,
+				t_mini *shell);
 
 // extraction.c
 t_exec_unit	*extract_exec_units(t_ast_node *node);
@@ -249,5 +254,8 @@ t_tok_lst	*new_tok_lst(char *content, t_tok_type type, char *tok_name);
 t_tok_lst	*last_token(t_tok_lst *head);
 void		free_tok_lst(t_tok_lst *head);
 void		print_tok_lst(t_tok_lst *head);
+size_t		get_end_indx(char *s, size_t doll_indx);
+size_t		get_start_indx(char *s, size_t doll_indx);
+size_t		get_doll_indx(char *s, size_t i);
 
 #endif
