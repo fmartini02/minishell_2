@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:50:18 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:20:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 
 bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 {
-	char	*token;
+	char		*token;
+	t_tok_lst	*tmp;
 
-	while (is_valid_token(tokens) && !is_control_operator((*tokens)->content))
+	tmp = *tokens;
+	while (is_valid_token(&tmp) && !is_control_operator(tmp->content))
 	{
-		token = (char *)(*tokens)->content;
+		token = (char *)tmp->content;
 		if (!ft_strcmp(token, "(") && shell->err_print == false)
 		{
 			shell->err_print = true;
@@ -84,7 +86,7 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 			if (!(*cmd)->cmd_name)
 				(*cmd)->cmd_name = ft_strdup(token);
 			*cmd = add_arg_to_cmd(*cmd, token);
-			*tokens = (*tokens)->next;
+			tmp = tmp->next;
 		}
 	}
 	return (true);

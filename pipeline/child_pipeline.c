@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/28 15:07:28 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:06:01 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 {
 	t_exec_unit	*unit;
 
-	unit = extract_exec_unit(node);
+	unit = extract_exec_units(node);
 	if (!unit)
 		exit(EXIT_FAILURE);
 	redirect_pipeline_io(unit, info->pipes, info->idx, info->count);

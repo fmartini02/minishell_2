@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/28 17:27:08 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:06:01 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	if (node->type == NODE_CMD)
 	{
 		prepare_heredocs(node);
-		unit = extract_exec_unit(node);
+		unit = extract_exec_units(node);
 		if (unit)
 		{
 			execute_exec_unit(unit, shell);

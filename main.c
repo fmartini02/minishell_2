@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 11:03:20 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:09:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
+
+
 	ast_init(shell);
+	printf("negro %p \n",shell->tok_input );
 	execute_ast(shell->ast_root, shell);
 }
 
@@ -82,6 +85,7 @@ void	loop_shell(t_mini *shell)
 		shell->err_print = false;
 		free(prompt);
 		free(shell->input);
+		free_tok_lst(shell->tok_input);
 	}
 }
 

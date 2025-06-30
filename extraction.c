@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extraction.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:43 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 16:35:18 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:06:01 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	**dup_argv(char **cmd_args, int argc)
 }
 
 /* Extracts execution unit from a command AST node */
-t_exec_unit	*extract_exec_unit(t_ast_node *node)
+t_exec_unit	*extract_exec_units(t_ast_node *node)
 {
 	t_cmd_info	*cmd;
 	t_exec_unit	*unit;

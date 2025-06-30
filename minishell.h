@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 17:15:22 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:06:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ bool		is_valid_token(t_tok_lst **tokens);
 void		print_unexpected_token(t_tok_lst **tokens);
 
 // extraction.c
-t_exec_unit	*extract_exec_unit(t_ast_node *node);
+t_exec_unit	*extract_exec_units(t_ast_node *node);
 
 // execution.c
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
@@ -244,7 +244,7 @@ int			wildcard_case(t_mini *shell, char *content, size_t *i);
 void		add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node);
 t_tok_lst	*new_tok_lst(char *content, t_tok_type type, char *tok_name);
 t_tok_lst	*last_token(t_tok_lst *head);
-void		free_tok_lst(t_tok_lst **head);
+void		free_tok_lst(t_tok_lst *head);
 void		print_tok_lst(t_tok_lst *head);
 
 #endif
