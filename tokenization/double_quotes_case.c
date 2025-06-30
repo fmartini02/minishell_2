@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   double_quotes_case.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 17:08:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:56:40 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_chars_after_symbol(t_mini *shell, size_t *i, size_t start, char *content)
+char	*get_chars_after_symbol(t_mini *shell, size_t *i, size_t start,
+	char *content)
 {
 	char	*tmp;
 	char	*s;
@@ -28,16 +29,17 @@ char	*get_chars_after_symbol(t_mini *shell, size_t *i, size_t start, char *conte
 	return (content);
 }
 
-char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t *start, char *content)
+char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t *start,
+	char *content)
 {
 	char	*tmp_dollar;
 	char	*s;
 
 	tmp_dollar = NULL;
 	s = shell->input;
-	if (s[*i] == '$')// if there is a $ in the string
+	if (s[*i] == '$')
 	{
-		if (*i > *start)// if there is text before $
+		if (*i > *start)
 		{
 			content = get_chars_after_symbol(shell, i, *start, content);
 			if (!content)
@@ -46,7 +48,7 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t *start, char *content)
 		tmp_dollar = ft_dollar_case(shell, s, i);
 		if (!tmp_dollar)
 			return (NULL);
-		content = ft_strjoin_free(content, tmp_dollar);// accumulate
+		content = ft_strjoin_free(content, tmp_dollar);
 		if (!content)
 			return (NULL);
 		free(tmp_dollar);
@@ -55,7 +57,8 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t *start, char *content)
 	return (content);
 }
 
-static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i, char *s)
+static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
+	char *s)
 {
 	size_t	start;
 
@@ -71,12 +74,12 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i, char *
 		if (s[*i] != '"')
 			(*i)++;
 	}
-	if (s[*i] != '\"')// unmatched quote
+	if (s[*i] != '\"')
 	{
 		write(2, "ERROR OPEN DOUBLE QUOTE\n", 25);
 		return (NULL);
 	}
-	if (*i > start)//if there is text before closing quote
+	if (*i > start)
 	{
 		content = get_chars_after_symbol(shell, i, start, content);
 		if (!content)

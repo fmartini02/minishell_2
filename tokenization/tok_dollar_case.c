@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tok_dollar_case.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 15:08:08 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:01:41 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ void	append_nodes_err(char *tmp, char *var_name,
 	if (new_node)
 		free(new_node);
 }
-/*crea il nodo mettendo dentro la prima "parola" incontrata dentro la variabile*/
-static void	append_var_utils(t_mini *shell, char *var_value, char *var_name, int j)
+
+/*crea il nodo mettendo dentro la prima "parola" incontrata 
+dentro la variabile*/
+static void	append_var_utils(t_mini *shell, char *var_value, char *var_name,
+	int j)
 {
 	char		*tmp;
 	t_tok_lst	*new_node;
@@ -59,7 +62,7 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 	{
 		append_var_utils(shell, var_value, var_name, j);
 		if (shell->tok_input->next)
-			shell->tok_input= shell->tok_input->next;
+			shell->tok_input = shell->tok_input->next;
 		shell->tok_input->type = DOLLAR;
 		shell->tok_input->tok_name = var_name;
 		j += ft_strlen_till_space(var_value, j);
@@ -68,8 +71,6 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 	shell->tok_input = head;
 	return (EXIT_SUCCESS);
 }
-
-
 
 /*aggiunge alla t_tok_lst il contenuto della <$var>*/
 int	tok_dollar_case(t_mini *shell, size_t *i, char *content)

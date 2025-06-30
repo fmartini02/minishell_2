@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tok_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 17:05:41 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:56:30 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static char	*get_var_value(t_mini *shell, size_t *i)
 	end = start;
 	curr_node = last_token(shell->tok_input);
 	while (shell->input[end]
-			&& !ft_ispecial_char(shell->input[end]))
+		&& !ft_ispecial_char(shell->input[end]))
 		end++;
-	var_name = ft_substr(shell->input,start, end -start);
+	var_name = ft_substr(shell->input, start, end - start);
 	if (!var_name)
 	{
 		ft_fatal_memerr(shell);
@@ -63,12 +63,12 @@ int	check_tok_front(t_mini *shell, size_t *i)
 	return_value = EXIT_SUCCESS;
 	var_value = get_var_value(shell, i);
 	if (!var_value)
-		return(VAR_NOT_FOUND);
+		return (VAR_NOT_FOUND);
 	else if (var_value[ft_strlen(var_value) - 1] == ' ')
 		return (EXIT_SUCCESS);
 	prev_node = last_token(shell->tok_input);
 	if (shell->input[(*i) - 1] == ' ')
-		return(IS_SPACE);
+		return (IS_SPACE);
 	if (shell->input[*i] == '\'')
 		return_value = single_quotes_case(shell, NULL, i);
 	else if (shell->input[*i] == '"')

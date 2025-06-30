@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 14:51:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:50:18 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 		if (!ft_strcmp(token, "(") && shell->err_print == false)
 		{
 			shell->err_print = true;
-			ft_putendl_fd("minishell: syntax error near unexpected token `('", 2);
+			ft_putendl_fd("minishell: syntax error near unexpected token `('",
+				2);
 			free_cmd_info(*cmd);
 			return (false);
 		}
@@ -118,10 +119,12 @@ bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 
 	if (!is_valid_token(tokens))
 		return (true);
-	if ((*tokens)->next && (*tokens)->next->type == DOLLAR && (*tokens)->next->next && (*tokens)->next->next->type == DOLLAR)
+	if ((*tokens)->next && (*tokens)->next->type == DOLLAR
+		&& (*tokens)->next->next && (*tokens)->next->next->type == DOLLAR)
 	{
-		write(2,"minishell: ", 12);
-		write(2, (*tokens)->next->tok_name, ft_strlen((*tokens)->next->tok_name));
+		write(2, "minishell: ", 12);
+		write(2, (*tokens)->next->tok_name,
+			ft_strlen((*tokens)->next->tok_name));
 		write(2, ": ambiguous redirect\n", 22);
 		return (false);
 	}
@@ -135,7 +138,8 @@ bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 	return (true);
 }
 
-t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell, t_tok_lst **tokens)
+t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell,
+	t_tok_lst **tokens)
 {
 	t_ast_node	*node;
 
@@ -158,12 +162,13 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
 
 	if (!is_valid_token(tokens))
 		return (NULL);
-	if (is_parse_subshell(tokens))//there is a subshell??
+	if (is_parse_subshell(tokens))
 		return (parse_subshell(shell, tokens));
 	cmd = create_cmd_info();
 	if (!cmd)
 		return (NULL);
-	if (ft_strchr((*tokens)->content, '>') || ft_strchr((*tokens)->content, '<'))
+	if (ft_strchr((*tokens)->content, '>')
+		|| ft_strchr((*tokens)->content, '<'))
 	{
 		if (!handle_redirections(tokens, cmd, shell))
 			return (free_ast(shell->ast_root), NULL);

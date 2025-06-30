@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_subshell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 15:42:53 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:46:46 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	handle_opening_paren(t_mini *shell, t_tok_lst **tokens)
 		*tokens = (*tokens)->next;
 		return (false);
 	}
-	*tokens = (*tokens)->next; // skip "("
+	*tokens = (*tokens)->next;
 	return (true);
 }
 
@@ -58,7 +58,7 @@ bool	handle_closing_paren(t_mini *shell, t_tok_lst **tokens)
 		}
 		return (false);
 	}
-	*tokens = (*tokens)->next; // skip ")"
+	*tokens = (*tokens)->next;
 	return (true);
 }
 
@@ -78,4 +78,3 @@ t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst**tokens)
 	}
 	return (create_subshell_node(subtree));
 }
-

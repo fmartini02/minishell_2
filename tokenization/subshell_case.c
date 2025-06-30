@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_case.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:05:37 by francema          #+#    #+#             */
-/*   Updated: 2025/06/20 13:14:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:52:29 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	subshell_utils(t_mini *shell, size_t *i, char **content, t_tok_lst **node)
+static int	subshell_utils(t_mini *shell, size_t *i, char **content,
+	t_tok_lst **node)
 {
 	size_t	tmp;
 	char	*s;
@@ -44,9 +45,7 @@ static int	subshell_utils(t_mini *shell, size_t *i, char **content, t_tok_lst **
 int	subshell_case(t_mini *shell, char *content, size_t *i)
 {
 	t_tok_lst	*node;
-//	char		*s;
 
-//	s = shell->input;
 	node = NULL;
 	content = NULL;
 	if (subshell_utils(shell, i, &content, &node) == EXIT_FAILURE)

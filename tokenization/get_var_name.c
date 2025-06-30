@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_var_name.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:26:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 15:41:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:01:25 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 size_t	get_doll_indx(char *s, size_t i)
 {
 	if (!s)
-		return(-1);
-	while(i > 0 && s[i] != '$')
-			i--;
+		return (-1);
+	while (i > 0 && s[i] != '$')
+		i--;
 	return (i);
 }
 
@@ -34,7 +34,7 @@ size_t	get_start_indx(char *s, size_t doll_indx)
 		if (doll_indx > 0 && s[doll_indx] == '\'')
 		{
 			doll_indx--;
-			while(doll_indx > 0 && s[doll_indx] != '\'')
+			while (doll_indx > 0 && s[doll_indx] != '\'')
 				doll_indx--;
 		}
 		else if (doll_indx > 0 && s[doll_indx] == '"')
@@ -60,7 +60,7 @@ size_t	get_end_indx(char *s, size_t doll_indx)
 		if (s[doll_indx] == '\'')
 		{
 			doll_indx++;
-			while(s[doll_indx] && s[doll_indx] != '\'')
+			while (s[doll_indx] && s[doll_indx] != '\'')
 				doll_indx++;
 		}
 		else if (s[doll_indx] == '"')
@@ -126,7 +126,7 @@ char	*space_space_case(char *s, t_mini *shell, size_t *i)
 	char	*name;
 
 	doll_indx = get_doll_indx(s, *i);
-	end =  doll_indx;
+	end = doll_indx;
 	while (s[end] && !ft_ispecial_char(s[end]))
 		end++;
 	name = ft_substr(s, doll_indx, end - doll_indx);
@@ -137,7 +137,7 @@ char	*space_space_case(char *s, t_mini *shell, size_t *i)
 
 char	*get_var_name(char *s, char *content, size_t *i, t_mini *shell)
 {
-	if(content[0] == ' ' && content[ft_strlen(content) - 1] != ' ')
+	if (content[0] == ' ' && content[ft_strlen(content) - 1] != ' ')
 		return (space_notspace_case(s, shell, i));
 	else if (content[0] != ' ' && content[ft_strlen(content) - 1] != ' ')
 		return (notspace_notspace_case(s, shell, i));

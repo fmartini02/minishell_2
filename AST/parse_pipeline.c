@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 18:44:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:47:02 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 	return (node);
 }
 
-static t_ast_node	*check_closing_parenthesis(t_mini *shell, t_tok_lst **tokens, t_ast_node *left)
+static t_ast_node	*check_closing_parenthesis(t_mini *shell,
+	t_tok_lst **tokens, t_ast_node *left)
 {
 	if (is_valid_token(tokens) && !ft_strcmp((char *)(*tokens)->content, ")"))
 	{
@@ -62,9 +63,11 @@ static t_ast_node	*check_closing_parenthesis(t_mini *shell, t_tok_lst **tokens, 
 	return (NULL);
 }
 
-static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_tok_lst **tokens, t_ast_node *right)
+static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell,
+	t_tok_lst **tokens, t_ast_node *right)
 {
-	if (ft_strchr((*tokens)->content, '>') || ft_strchr((*tokens)->content, '<'))
+	if (ft_strchr((*tokens)->content, '>')
+		|| ft_strchr((*tokens)->content, '<'))
 	{
 		right = parse_simple_cmd(shell, tokens);
 		if (!right && shell->err_print == false)
@@ -72,7 +75,7 @@ static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_tok_lst **t
 			shell->err_print = true;
 			print_unexpected_token(tokens);
 			free_ast(*left);
-			return (NULL);// syntax error after pipe
+			return (NULL);
 		}
 	}
 	else
@@ -85,7 +88,8 @@ static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_tok_lst **t
 	return (right);
 }
 
-t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right, t_mini *shell, t_tok_lst **tokens)
+t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right,
+	t_mini *shell, t_tok_lst **tokens)
 {
 	t_ast_node	*node;
 
@@ -128,7 +132,7 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst**tokens)
 	{
 		left = check_closing_parenthesis(shell, tokens, left);
 		if (!left)
-			return (NULL); // syntax error after simple command
+			return (NULL);
 	}
 	left = pipeline_loop(&left, &right, shell, tokens);
 	return (left);

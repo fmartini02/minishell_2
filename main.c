@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 18:43:36 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:03:20 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	parsing(t_mini *shell)
 {
 	if (!tokenize_input(shell))
 		return ;
-	//print_tok_lst(shell->tok_input);
-	//expand_wildcards(shell);
 	ast_init(shell);
 	execute_ast(shell->ast_root, shell);
 }

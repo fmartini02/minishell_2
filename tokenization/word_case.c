@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_case.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 16:53:53 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:01:07 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void	append_new_node(t_mini *shell, char *content)
 
 int	word_case(t_mini *shell, char *content, size_t *i)
 {
-
 	char		*s;
 	int			len;
 	int			end;

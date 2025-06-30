@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tok_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 16:18:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:53:50 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 
 int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 {
-
 	char	*var_name;
 	int		j;
 
@@ -87,10 +86,11 @@ int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 		else if (ft_ispace(var_value[j]))
 			return (append_var(var_value, var_name, shell, j));
 	}
-	return(free(var_name), VAR_NOT_FOUND);
+	return (free(var_name), VAR_NOT_FOUND);
 }
 
-/*per input come: "qualcosa"$var e var contiene una stringa senza spazzi all'inizio*/
+/*per input come: "qualcosa"$var e 
+var contiene una stringa senza spazzi all'inizio*/
 int	check_tok_back(t_mini *shell, size_t *i, bool is_dollar)
 {
 	char	*var_value;

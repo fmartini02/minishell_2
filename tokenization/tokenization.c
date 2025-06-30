@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 17:14:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:00:59 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	is_word_delimiter(char c)
 	if (c != '!' && c != '@' && c != '#' && c != '%' && c != '^' && c != '&'
 		&& c != '*' && c != '(' && c != ')' && c != '=' && c != '['
 		&& c != ']' && c != '{' && c != '}' && c != '\\' && c != '|' && c != ';'
-		&& c != ':' && c != '\''&& c != '"' && c != '<' && c != '>' && c != ','
+		&& c != ':' && c != '\'' && c != '"' && c != '<' && c != '>' && c != ','
 		&& c != '?' && c != '~' && c != '`' && c != '\0' && c != '$')
 		return (false);
 	return (true);
@@ -31,7 +31,8 @@ bool	is_word_char(char c)
 	return (false);
 }
 
-/*gestisce quei token che vanno uniti se non ci sono spazzi con un focus specifico per il caso <"c"$var"d"> */
+/*gestisce quei token che vanno uniti se non ci sono spazzi con
+un focus specifico per il caso <"c"$var"d"> */
 static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 {
 	t_tok_lst	*curr_tok;
@@ -41,8 +42,8 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 	curr_tok = last_token(shell->tok_input);
 	if (curr_tok && curr_tok->type == DOLLAR && s[(*i) - 1] != ' ')
 	{
-		*return_value =  check_tok_front(shell, i);
-		if(*return_value == EXIT_FAILURE)
+		*return_value = check_tok_front(shell, i);
+		if (*return_value == EXIT_FAILURE)
 			return ;
 	}
 	if (*return_value == EXIT_SUCCESS)
@@ -63,7 +64,8 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 	}
 }
 
-/* Restituisce un token applicando anche alcune espansioni <$var> e alcuni merge dei token*/
+/* Restituisce un token applicando anche alcune espansioni <$var> 
+e alcuni merge dei token*/
 int	get_tok(t_mini *shell, char *s, size_t *i)
 {
 	char		*content;
@@ -76,7 +78,7 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	if (return_value == EXIT_FAILURE)
 		return (return_value);
 	if (s[*i] == '$')
-		return_value  = tok_dollar_case(shell, i, content);
+		return_value = tok_dollar_case(shell, i, content);
 	else if (s[*i] == '*')
 		return_value = wildcard_case(shell, content, i);
 	else if (s[*i] == '(' || s[*i] == ')')
@@ -90,7 +92,8 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	return (return_value);
 }
 
-/* Suddivide l'input(shell->input) in una lista di token(shell->tok_input) usando get_tok
+/* Suddivide l'input(shell->input) in una lista di token(shell->tok_input)
+usando get_tok
 Serve per dividere il comando in parole comprensibili alla shell*/
 bool	tokenize_input(t_mini *shell)
 {

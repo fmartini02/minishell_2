@@ -6,13 +6,13 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:54:34 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 18:56:44 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 11:03:42 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-extern volatile sig_atomic_t g_sig_code;
+extern volatile sig_atomic_t	g_sig_code;
 
 /* Se NON interativa, segnali di default
 Se interattiva, installa il tuo signal_handler,

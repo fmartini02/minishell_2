@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/06/28 17:58:30 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:51:09 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ void	add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node)
 	t_tok_lst	*temp;
 
 	if (!head || !new_node)
-		return;
+		return ;
 	if (!*head)
 	{
 		*head = new_node;
-		return;
+		return ;
 	}
 	temp = *head;
 	while (temp->next)

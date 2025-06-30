@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/17 15:40:59 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:41:29 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ t_node_type	get_node_type(t_tok_lst *token)
 	return (NODE_PIPELINE);
 }
 
-t_ast_node	*create_ast_node(t_node_type type, t_ast_node *left, t_ast_node *right)
+t_ast_node	*create_ast_node(t_node_type type, t_ast_node *left,
+	t_ast_node *right)
 {
 	t_ast_node	*node;
 
@@ -52,7 +53,8 @@ t_ast_node	*create_ast_node(t_node_type type, t_ast_node *left, t_ast_node *righ
 	return (node);
 }
 
-bool	handle_cmdline_error(t_mini *shell, t_tok_lst **tokens, t_ast_node *left)
+bool	handle_cmdline_error(t_mini *shell, t_tok_lst **tokens,
+	t_ast_node *left)
 {
 	if (is_valid_token(tokens)
 		&& !is_control_operator((*tokens)->content)
@@ -73,7 +75,7 @@ t_ast_node	*cmd_line_loop(t_mini *shell, t_tok_lst **tokens, t_ast_node *left)
 	t_node_type	type;
 
 	right = NULL;
-	type = NODE_PIPELINE;// Default type for the first node
+	type = NODE_PIPELINE;
 	while (is_valid_token(tokens) && is_control_operator((*tokens)->content))
 	{
 		type = get_node_type(*tokens);

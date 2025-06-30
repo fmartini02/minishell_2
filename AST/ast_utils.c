@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 15:58:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:46:30 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ void	free_redirections(t_redirection *redir)
 
 void	free_cmd_info(t_cmd_info *cmd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->cmd_name)
 		free(cmd->cmd_name);
 	if (cmd->cmd_args)
@@ -71,12 +73,8 @@ void	free_ast(t_ast_node *node)
 		free_cmd_info((t_cmd_info *)node->content);
 	else if (node->type == NODE_SUBSHELL && node->content)
 		free_ast((t_ast_node *)node->content);
-
-	// Recursively free left and right subtrees
 	free_ast(node->left);
 	free_ast(node->right);
-
-	// Nullify and free the current node
 	node->left = NULL;
 	node->right = NULL;
 	node->content = NULL;

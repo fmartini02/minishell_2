@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/06/26 12:23:02 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:42:35 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_redir_type	get_redir_type(char *token)
 		return (REDIR_APPEND);
 	else if (ft_strcmp(token, "<<") == 0)
 		return (REDIR_HEREDOC);
-	return (-1); // Invalid type
+	return (-1);
 }
 
 bool	parse_redi_utils(t_mini *shell, t_cmd_info *cmd)
@@ -77,7 +77,8 @@ bool	parse_redi_utils(t_mini *shell, t_cmd_info *cmd)
 	return (false);
 }
 
-// Adds a redirection to the end of the list, returns 0 on success, -1 on failure
+/* Adds a redirection to the end of the list, returns 0 on success,
+-1 on failure */
 bool	parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 {
 	t_redirection	*redir;
