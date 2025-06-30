@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 12:06:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:59:58 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ typedef struct s_pipeinfo
 // free_errors.c
 void		ft_fatal_memerr(t_mini *shell);
 void		free_exec_unit(t_exec_unit *unit);
+void		cleanup_shell(t_mini *shell, int exit_code);
 
 //BUILTINS
 void		ft_echo(char **args, t_mini *shell);

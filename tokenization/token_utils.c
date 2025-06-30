@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 13:15:10 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:27:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,18 @@ void	free_tok_lst(t_tok_lst *head)
 {
 	t_tok_lst	*node;
 	t_tok_lst	*next_node;
-	int i = 0;
 
 	node = head;
-	next_node = NULL;
 	while (node)
 	{
-		printf("iter %d pointer = %p", i, node->next);
-		i++;
-		if (node->next)
-			next_node = node->next;
+		next_node = node->next;// ✅ SALVA PRIMA
 		free(node->content);
 		free(node->tok_name);
 		free(node);
 		node = next_node;
 	}
-	head = NULL;
 }
+
 
 t_tok_lst	*last_token(t_tok_lst *head)
 {

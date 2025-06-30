@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 12:05:45 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:59:39 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,21 @@ void	free_exec_unit(t_exec_unit *unit)
 	}
 	free(unit);
 }
+
+void	cleanup_shell(t_mini *shell, int exit_code)
+{
+	if (!shell)
+		exit(exit_code);
+	if (shell->env)
+		ft_lstclear(&shell->env, free);
+	if (shell->ast_root)
+		free_ast(shell->ast_root);
+	if (shell->tok_input)
+		free_tok_lst(shell->tok_input);
+	if (shell->cmd_info)
+		free_cmd_info(shell->cmd_info);
+	if (shell->input)
+		free(shell->input);
+	exit(exit_code);
+}
+
