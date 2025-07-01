@@ -6,7 +6,7 @@
 #    By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/07/01 16:03:05 by mdalloli         ###   ########.fr        #
+#    Updated: 2025/07/01 18:45:52 by mdalloli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
 	execution.c extraction.c execution_utils.c execute_builtin.c \
 	prepare_heredocs.c handle_redirections.c close_heredoc_fds.c \
-	cleanup_shell.c \
+	cleanup_shell.c prepare_heredocs_utils.c \
 
 TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \
@@ -76,7 +76,6 @@ fclean: clean
 
 re: fclean all
 
-v: re
-	make clean ; clear ; valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=ignore_readline.supp ./minishell
+# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=ignore_readline.supp ./minishell
 
 .PHONY: all clean fclean re

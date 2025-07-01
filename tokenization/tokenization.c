@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 15:22:49 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:44:28 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 
 	c = s[*i];
 	curr_tok = last_token(shell->tok_input);
-	if (curr_tok && (curr_tok->type == DOLLAR 
+	if (curr_tok && (curr_tok->type == DOLLAR
 			|| curr_tok->type == DOUBLE_QUOTES
 			|| curr_tok->type == SINGLE_QUOTES)
 		&& s[(*i) - 1] != ' ')

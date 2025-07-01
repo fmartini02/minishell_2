@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 14:37:15 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:44:54 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_tok_lst	*update_node(t_mini *shell, size_t *i, int type)
 			return (NULL);
 	}
 	last_node = last_token(shell->tok_input);
-	curr_node->content = ft_strjoin_free(curr_node->content, last_node->content);
+	curr_node->content = ft_strjoin_free(curr_node->content,
+			last_node->content);
 	curr_node->type = DOUBLE_QUOTES;
 	if (last_node && last_node->content)
 	{

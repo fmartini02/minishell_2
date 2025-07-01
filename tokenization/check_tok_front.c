@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 14:44:40 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:42:25 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static char	*get_var_value(t_mini *shell, size_t *i)
 	free(var_name);
 	if (!var_value)
 		return (NULL);
-	printf("%s", var_value);
 	return (var_value);
 }
 
