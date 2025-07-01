@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:47:20 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:15:25 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ void	ft_exit(t_mini *shell, char **args)
 	else
 		exit_val = 0;
 	ft_putstr_fd("exit\n", 1);
-	cleanup_shell(shell, (int)exit_val);
 	ft_lstclear(&shell->env, free);
+	cleanup_shell(shell, (int)exit_val);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:39:39 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:16:11 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 	}
 	if (shell->tok_input)
 	{
-		printf("qui2\n");
 		free_tok_lst(shell->tok_input);
 		shell->tok_input = NULL;
 	}

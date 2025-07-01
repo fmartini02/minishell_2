@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:46:42 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:14:06 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,46 @@ static void	update_env_var(t_list **env, const char *key, const char *value)
 	ft_lstadd_back(env, ft_lstnew(tmp));
 }
 
-// DA CONTROLLARE SE IGNORA TUTTI GLI UGUALI O SOLO IL PRIMO!!!!
-/* Aggiunge o aggiorna una varibile d'ambiente nella lista shell->env*/
+static void	print_sorted_env(t_list *env)
+{
+	char	**env_array;
+	int		i;
+	char	*eq;
+
+	env_array = env_list_to_array(env);
+	if (!env_array)
+		return ;
+	ft_sort_strarr(env_array);
+	i = 0;
+	while (env_array[i])
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		eq = ft_strchr(env_array[i], '=');
+		if (eq)
+		{
+			*eq = '\0';
+			ft_putstr_fd(env_array[i], STDOUT_FILENO);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(eq + 1, STDOUT_FILENO);
+			ft_putendl_fd("\"", STDOUT_FILENO);
+			*eq = '=';
+		}
+		else
+			ft_putendl_fd(env_array[i], STDOUT_FILENO);
+		i++;
+	}
+	free_split(env_array);
+}
+
 void	ft_export(t_mini *shell, char **args)
 {
 	int		i;
 	char	*eq;
 
+	if (!args[1])
+		return (print_sorted_env(shell->env));
 	i = 1;
-	while (args && args[i])
+	while (args[i])
 	{
 		eq = ft_strchr(args[i], '=');
 		if (eq)
@@ -84,6 +115,4 @@ void	ft_export(t_mini *shell, char **args)
 			ft_putendl_fd("minishell: export: not a valid identifier", 2);
 		i++;
 	}
-	cleanup_shell(shell, -1);
-	ft_lstclear(&shell->env, free);
 }

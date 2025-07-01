@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/01 10:52:59 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:15:01 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,4 @@ void	ft_cd(char **args, t_mini *shell)
 		return ;
 	}
 	change_dir_and_update(shell, oldpwd, args[1]);
-	ft_lstclear(&shell->env, free);
 }

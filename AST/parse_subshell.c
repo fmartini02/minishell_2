@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_subshell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:54:07 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 18:24:25 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:09:59 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,26 @@ t_ast_node	*create_subshell_node(t_ast_node *subtree)
 	return (node);
 }
 
-bool	handle_opening_paren(t_mini *shell, t_tok_lst *tokens)
+bool	handle_opening_paren(t_mini *shell, t_tok_lst **tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
-	if (!tokens->next && shell->err_print == false)
+	if (!(*tokens)->next && shell->err_print == false)
 	{
 		shell->err_print = true;
 		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 		ft_putendl_fd("newline`", 2);
-		tokens = tokens->next;
+		(*tokens) = (*tokens)->next;
 		return (false);
 	}
-	tokens = tokens->next;
+	(*tokens) = (*tokens)->next;
 	return (true);
 }
 
-bool	handle_closing_paren(t_mini *shell, t_tok_lst *tokens)
+bool	handle_closing_paren(t_mini *shell, t_tok_lst **tokens)
 {
 	if (!is_valid_token(tokens)
-		|| ft_strcmp(tokens->content, ")"))
+		|| ft_strcmp((*tokens)->content, ")"))
 	{
 		if (shell->err_print == false)
 		{
@@ -58,11 +58,11 @@ bool	handle_closing_paren(t_mini *shell, t_tok_lst *tokens)
 		}
 		return (false);
 	}
-	tokens = tokens->next;
+	(*tokens) = (*tokens)->next;
 	return (true);
 }
 
-t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst*tokens)
+t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst **tokens)
 {
 	t_ast_node	*subtree;
 

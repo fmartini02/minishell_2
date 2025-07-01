@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:05:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:23:55 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:13:57 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-bool	is_parse_subshell(t_tok_lst*tokens)
+bool	is_parse_subshell(t_tok_lst **tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
-	if (!ft_strcmp(tokens->content, "(")
-		|| !ft_strcmp(tokens->content, ")"))
+	if (!ft_strcmp((*tokens)->content, "(")
+		|| !ft_strcmp((*tokens)->content, ")"))
 		return (true);
 	return (false);
 }
@@ -54,22 +54,22 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 	return (cmd);
 }
 
-bool	handle_redirections(t_tok_lst *tokens, t_cmd_info *cmd, t_mini *shell)
+bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 {
 	char	*token;
 
 	if (!is_valid_token(tokens))
 		return (true);
-	if (tokens->next && tokens->next->type == DOLLAR
-		&& tokens->next->next && tokens->next->next->type == DOLLAR)
+	if ((*tokens)->next && (*tokens)->next->type == DOLLAR
+		&& (*tokens)->next->next && (*tokens)->next->next->type == DOLLAR)
 	{
 		write(2, "minishell: ", 12);
-		write(2, tokens->next->tok_name,
-			ft_strlen(tokens->next->tok_name));
+		write(2, (*tokens)->next->tok_name,
+			ft_strlen((*tokens)->next->tok_name));
 		write(2, ": ambiguous redirect\n", 22);
 		return (false);
 	}
-	token = tokens->content;
+	token = (*tokens)->content;
 	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
 	{

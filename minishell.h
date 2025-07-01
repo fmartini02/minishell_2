@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:30:08 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:13:27 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,23 +179,21 @@ void		prepare_heredocs(t_ast_node *ast);
 //AST-PARSING
 void		ast_init(t_mini *shell);
 void		print_ast(t_ast_node *node, int depth);
-t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst*tokens);
-t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst*tokens);
-bool		parse_redirection(t_tok_lst*tokens, t_cmd_info *cmd,
+t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst **tokens);
+t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst **tokens);
+bool		parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd,
 				t_mini *shell);
-
 t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg);
 char		**add_arg_to_array(char **args, char *new_arg);
-bool		handle_redirections(t_tok_lst *tokens, t_cmd_info *cmd, t_mini *shell);
-
-t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst*tokens);
-t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst*tokens);
+bool		handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell);
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst **tokens);
+t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst **tokens);
 void		free_ast(t_ast_node *node);
 void		free_redirections(t_redirection *redir);
 int			is_control_operator(char *token);
 void		free_cmd_info(t_cmd_info *cmd);
-bool		is_valid_token(t_tok_lst *tokens);
-void		print_unexpected_token(t_tok_lst *tokens);
+bool		is_valid_token(t_tok_lst **tokens);
+void		print_unexpected_token(t_tok_lst **tokens);
 
 // extraction.c
 t_exec_unit	*extract_exec_units(t_ast_node *node);
@@ -227,6 +225,7 @@ void		execute_pipeline(t_ast_node *cmds, t_mini *shell);
 int			is_all_spaces(const char *str);
 bool		ft_ispecial_char(char c);
 bool		is_builtin(const char *cmd);
+void		ft_sort_strarr(char **arr);
 
 //SIGNALS
 void		ctrl_d_case(t_mini *shell);

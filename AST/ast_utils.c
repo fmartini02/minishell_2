@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:40:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:11:04 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	is_control_operator(char *token)
 		|| !ft_strcmp(token, ">>"));
 }
 
-bool	is_valid_token(t_tok_lst*tokens)
+bool	is_valid_token(t_tok_lst **tokens)
 {
-	return (tokens && tokens->content);
+	return (tokens && *tokens && (*tokens)->content);
 }
 
 // Frees redirections linked list

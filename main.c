@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 18:03:16 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:58:48 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ volatile sig_atomic_t	g_sig_code = 0;
 /* Process of the command */
 void	parsing(t_mini *shell)
 {
+	t_tok_lst	*head;
+
 	if (!tokenize_input(shell))
 	{
 		if (shell)
 			cleanup_shell(shell, -1);
 		return ;
 	}
+	head = shell->tok_input;
 	ast_init(shell);
 	execute_ast(shell->ast_root, shell);
 }

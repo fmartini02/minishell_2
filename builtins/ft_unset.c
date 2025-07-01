@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:21:33 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:46:30 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:19:09 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,4 @@ void	ft_unset(t_mini *shell, char **args)
 		remove_env_var(&shell->env, args[i]);
 		i++;
 	}
-	cleanup_shell(shell, -1);
-	ft_lstclear(&shell->env, free);
 }
