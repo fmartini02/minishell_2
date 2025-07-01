@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 15:59:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:44:44 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_tok_lst(t_tok_lst *head)
 	node = head;
 	while (node)
 	{
-		next_node = node->next;// ✅ SALVA PRIMA
+		next_node = node->next;
 		free(node->content);
 		free(node->tok_name);
 		free(node);

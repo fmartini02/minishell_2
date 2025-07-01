@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 17:28:31 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:30:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
 	return (cmd);
 }
 
-bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
+bool	simple_cmd_loop(t_mini *shell, t_tok_lst *tokens, t_cmd_info **cmd)
 {
 	char	*token;
 
-	while (is_valid_token(&(*tokens)) && !is_control_operator((*tokens)->content))
+	while (is_valid_token(tokens) && !is_control_operator(tokens->content))
 	{
-		token = (char *)(*tokens)->content;
+		token = tokens->content;
 		if (!ft_strcmp(token, "(") && shell->err_print == false)
 		{
 			shell->err_print = true;
@@ -84,9 +84,9 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 			*cmd = add_arg_to_cmd(*cmd, token);
 			if (!(*cmd)->cmd_name)
 				(*cmd)->cmd_name = (*cmd)->cmd_args[0];
-			if (!(*tokens)->next)
+			if (!tokens->next)
 				break ;
-			(*tokens) = (*tokens)->next;
+			tokens = tokens->next;
 		}
 	}
 	return (true);
@@ -105,32 +105,32 @@ t_cmd_info	*create_cmd_info(void)
 	return (cmd);
 }
 
-bool	is_parse_subshell(t_tok_lst**tokens)
+bool	is_parse_subshell(t_tok_lst*tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
-	if (!ft_strcmp((char *)(*tokens)->content, "(")
-		|| !ft_strcmp((char *)(*tokens)->content, ")"))
+	if (!ft_strcmp(tokens->content, "(")
+		|| !ft_strcmp(tokens->content, ")"))
 		return (true);
 	return (false);
 }
 
-bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
+bool	handle_redirections(t_tok_lst *tokens, t_cmd_info *cmd, t_mini *shell)
 {
-	char				*token;
+	char	*token;
 
 	if (!is_valid_token(tokens))
 		return (true);
-	if ((*tokens)->next && (*tokens)->next->type == DOLLAR
-		&& (*tokens)->next->next && (*tokens)->next->next->type == DOLLAR)
+	if (tokens->next && tokens->next->type == DOLLAR
+		&& tokens->next->next && tokens->next->next->type == DOLLAR)
 	{
 		write(2, "minishell: ", 12);
-		write(2, (*tokens)->next->tok_name,
-			ft_strlen((*tokens)->next->tok_name));
+		write(2, tokens->next->tok_name,
+			ft_strlen(tokens->next->tok_name));
 		write(2, ": ambiguous redirect\n", 22);
 		return (false);
 	}
-	token = (*tokens)->content;
+	token = tokens->content;
 	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
 		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
 	{
@@ -141,7 +141,7 @@ bool	handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 }
 
 t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell,
-	t_tok_lst **tokens)
+	t_tok_lst *tokens)
 {
 	t_ast_node	*node;
 
@@ -158,7 +158,7 @@ t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell,
 	return (node);
 }
 
-t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst*tokens)
 {
 	t_cmd_info	*cmd;
 
@@ -167,8 +167,8 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens)
 	cmd = create_cmd_info();
 	if (!cmd)
 		return (NULL);
-	if (ft_strchr((*tokens)->content, '>')
-		|| ft_strchr((*tokens)->content, '<'))
+	if (ft_strchr(tokens->content, '>')
+		|| ft_strchr(tokens->content, '<'))
 	{
 		if (!handle_redirections(tokens, cmd, shell))
 			return (free_ast(shell->ast_root), NULL);

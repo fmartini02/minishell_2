@@ -6,22 +6,22 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 17:43:29 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:29:44 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*for cases like (cmd)) or (cmd)cmd)*/
-bool	is_logic_operator(t_tok_lst **tokens)
+bool	is_logic_operator(t_tok_lst *tokens)
 {
 	if (!is_valid_token(tokens))
 		return (false);
-	if (!(*tokens)->next)
+	if (!tokens->next)
 		return (true);
-	else if (!ft_strcmp((*tokens)->next->content, "&&")
-		|| !ft_strcmp((*tokens)->next->content, "||")
-		|| !ft_strcmp((*tokens)->next->content, "|"))
+	else if (!ft_strcmp(tokens->next->content, "&&")
+		|| !ft_strcmp(tokens->next->content, "||")
+		|| !ft_strcmp(tokens->next->content, "|"))
 		return (true);
 	return (false);
 }
@@ -64,10 +64,10 @@ static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 // }
 
 static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell,
-	t_tok_lst **tokens, t_ast_node *right)
+	t_tok_lst *tokens, t_ast_node *right)
 {
-	if (ft_strchr((*tokens)->content, '>')
-		|| ft_strchr((*tokens)->content, '<'))
+	if (ft_strchr(tokens->content, '>')
+		|| ft_strchr(tokens->content, '<'))
 	{
 		right = parse_simple_cmd(shell, tokens);
 		if (!right && shell->err_print == false)
@@ -91,15 +91,15 @@ static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell,
 // 	*right = parse_subshell(shell, tokens);
 
 t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right,
-	t_mini *shell, t_tok_lst **tokens)
+	t_mini *shell, t_tok_lst *tokens)
 {
 	t_ast_node	*node;
 
 	node = NULL;
-	while (is_valid_token(tokens) && !ft_strcmp((*tokens)->content, "|"))
+	while (is_valid_token(tokens) && !ft_strcmp(tokens->content, "|"))
 	{
-		*tokens = (*tokens)->next;
-		if (is_valid_token(tokens) && is_control_operator((*tokens)->content))
+		tokens = tokens->next;
+		if (is_valid_token(tokens) && is_control_operator(tokens->content))
 			*right = operator_case(left, shell, tokens, NULL);
 		if (!(*right))
 			*right = parse_simple_cmd(shell, tokens);
@@ -125,7 +125,7 @@ t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right,
 // 		return (NULL);
 // }
 
-t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst**tokens)
+t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst*tokens)
 {
 	t_ast_node	*left;
 	t_ast_node	*right;

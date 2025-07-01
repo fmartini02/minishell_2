@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 17:05:14 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:03:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ and terminates the program */
 void	ft_fatal_memerr(t_mini *shell)
 {
 	ft_putstr_fd("Error: malloc failure \n", 2);
-	free(shell->input);
-	ft_lstclear(&shell->env, free);
-	free_tok_lst(shell->tok_input);
-	exit(EXIT_FAILURE);
+	cleanup_shell(shell, EXIT_FAILURE);
 }
 
 /* Frees all memory associated with a t_exec_unit structure.
@@ -62,11 +59,13 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 	}
 	if (shell->ast_root)
 	{
+		//printf("qui\n");
 		free_ast(shell->ast_root);
 		shell->ast_root = NULL;
 	}
 	if (shell->tok_input)
 	{
+		//printf("qui2\n");
 		free_tok_lst(shell->tok_input);
 		shell->tok_input = NULL;
 	}

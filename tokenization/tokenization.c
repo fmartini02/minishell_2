@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 17:16:07 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:25:20 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	is_word_delimiter(char c)
 {
 	if (c != '\'' && c != '"' && c != '<' && c != '>'
-		&& c != '\0' && c != '|' && c != '$')
+		&& c != '\0' && c != '|' && c != '$' && c != ' ')
 		return (false);
 	return (true);
 }
@@ -37,7 +37,15 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 
 	c = s[*i];
 	curr_tok = last_token(shell->tok_input);
-	if (curr_tok && curr_tok->type == DOLLAR && s[(*i) - 1] != ' ')
+	// if(curr_tok)
+	// {
+	// 	printf("%d\n", shell->tok_input->type);
+	// 	if (shell->tok_input->next)
+	// 		printf("%d\n", shell->tok_input->next->type);
+	// }
+	if (curr_tok
+		&& (curr_tok->type == DOLLAR || curr_tok->type ==DOUBLE_QUOTES || curr_tok->type == SINGLE_QUOTES)
+		&& s[(*i) - 1] != ' ')
 	{
 		*return_value = check_tok_front(shell, i);
 		if (*return_value == EXIT_FAILURE)

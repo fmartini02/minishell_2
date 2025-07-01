@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tok_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:53:50 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:30:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,35 +37,39 @@ void	merge_tokens(char *var_value, char *var_name, t_mini *shell, int *j)
 
 int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
 {
-	t_tok_lst	*prev_node;
+	t_tok_lst	*last_node;
 	t_tok_lst	*curr_node;
 
-	prev_node = last_token(shell->tok_input);
-	curr_node = NULL;
+	curr_node = last_token(shell->tok_input);
+	last_node = NULL;
 	if (shell->input[*i] == '"')
 	{
 		if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		curr_node = last_token(shell->tok_input);
-		var_value = curr_node->content;
-		prev_node->content = ft_strjoin_free(prev_node->content, var_value);
+		last_node = last_token(shell->tok_input);
+		var_value = ft_strjoin_free(curr_node->content, last_node->content);
+		curr_node->content = var_value;
+		curr_node->type = DOUBLE_QUOTES;
 	}
 	else if (shell->input[*i] == '\'')
 	{
 		if (single_quotes_case(shell, NULL, i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		curr_node = last_token(shell->tok_input);
-		var_value = curr_node->content;
-		prev_node->content = ft_strjoin_free(prev_node->content, var_value);
+		last_node = last_token(shell->tok_input);
+		var_value = ft_strjoin_free(curr_node->content, last_node->content);
+		curr_node->content = var_value;
+		curr_node->type = DOUBLE_QUOTES;
 	}
-	if (curr_node && curr_node->content)
+	if (last_node && last_node->content)
 	{
-		free(curr_node->content);
-		free(curr_node);
+		free(last_node->content);
+		free(last_node);
 	}
-	prev_node->next = NULL;
+	if (curr_node)
+		curr_node->next = NULL;
 	return (EXIT_SUCCESS);
 }
+
 
 int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 {
@@ -89,7 +93,7 @@ int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 	return (free(var_name), VAR_NOT_FOUND);
 }
 
-/*per input come: "qualcosa"$var e 
+/*per input come: "qualcosa"$var e
 var contiene una stringa senza spazzi all'inizio*/
 int	check_tok_back(t_mini *shell, size_t *i, bool is_dollar)
 {

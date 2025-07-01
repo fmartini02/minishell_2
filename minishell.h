@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 16:43:32 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:23:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,18 +179,18 @@ void		prepare_heredocs(t_ast_node *ast);
 //AST-PARSING
 void		ast_init(t_mini *shell);
 void		print_ast(t_ast_node *node, int depth);
-t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst**tokens);
-t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst**tokens);
-bool		parse_redirection(t_tok_lst**tokens, t_cmd_info *cmd,
+t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst*tokens);
+t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst*tokens);
+bool		parse_redirection(t_tok_lst*tokens, t_cmd_info *cmd,
 				t_mini *shell);
-t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst**tokens);
-t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst**tokens);
+t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst*tokens);
+t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst*tokens);
 void		free_ast(t_ast_node *node);
 void		free_redirections(t_redirection *redir);
 int			is_control_operator(char *token);
 void		free_cmd_info(t_cmd_info *cmd);
-bool		is_valid_token(t_tok_lst **tokens);
-void		print_unexpected_token(t_tok_lst **tokens);
+bool		is_valid_token(t_tok_lst *tokens);
+void		print_unexpected_token(t_tok_lst *tokens);
 
 // extraction.c
 t_exec_unit	*extract_exec_units(t_ast_node *node);
@@ -234,6 +234,7 @@ char		*get_var_name(char *s, char *content, size_t *i, t_mini *shell);
 int			append_var(char *var_value, char *var_name, t_mini *shell, int j);
 int			double_quotes_case(t_mini *shell, char *content, size_t *i);
 int			pipe_char_case(t_mini *shell, char *content, size_t *i);
+bool		is_word_delimiter(char c);
 int			redi_case(t_mini *shell, char *content, size_t *i);
 int			single_quotes_case(t_mini *shell, char *content, size_t *i);
 int			subshell_case(t_mini *shell, char *content, size_t *i);
