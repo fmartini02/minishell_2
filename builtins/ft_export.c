@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 13:46:26 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:45:33 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	ft_export(t_mini *shell, char **args)
 	while (args[i])
 	{
 		eq = ft_strchr(args[i], '=');
+		printf("%s \n", args[i]);
 		if (eq)
 		{
 			*eq = '\0';
@@ -116,6 +117,8 @@ void	ft_export(t_mini *shell, char **args)
 		}
 		else if (!is_valid_varname(args[i]))
 			ft_putendl_fd("minishell: export: not a valid identifier", 2);
+		else
+			ft_lstadd_back(&shell->env, ft_lstnew(args[i]));
 		i++;
 	}
 }
