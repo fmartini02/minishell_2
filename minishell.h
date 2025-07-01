@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 14:05:22 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:04:58 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <errno.h>
 # include <limits.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <curses.h>
@@ -174,7 +175,11 @@ int			handle_output_redirection(t_redirection *redir,
 int			handle_heredoc(t_redirection *redir);
 
 // prepare_heredocs.c
-void		prepare_heredocs(t_ast_node *ast);
+int			prepare_heredocs(t_ast_node *ast);
+void		heredoc_sigint_handler(int sig);
+void		write_ctrld(const char *delimiter);
+void		prepare_and_check_heredocs(t_ast_node *node);
+int			sigaction_return(struct sigaction *old_sa, int ret_value);
 
 // close_heredocs_fds.c
 void		close_all_heredoc_fds(t_ast_node *ast);

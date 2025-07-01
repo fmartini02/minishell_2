@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 14:00:34 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:52:00 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 		return ;
 	if (node->type == NODE_CMD)
 	{
-		prepare_heredocs(node);
+		prepare_and_check_heredocs(node);
 		unit = extract_exec_units(node);
 		shell->unit = unit;
 		if (unit)
