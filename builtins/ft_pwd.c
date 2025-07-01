@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:19:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 12:21:14 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:45:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,6 @@ void	ft_pwd(t_mini *shell, char **args)
 	}
 	ft_printf("%s\n", pwd);
 	free(pwd);
+	cleanup_shell(shell, -1);
+	ft_lstclear(&shell->env, free);
 }

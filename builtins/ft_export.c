@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 15:57:34 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:46:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,6 @@ void	ft_export(t_mini *shell, char **args)
 			ft_putendl_fd("minishell: export: not a valid identifier", 2);
 		i++;
 	}
+	cleanup_shell(shell, -1);
+	ft_lstclear(&shell->env, free);
 }

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 18:20:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:40:21 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	free_cmd_info(t_cmd_info *cmd)
 			free(cmd->cmd_args[i++]);
 		free(cmd->cmd_args);
 	}
-	printf("arriva anche qua\n");
 	free_redirections(cmd->redirections);
 	free(cmd);
 }

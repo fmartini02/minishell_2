@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:19:40 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:48:57 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,5 @@ void	ft_cd(char **args, t_mini *shell)
 		return ;
 	}
 	change_dir_and_update(shell, oldpwd, args[1]);
+	ft_lstclear(&shell->env, free);
 }

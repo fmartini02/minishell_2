@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:19:20 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 12:20:29 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:47:30 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,6 @@ void	ft_env(t_mini *shell, char **args)
 	(void)args;
 	tmp = shell->env;
 	ft_print_list(tmp, 's');
+	cleanup_shell(shell, -1);
+	ft_lstclear(&shell->env, free);
 }
