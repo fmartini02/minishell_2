@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:10:32 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:35:55 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ bool	is_word_delimiter(char c)
 	return (true);
 }
 
-bool	is_word_char(char c)
+void	pettish_utils(t_mini *shell, char c, int *return_value, size_t *i)
 {
-	if (c != '$' && c != '>' && c != '<' && c != '|' && c != '&'
-		&& c != '*')
-		return (true);
-	return (false);
+	if (c == '\'')
+		*return_value = single_quotes_case(shell, NULL, i);
+	else if (c == '"')
+		*return_value = double_quotes_case(shell, NULL, i);
+	else if (!is_word_delimiter(c) && c != ' ')
+		*return_value = word_case(shell, NULL, i);
 }
 
 /*gestisce quei token che vanno uniti se non ci sono spazzi con
@@ -37,8 +39,7 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 
 	c = s[*i];
 	curr_tok = last_token(shell->tok_input);
-	if (curr_tok && (curr_tok->type == DOLLAR
-			|| curr_tok->type == DOUBLE_QUOTES
+	if (curr_tok && (curr_tok->type == DOLLAR || curr_tok->type == DOUBLE_QUOTES
 			|| curr_tok->type == SINGLE_QUOTES)
 		&& s[(*i) - 1] != ' ')
 	{
@@ -47,14 +48,7 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 			return ;
 	}
 	if (*return_value == EXIT_SUCCESS)
-	{
-		if (c == '\'')
-			*return_value = single_quotes_case(shell, NULL, i);
-		else if (c == '"')
-			*return_value = double_quotes_case(shell, NULL, i);
-		else if (!is_word_delimiter(c) && c != ' ')
-			*return_value = word_case(shell, NULL, i);
-	}
+		pettish_utils(shell, c, return_value, i);
 	if (s[*i] && s[*i] != ' ')
 	{
 		if (s[*i] == '$')
@@ -73,7 +67,7 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 
 	content = NULL;
 	return_value = EXIT_SUCCESS;
-	if (s[*i] == '\'' || s[*i] == '"' || is_word_char(s[*i]))
+	if (s[*i] == '\'' || s[*i] == '"' || !is_word_delimiter(s[*i]))
 		pettish_tokens(shell, s, i, &return_value);
 	if (return_value == EXIT_FAILURE)
 		return (return_value);
@@ -109,7 +103,6 @@ bool	tokenize_input(t_mini *shell)
 	while (s[i])
 	{
 		return_value = get_tok(shell, s, &i);
-	//	printf("%zu\n", i);
 		if (return_value == EXIT_FAILURE)
 			return (false);
 		else if (return_value == VAR_NOT_FOUND)
