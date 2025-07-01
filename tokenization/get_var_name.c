@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:26:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 18:02:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:12:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,17 @@ static char	*space_space_case(char *s, t_mini *shell, size_t *i)
 
 char	*get_var_name(char *s, char *content, size_t *i, t_mini *shell)
 {
-	if (content && content[0] == ' ' && content[ft_strlen(content) - 1] != ' ')
+	if (content && content[0] == ' '
+		&& content[ft_strlen(content) - 1] != ' ')
 		return (space_notspace_case(s, shell, i));
-	else if (content && content[0] != ' ' && content[ft_strlen(content) - 1] != ' ')
+	else if (content && content[0] != ' '
+		&& content[ft_strlen(content) - 1] != ' ')
 		return (notspace_notspace_case(s, shell, i));
-	else if (content && content[0] != ' ' && content[ft_strlen(content) - 1] == ' ')
+	else if (content && content[0] != ' '
+		&& content[ft_strlen(content) - 1] == ' ')
 		return (notspace_space_case(s, shell, i));
-	else if (content && content[0] == ' ' && content[ft_strlen(content) - 1] == ' ')
+	else if (content && content[0] == ' '
+		&& content[ft_strlen(content) - 1] == ' ')
 		return (space_space_case(s, shell, i));
 	else
 		return (NULL);

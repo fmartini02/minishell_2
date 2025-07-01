@@ -6,7 +6,7 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/07/01 19:09:27 by francema         ###   ########.fr        #
+#    Updated: 2025/07/01 19:23:51 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
 	execution.c extraction.c execution_utils.c execute_builtin.c \
 	prepare_heredocs.c handle_redirections.c close_heredoc_fds.c \
-	cleanup_shell.c prepare_heredocs_utils.c \
+	cleanup_shell.c prepare_heredoc_utils.c \
 
 TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:09:53 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:29:00 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,46 @@ static char	*get_var_value(t_mini *shell, size_t *i)
 // 	prev_node->next = NULL;
 // }
 
+int	dollar_part(t_mini *shell, size_t *i, t_tok_lst **curr_node)
+{
+	char	*var_value;
+
+	var_value = get_var_value(shell, i);
+	if (!var_value)
+		return (VAR_NOT_FOUND);
+	else if (var_value[ft_strlen(var_value) - 1] == ' ')
+		return (EXIT_SUCCESS);
+	*curr_node = last_token(shell->tok_input);
+	if (shell->input[(*i) - 1] == ' ')
+		return (IS_SPACE);
+	return (EXIT_FAILURE);
+}
+
+void	update_nodes(t_mini *shell, t_tok_lst **last, t_tok_lst **curr)
+{
+	*last = last_token(shell->tok_input);
+	(*curr)->content = ft_strjoin_free((*curr)->content,
+			(*last)->content);
+	if (last && (*last)->content)
+	{
+		free((*last)->content);
+		free(*last);
+	}
+	if (*curr)
+		(*curr)->next = NULL;
+}
+
 int	check_tok_front(t_mini *shell, size_t *i)
 {
 	int			return_value;
 	t_tok_lst	*curr_node;
 	t_tok_lst	*last_node;
-	char		*var_value;
 
 	return_value = EXIT_SUCCESS;
 	last_node = NULL;
 	curr_node = last_token(shell->tok_input);
 	if (shell->input[*i] == '$' || curr_node->type == DOLLAR)
-	{
-		var_value = get_var_value(shell, i);
-		if (!var_value)
-			return (VAR_NOT_FOUND);
-		else if (var_value[ft_strlen(var_value) - 1] == ' ')
-			return (EXIT_SUCCESS);
-		curr_node = last_token(shell->tok_input);
-		if (shell->input[(*i) - 1] == ' ')
-			return (IS_SPACE);
-	}
+		return (dollar_part(shell, i, &curr_node));
 	if (shell->input[*i] == '\'')
 		return_value = single_quotes_case(shell, NULL, i);
 	else if (shell->input[*i] == '"')
@@ -83,15 +102,6 @@ int	check_tok_front(t_mini *shell, size_t *i)
 		return_value = word_case(shell, NULL, i);
 	if (return_value == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	last_node = last_token(shell->tok_input);
-	curr_node->content = ft_strjoin_free(curr_node->content,
-			last_node->content);
-	if (last_node && last_node->content)
-	{
-		free(last_node->content);
-		free(last_node);
-	}
-	if (curr_node)
-		curr_node->next = NULL;
+	update_nodes(shell, &last_node, &curr_node);
 	return (SUCCESS);
 }
