@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:20:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:30:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,11 @@ t_ast_node	*parse_cmd_line(t_mini *shell, t_tok_lst*tokens);
 t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst*tokens);
 bool		parse_redirection(t_tok_lst*tokens, t_cmd_info *cmd,
 				t_mini *shell);
+
+t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg);
+char		**add_arg_to_array(char **args, char *new_arg);
+bool		handle_redirections(t_tok_lst *tokens, t_cmd_info *cmd, t_mini *shell);
+
 t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst*tokens);
 t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst*tokens);
 void		free_ast(t_ast_node *node);

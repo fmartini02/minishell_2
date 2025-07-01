@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:20:19 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:28:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,6 @@ t_ast_node	*create_cmd_node(t_cmd_info *cmd)
 	node->right = NULL;
 	node->next = NULL;
 	return (node);
-}
-
-char	**add_arg_to_array(char **args, char *new_arg)
-{
-	char	**new_args;
-	int		len;
-	int		i;
-
-	len = 0;
-	len = ft_matlen((void **)args);
-	new_args = malloc(sizeof(char *) * (len + 2));
-	if (!new_args)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		new_args[i] = ft_strdup(args[i]);
-		free(args[i]);
-		i++;
-	}
-	new_args[i++] = ft_strdup(new_arg);
-	new_args[i] = NULL;
-	free(args);
-	return (new_args);
-}
-
-t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
-{
-	if (!cmd || !arg)
-		return (cmd);
-	cmd->cmd_args = add_arg_to_array(cmd->cmd_args, arg);
-	return (cmd);
 }
 
 bool	simple_cmd_loop(t_mini *shell, t_tok_lst *tokens, t_cmd_info **cmd)
@@ -104,41 +72,6 @@ t_cmd_info	*create_cmd_info(void)
 	cmd->cmd_args = NULL;
 	cmd->redirections = NULL;
 	return (cmd);
-}
-
-bool	is_parse_subshell(t_tok_lst*tokens)
-{
-	if (!is_valid_token(tokens))
-		return (false);
-	if (!ft_strcmp(tokens->content, "(")
-		|| !ft_strcmp(tokens->content, ")"))
-		return (true);
-	return (false);
-}
-
-bool	handle_redirections(t_tok_lst *tokens, t_cmd_info *cmd, t_mini *shell)
-{
-	char	*token;
-
-	if (!is_valid_token(tokens))
-		return (true);
-	if (tokens->next && tokens->next->type == DOLLAR
-		&& tokens->next->next && tokens->next->next->type == DOLLAR)
-	{
-		write(2, "minishell: ", 12);
-		write(2, tokens->next->tok_name,
-			ft_strlen(tokens->next->tok_name));
-		write(2, ": ambiguous redirect\n", 22);
-		return (false);
-	}
-	token = tokens->content;
-	if (!ft_strcmp(token, "<") || !ft_strcmp(token, ">")
-		|| !ft_strcmp(token, ">>") || !ft_strcmp(token, "<<"))
-	{
-		if (parse_redirection(tokens, cmd, shell) == false)
-			return (false);
-	}
-	return (true);
 }
 
 t_ast_node	*finalize_cmd_node(t_cmd_info *cmd, t_mini *shell,

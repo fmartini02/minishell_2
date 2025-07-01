@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+         #
+#    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/30 18:21:48 by mdalloli         ###   ########.fr        #
+#    Updated: 2025/07/01 10:31:52 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 
 AST_SRC = ast_init.c ast_utils.c parse_cmd_line.c parse_pipeline.c \
 		parse_redirection.c parse_simple_cmd.c parse_subshell.c print_ast.c \
-		parse_simple_cmd_utils.c print_unexpected_token.c
+		parse_simple_cmd_utils.c
 
 PIPELINE_SRC = child_pipeline.c execute_pipeline.c pipeline_utils.c pipeline_utils2.c
 
