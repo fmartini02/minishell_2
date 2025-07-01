@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 12:13:08 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:11:17 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ bool	parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 	t_redirection	*redir;
 	t_redir_type	type;
 
-	while (tokens && (*tokens)->content)
+	while (is_valid_token(tokens))
 	{
 		type = get_redir_type((*tokens)->content);
 		if ((int)type == -1)

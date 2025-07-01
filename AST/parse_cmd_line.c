@@ -6,21 +6,11 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:57:00 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 12:11:36 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:12:17 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	print_unexpected_token(t_tok_lst **tokens)
-{
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	if (!is_valid_token(tokens))
-		ft_putstr_fd("newline", 2);
-	else
-		ft_putstr_fd((*tokens)->content, 2);
-	ft_putendl_fd("`", 2);
-}
 
 t_node_type	get_node_type(t_tok_lst *token)
 {

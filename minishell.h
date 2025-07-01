@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 12:13:27 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:05:22 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,9 @@ int			handle_heredoc(t_redirection *redir);
 // prepare_heredocs.c
 void		prepare_heredocs(t_ast_node *ast);
 
+// close_heredocs_fds.c
+void		close_all_heredoc_fds(t_ast_node *ast);
+
 //AST-PARSING
 void		ast_init(t_mini *shell);
 void		print_ast(t_ast_node *node, int depth);
@@ -185,7 +188,8 @@ bool		parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd,
 				t_mini *shell);
 t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg);
 char		**add_arg_to_array(char **args, char *new_arg);
-bool		handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell);
+bool		handle_redirections(t_tok_lst **tokens, t_cmd_info *cmd,
+				t_mini *shell);
 t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst **tokens);
 t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst **tokens);
 void		free_ast(t_ast_node *node);

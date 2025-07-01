@@ -5,15 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/01 11:15:01 by mdalloli         ###   ########.fr       */
+/*   Created: 2025/07/01 13:41:27 by mdalloli          #+#    #+#             */
+/*   Updated: 2025/07/01 13:41:33 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
-
 
 #include "../minishell.h"
 

@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 11:14:06 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:46:26 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,29 @@ static void	update_env_var(t_list **env, const char *key, const char *value)
 	ft_lstadd_back(env, ft_lstnew(tmp));
 }
 
+static void	print_export_line(char *str)
+{
+	char	*eq;
+
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	eq = ft_strchr(str, '=');
+	if (eq)
+	{
+		*eq = '\0';
+		ft_putstr_fd(str, STDOUT_FILENO);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(eq + 1, STDOUT_FILENO);
+		ft_putendl_fd("\"", STDOUT_FILENO);
+		*eq = '=';
+	}
+	else
+		ft_putendl_fd(str, STDOUT_FILENO);
+}
+
 static void	print_sorted_env(t_list *env)
 {
 	char	**env_array;
 	int		i;
-	char	*eq;
 
 	env_array = env_list_to_array(env);
 	if (!env_array)
@@ -72,22 +90,7 @@ static void	print_sorted_env(t_list *env)
 	ft_sort_strarr(env_array);
 	i = 0;
 	while (env_array[i])
-	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		eq = ft_strchr(env_array[i], '=');
-		if (eq)
-		{
-			*eq = '\0';
-			ft_putstr_fd(env_array[i], STDOUT_FILENO);
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(eq + 1, STDOUT_FILENO);
-			ft_putendl_fd("\"", STDOUT_FILENO);
-			*eq = '=';
-		}
-		else
-			ft_putendl_fd(env_array[i], STDOUT_FILENO);
-		i++;
-	}
+		print_export_line(env_array[i++]);
 	free_split(env_array);
 }
 

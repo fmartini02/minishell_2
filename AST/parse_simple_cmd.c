@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 12:13:41 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:55:38 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 		{
 			*cmd = add_arg_to_cmd(*cmd, token);
 			if (!(*cmd)->cmd_name)
-				(*cmd)->cmd_name = (*cmd)->cmd_args[0];
+				(*cmd)->cmd_name = ft_strdup((*cmd)->cmd_args[0]);
 			if (!(*tokens)->next)
 				break ;
 			*tokens = (*tokens)->next;

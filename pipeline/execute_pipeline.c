@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/28 15:07:33 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:35:07 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
 		free_pipes(info.pipes, info.count);
 	}
 	wait_all(&info);
+	close_all_heredoc_fds(cmds);
 	free(info.pids);
 }

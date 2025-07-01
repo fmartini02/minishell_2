@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 11:37:42 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:00:34 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 		return (free(cmd_path), exit(1), (void)0);
 	execve(cmd_path, unit->argv, envp);
 	perror("execve failed");
-	free_split(envp);
 	free(cmd_path);
-	exit(127);
+	free_split(envp);
+	cleanup_shell(shell, 127);
 }
 
 static void	wait_for_child(pid_t pid, t_mini *shell)
@@ -104,7 +104,6 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 
 	if (!node)
 		return ;
-	print_ast(node, 0);
 	if (node->type == NODE_CMD)
 	{
 		prepare_heredocs(node);
@@ -120,6 +119,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 			}
 			shell->err_print = false;
 		}
+		close_all_heredoc_fds(node);
 	}
 	else if (node->type == NODE_PIPELINE)
 		execute_pipeline(node, shell);

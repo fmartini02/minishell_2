@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tok_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 19:30:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:37:15 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,50 @@ void	merge_tokens(char *var_value, char *var_name, t_mini *shell, int *j)
 	shell->tok_input = head;
 }
 
-int	check_tok_back_words(t_mini *shell, char *var_value, size_t *i)
+t_tok_lst	*update_node(t_mini *shell, size_t *i, int type)
 {
 	t_tok_lst	*last_node;
 	t_tok_lst	*curr_node;
 
-	curr_node = last_token(shell->tok_input);
 	last_node = NULL;
-	if (shell->input[*i] == '"')
+	curr_node = last_token(shell->tok_input);
+	if (type == DOUBLE_QUOTES)
 	{
 		if (double_quotes_case(shell, NULL, i) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		last_node = last_token(shell->tok_input);
-		var_value = ft_strjoin_free(curr_node->content, last_node->content);
-		curr_node->content = var_value;
-		curr_node->type = DOUBLE_QUOTES;
+			return (NULL);
 	}
-	else if (shell->input[*i] == '\'')
+	else if (type == SINGLE_QUOTES)
 	{
 		if (single_quotes_case(shell, NULL, i) == EXIT_FAILURE)
-			return (EXIT_FAILURE);
-		last_node = last_token(shell->tok_input);
-		var_value = ft_strjoin_free(curr_node->content, last_node->content);
-		curr_node->content = var_value;
-		curr_node->type = DOUBLE_QUOTES;
+			return (NULL);
 	}
+	last_node = last_token(shell->tok_input);
+	curr_node->content = ft_strjoin_free(curr_node->content, last_node->content);
+	curr_node->type = DOUBLE_QUOTES;
 	if (last_node && last_node->content)
 	{
 		free(last_node->content);
 		free(last_node);
 	}
-	if (curr_node)
-		curr_node->next = NULL;
-	return (EXIT_SUCCESS);
+	return (curr_node);
 }
 
+int	check_tok_back_words(t_mini *shell, size_t *i)
+{
+	t_tok_lst	*curr_node;
+	t_tok_lst	*last_node;
+
+	curr_node = NULL;
+	if (shell->input[*i] == '"')
+		curr_node = update_node(shell, i, DOUBLE_QUOTES);
+	else if (shell->input[*i] == '\'')
+		curr_node = update_node(shell, i, SINGLE_QUOTES);
+	if (curr_node)
+		curr_node->next = NULL;
+	last_node = last_token(shell->tok_input);
+	last_node = curr_node;
+	return (EXIT_SUCCESS);
+}
 
 int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 {
@@ -107,7 +116,7 @@ int	check_tok_back(t_mini *shell, size_t *i, bool is_dollar)
 	}
 	else
 	{
-		if (check_tok_back_words(shell, var_value, i) == EXIT_FAILURE)
+		if (check_tok_back_words(shell, i) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

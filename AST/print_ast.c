@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 17:55:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/05 17:55:18 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:18:31 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,23 @@ static void	print_cmd(t_cmd_info *cmd, int depth)
 	}
 }
 
+static void	print_logical_nodes(t_ast_node *node, int depth)
+{
+	print_indent(depth, 1);
+	if (node->type == NODE_PIPELINE)
+		printf("PIPELINE (|)\n");
+	else if (node->type == NODE_AND)
+		printf("AND (&&)\n");
+	else if (node->type == NODE_OR)
+		printf("OR (||)\n");
+	else if (node->type == NODE_SUBSHELL)
+	{
+		printf("SUBSHELL\n");
+		print_ast((t_ast_node *)node->content, depth + 1);
+		return ;
+	}
+}
+
 void	print_ast(t_ast_node *node, int depth)
 {
 	if (!node)
@@ -82,21 +99,7 @@ void	print_ast(t_ast_node *node, int depth)
 		print_cmd((t_cmd_info *)node->content, depth + 1);
 	}
 	else
-	{
-		print_indent(depth, 1);
-		if (node->type == NODE_PIPELINE)
-			printf("PIPELINE (|)\n");
-		else if (node->type == NODE_AND)
-			printf("AND (&&)\n");
-		else if (node->type == NODE_OR)
-			printf("OR (||)\n");
-		else if (node->type == NODE_SUBSHELL)
-		{
-			printf("SUBSHELL\n");
-			print_ast((t_ast_node *)node->content, depth + 1);
-			return ;
-		}
-	}
+		print_logical_nodes(node, depth);
 	if (node->left)
 	{
 		print_indent(depth + 1, 0);

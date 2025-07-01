@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 12:11:04 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:59:58 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	free_cmd_info(t_cmd_info *cmd)
 			free(cmd->cmd_args[i++]);
 		free(cmd->cmd_args);
 	}
+	free(cmd->cmd_name);
 	free_redirections(cmd->redirections);
 	free(cmd);
 }

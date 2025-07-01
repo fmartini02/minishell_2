@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_tok_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 20:27:14 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:44:40 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	check_tok_front(t_mini *shell, size_t *i)
 	return_value = EXIT_SUCCESS;
 	last_node = NULL;
 	curr_node = last_token(shell->tok_input);
-	if (shell->input[*i] == '$')
+	if (shell->input[*i] == '$' || curr_node->type == DOLLAR)
 	{
 		var_value = get_var_value(shell, i);
 		if (!var_value)
@@ -83,9 +83,10 @@ int	check_tok_front(t_mini *shell, size_t *i)
 	else if (!is_word_delimiter(shell->input[*i]) && shell->input[*i] != ' ')
 		return_value = word_case(shell, NULL, i);
 	if (return_value == EXIT_FAILURE)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	last_node = last_token(shell->tok_input);
-	curr_node->content = ft_strjoin_free(curr_node->content, last_node->content);
+	curr_node->content = ft_strjoin_free(curr_node->content,
+			last_node->content);
 	if (last_node && last_node->content)
 	{
 		free(last_node->content);

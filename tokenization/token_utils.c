@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:20:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:33:14 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	free_tok_lst(t_tok_lst *head)
 	node = head;
 	while (node)
 	{
-		next_node = node->next;
 		next_node = node->next;
 		free(node->content);
 		free(node->tok_name);

@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:23:29 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:59:04 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:48:26 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ bool	is_builtin(const char *cmd)
 
 void	ft_sort_strarr(char **arr)
 {
-	int		i, j;
+	int		i;
+	int		j;
 	char	*tmp;
 
 	if (!arr)

@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 11:58:48 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:05:27 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	parsing(t_mini *shell)
 	}
 	head = shell->tok_input;
 	ast_init(shell);
+	shell->tok_input = head;
 	execute_ast(shell->ast_root, shell);
 }
 

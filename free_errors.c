@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 11:16:11 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:04:54 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,47 +41,4 @@ void	free_exec_unit(t_exec_unit *unit)
 		free(unit->argv);
 	}
 	free(unit);
-}
-
-void	cleanup_shell(t_mini *shell, int exit_code)
-{
-	if (!shell)
-		exit(exit_code);
-	if (shell->env && exit_code >= 0)
-	{
-		ft_lstclear(&shell->env, free);
-		shell->env = NULL;
-	}
-	if (shell->unit)
-	{
-		free_exec_unit(shell->unit);
-		shell->unit = NULL;
-	}
-	if (shell->ast_root)
-	{
-		free_ast(shell->ast_root);
-		shell->ast_root = NULL;
-	}
-	if (shell->tok_input)
-	{
-		free_tok_lst(shell->tok_input);
-		shell->tok_input = NULL;
-	}
-	if (shell->cmd_info)
-	{
-		free_cmd_info(shell->cmd_info);
-		shell->cmd_info = NULL;
-	}
-	if (shell->input)
-	{
-		free(shell->input);
-		shell->input = NULL;
-	}
-	if (shell->prompt)
-	{
-		free(shell->prompt);
-		shell->prompt = NULL;
-	}
-	if (exit_code >= 0)
-		exit(exit_code);
 }
