@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:56:38 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 16:57:06 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:03:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 libera la memoria ed esce*/
 void	ctrl_d_case(t_mini *shell)
 {
+	write(1, "exit\n", 5);
 	cleanup_shell(shell, 0);
 }

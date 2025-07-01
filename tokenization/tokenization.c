@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 18:44:28 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:10:32 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ bool	tokenize_input(t_mini *shell)
 	while (s[i])
 	{
 		return_value = get_tok(shell, s, &i);
+	//	printf("%zu\n", i);
 		if (return_value == EXIT_FAILURE)
 			return (false);
 		else if (return_value == VAR_NOT_FOUND)

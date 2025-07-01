@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:17 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 16:14:50 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:48:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static char	*expand_exit_code(t_mini *shell, size_t *i)
 	char	*result;
 
 	value = ft_itoa(shell->last_exit_code);
+	if (!value)
+		ft_fatal_memerr(shell);
 	result = ft_strdup(value);
 	free(value);
 	*i += 2;
