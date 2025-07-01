@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:19:54 by francema          #+#    #+#             */
-/*   Updated: 2025/06/25 12:20:11 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:47:52 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	is_n_option(const char *str)
 
 /* Implementazione di echo
 Stampa gli argomenti passati separati da spazi,
-se viene specificata l'opzione -n (o più meno -nn) 
+se viene specificata l'opzione -n (o più meno -nn)
 il carattere new_line non viene stampato*/
 void	ft_echo(char **args, t_mini *shell)
 {
@@ -55,4 +55,6 @@ void	ft_echo(char **args, t_mini *shell)
 	if (new_line)
 		ft_printf("\n");
 	shell->last_exit_code = 0;
+	cleanup_shell(shell, -1);
+	ft_lstclear(&shell->env, free);
 }

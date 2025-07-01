@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:19:57 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:39:39 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,12 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 	}
 	if (shell->ast_root)
 	{
-		//printf("qui\n");
 		free_ast(shell->ast_root);
 		shell->ast_root = NULL;
 	}
 	if (shell->tok_input)
 	{
-		//printf("qui2\n");
+		printf("qui2\n");
 		free_tok_lst(shell->tok_input);
 		shell->tok_input = NULL;
 	}

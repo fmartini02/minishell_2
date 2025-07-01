@@ -5,10 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 12:19:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 10:46:11 by mdalloli         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/07/01 10:52:59 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
+
+
 
 #include "../minishell.h"
 
@@ -112,4 +117,5 @@ void	ft_cd(char **args, t_mini *shell)
 		return ;
 	}
 	change_dir_and_update(shell, oldpwd, args[1]);
+	ft_lstclear(&shell->env, free);
 }
