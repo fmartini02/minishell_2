@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/06/28 11:57:31 by francema         ###   ########.fr        #
+#    Updated: 2025/06/30 18:21:48 by mdalloli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
 		double_quotes_case.c single_quotes_case.c pipe_case.c \
 		redi_case.c subshell_case.c tok_dollar_case.c \
 		tokenization.c word_case.c wildcard_case.c token_utils.c \
-		get_var_name.c
+		get_var_name.c get_var_name_utils.c \
 
 BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c ft_export.c ft_unset.c \
 
@@ -28,6 +28,7 @@ SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
 
 AST_SRC = ast_init.c ast_utils.c parse_cmd_line.c parse_pipeline.c \
 		parse_redirection.c parse_simple_cmd.c parse_subshell.c print_ast.c \
+		parse_simple_cmd_utils.c print_unexpected_token.c
 
 PIPELINE_SRC = child_pipeline.c execute_pipeline.c pipeline_utils.c pipeline_utils2.c
 

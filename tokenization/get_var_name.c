@@ -6,74 +6,13 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:26:45 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 11:01:25 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:23:22 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	get_doll_indx(char *s, size_t i)
-{
-	if (!s)
-		return (-1);
-	while (i > 0 && s[i] != '$')
-		i--;
-	return (i);
-}
-
-size_t	get_start_indx(char *s, size_t doll_indx)
-{
-	while (doll_indx > 0 && s[doll_indx])
-	{
-		doll_indx--;
-		if (s[doll_indx] == '>' || s[doll_indx] == '<')
-		{
-			doll_indx++;
-			break ;
-		}
-		if (doll_indx > 0 && s[doll_indx] == '\'')
-		{
-			doll_indx--;
-			while (doll_indx > 0 && s[doll_indx] != '\'')
-				doll_indx--;
-		}
-		else if (doll_indx > 0 && s[doll_indx] == '"')
-		{
-			doll_indx--;
-			while (doll_indx > 0 && s[doll_indx] != '"')
-				doll_indx--;
-		}
-	}
-	return (doll_indx);
-}
-
-size_t	get_end_indx(char *s, size_t doll_indx)
-{
-	while (s[doll_indx] && s[doll_indx] != ' ')
-	{
-		doll_indx++;
-		if (s[doll_indx] == '>' || s[doll_indx] == '<')
-		{
-			doll_indx--;
-			break ;
-		}
-		if (s[doll_indx] == '\'')
-		{
-			doll_indx++;
-			while (s[doll_indx] && s[doll_indx] != '\'')
-				doll_indx++;
-		}
-		else if (s[doll_indx] == '"')
-		{
-			doll_indx++;
-			while (s[doll_indx] && s[doll_indx] != '"')
-				doll_indx++;
-		}
-	}
-	return (doll_indx);
-}
-
-char	*space_notspace_case(char *s, t_mini *shell, size_t *i)
+static char	*space_notspace_case(char *s, t_mini *shell, size_t *i)
 {
 	size_t	end;
 	size_t	start;
@@ -89,7 +28,7 @@ char	*space_notspace_case(char *s, t_mini *shell, size_t *i)
 	return (name);
 }
 
-char	*notspace_notspace_case(char *s, t_mini *shell, size_t *i)
+static char	*notspace_notspace_case(char *s, t_mini *shell, size_t *i)
 {
 	int		start;
 	int		end;
@@ -103,7 +42,7 @@ char	*notspace_notspace_case(char *s, t_mini *shell, size_t *i)
 	return (name);
 }
 
-char	*notspace_space_case(char *s, t_mini *shell, size_t *i)
+static char	*notspace_space_case(char *s, t_mini *shell, size_t *i)
 {
 	size_t	start;
 	size_t	end;
@@ -119,7 +58,7 @@ char	*notspace_space_case(char *s, t_mini *shell, size_t *i)
 	return (name);
 }
 
-char	*space_space_case(char *s, t_mini *shell, size_t *i)
+static char	*space_space_case(char *s, t_mini *shell, size_t *i)
 {
 	size_t	doll_indx;
 	size_t	end;

@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 14:56:03 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:04:06 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,3 @@ void	ft_exit(t_mini *shell, char **args)
 	ft_putstr_fd("exit\n", 1);
 	cleanup_shell(shell, (int)exit_val);
 }
-

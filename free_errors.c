@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 18:03:29 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:19:57 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,3 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 	if (exit_code >= 0)
 		exit(exit_code);
 }
-
-

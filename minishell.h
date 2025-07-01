@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 20:23:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/01 10:20:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,5 +250,8 @@ t_tok_lst	*new_tok_lst(char *content, t_tok_type type, char *tok_name);
 t_tok_lst	*last_token(t_tok_lst *head);
 void		free_tok_lst(t_tok_lst *head);
 void		print_tok_lst(t_tok_lst *head);
+size_t		get_end_indx(char *s, size_t doll_indx);
+size_t		get_start_indx(char *s, size_t doll_indx);
+size_t		get_doll_indx(char *s, size_t i);
 
 #endif

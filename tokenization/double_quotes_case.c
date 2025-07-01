@@ -6,7 +6,7 @@
 /*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:56:40 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/06/30 19:01:14 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 	}
 	if (s[*i] != '\"')
 	{
-		write(2, "ERROR OPEN DOUBLE QUOTE\n", 25);
+		write(2, "\n", 1);
 		return (NULL);
 	}
 	if (*i > start)

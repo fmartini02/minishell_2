@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 17:11:16 by francema         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:17:51 by mdalloli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,9 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	}
 	envp = env_list_to_array(shell->env);
 	if (!envp)
-	{
-		free(cmd_path);
-		exit(1);
-	}
+		return (free(cmd_path), exit(1), (void)0);
 	execve(cmd_path, unit->argv, envp);
 	perror("execve failed");
-	//cleanup_shell(shell, -1);
 	free_split(envp);
 	free(cmd_path);
 	exit(127);
