@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:07:13 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 15:59:58 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:59:30 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	free_cmd_info(t_cmd_info *cmd)
 	free(cmd->cmd_name);
 	free_redirections(cmd->redirections);
 	free(cmd);
+	cmd = NULL;
 }
 
 void	free_ast(t_ast_node *node)

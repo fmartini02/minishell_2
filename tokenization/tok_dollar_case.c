@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tok_dollar_case.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 11:01:41 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:00:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	append_nodes_err(char *tmp, char *var_name,
 		free(new_node);
 }
 
-/*crea il nodo mettendo dentro la prima "parola" incontrata 
+/*crea il nodo mettendo dentro la prima "parola" incontrata
 dentro la variabile*/
 static void	append_var_utils(t_mini *shell, char *var_value, char *var_name,
 	int j)
@@ -69,6 +69,7 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 		j = ft_skip_spaces(var_value, j);
 	}
 	shell->tok_input = head;
+	free(var_value);
 	return (EXIT_SUCCESS);
 }
 
@@ -86,6 +87,8 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 	if (!var_name)
 		ft_fatal_memerr(shell);
 	append_var(content, var_name, shell, 0);
-	free(content);
+	//printf("%s\n", content);
+	if (content)
+		free(content);
 	return (EXIT_SUCCESS);
 }

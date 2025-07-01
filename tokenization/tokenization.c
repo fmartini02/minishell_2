@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 15:22:49 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:36:19 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 
 	c = s[*i];
 	curr_tok = last_token(shell->tok_input);
-	if (curr_tok && (curr_tok->type == DOLLAR 
+	if (curr_tok && (curr_tok->type == DOLLAR
 			|| curr_tok->type == DOUBLE_QUOTES
 			|| curr_tok->type == SINGLE_QUOTES)
 		&& s[(*i) - 1] != ' ')
@@ -109,6 +109,7 @@ bool	tokenize_input(t_mini *shell)
 	while (s[i])
 	{
 		return_value = get_tok(shell, s, &i);
+	//	printf("%zu\n", i);
 		if (return_value == EXIT_FAILURE)
 			return (false);
 		else if (return_value == VAR_NOT_FOUND)

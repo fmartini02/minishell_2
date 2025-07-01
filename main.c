@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 16:05:27 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:35:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ void	parsing(t_mini *shell)
 		return ;
 	}
 	head = shell->tok_input;
+
 	ast_init(shell);
 	shell->tok_input = head;
+	// print_tok_lst(shell->tok_input);
+	// print_ast(shell->ast_root, 0);
 	execute_ast(shell->ast_root, shell);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   double_quotes_case.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 14:19:43 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:40:14 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 {
 	size_t	start;
 
-	start = *i;
+	start = ++(*i);
 	while (s[*i] && s[*i] != '\"')
 	{
 		if (s[*i] == '$')
@@ -89,7 +89,6 @@ int	double_quotes_case(t_mini *shell, char *content, size_t *i)
 {
 	t_tok_lst	*node;
 
-	(*i)++;
 	content = double_quotes_utils(shell, content, i, shell->input);
 	if (!content)
 		return (EXIT_FAILURE);
