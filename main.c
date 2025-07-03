@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:48:07 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:52:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	init_shell(t_mini *shell, char **envp)
 	shell->last_exit_code = 0;
 	shell->input = NULL;
 	shell->cmd_info = NULL;
+	shell->first_tok = NULL;
 	shell->tok_input = NULL;
 	shell->ast_root = NULL;
 	shell->err_print = false;

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 10:19:43 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:46:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,14 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 
 	s = shell->input;
 	len = 0;
+	if (s[*i] == '$' && s[*i + 1] == ' ')
+	{
+		content = ft_strdup("$");
+		if (!content)
+			ft_fatal_memerr(shell);
+		append_new_node(shell, content);
+		return (EXIT_SUCCESS);
+	}
 	while (s[*i + len]
 		&& !is_word_delimiter(s[*i + len])
 		&& s[*i + len] != '\n'

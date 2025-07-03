@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:13:48 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/03 19:32:30 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 		j = ft_skip_spaces(var_value, j);
 	}
 	shell->tok_input = head;
-	free(var_value);
 	return (EXIT_SUCCESS);
 }
 
@@ -88,6 +87,9 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 		ft_fatal_memerr(shell);
 	append_var(content, var_name, shell, 0);
 	if (content)
+	{
 		free(content);
+		content = NULL;
+	}
 	return (EXIT_SUCCESS);
 }

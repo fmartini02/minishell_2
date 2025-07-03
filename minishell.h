@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:04:58 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:51:32 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef struct s_mini
 	bool		err_print;
 	char		*prompt;
 	t_list		*env;
+	t_tok_lst	*first_tok;
 	t_tok_lst	*tok_input;
 	t_cmd_info	*cmd_info;
 	t_exec_unit	*unit;
