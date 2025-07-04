@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:29:00 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:35:31 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_tok_front(t_mini *shell, size_t *i)
 	return_value = EXIT_SUCCESS;
 	last_node = NULL;
 	curr_node = last_token(shell->tok_input);
-	if (shell->input[*i] == '$' || curr_node->type == DOLLAR)
+	if (shell->input[*i] == '$' && curr_node->type == DOLLAR)
 		return (dollar_part(shell, i, &curr_node));
 	if (shell->input[*i] == '\'')
 		return_value = single_quotes_case(shell, NULL, i);

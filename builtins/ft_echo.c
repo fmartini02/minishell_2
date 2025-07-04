@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:19:54 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 16:40:26 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/04 18:23:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,4 @@ void	ft_echo(char **args, t_mini *shell)
 	if (new_line)
 		ft_printf("\n");
 	shell->last_exit_code = 0;
-	cleanup_shell(shell, -1);
-	ft_lstclear(&shell->env, free);
 }

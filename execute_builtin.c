@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 15:57:29 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:04:20 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Execution builtins */
-int	execute_builtin(t_exec_unit *unit, t_mini *shell)
+int	execute_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent)
 {
 	char	**args;
 
@@ -33,7 +33,7 @@ int	execute_builtin(t_exec_unit *unit, t_mini *shell)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		ft_unset(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		ft_exit(shell, args);
+		ft_exit(shell, args, is_parent);
 	return (shell->last_exit_code);
 }
 
@@ -51,6 +51,6 @@ int	handle_critical_builtin(t_exec_unit *unit, t_mini *shell)
 		shell->last_exit_code = 1;
 		return (1);
 	}
-	shell->last_exit_code = execute_builtin(unit, shell);
+	shell->last_exit_code = execute_builtin(unit, shell, true);
 	return (1);
 }

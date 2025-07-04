@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 12:06:01 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:06:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 	}
 	close_all_pipes(info->pipes, info->count);
 	if (unit->argv && is_builtin(unit->argv[0]))
-		exit(execute_builtin(unit, info->shell));
+		exit(execute_builtin(unit, info->shell, false));
 	child_process(unit, info->shell);
 	free_exec_unit(unit);
 	exit(EXIT_SUCCESS);

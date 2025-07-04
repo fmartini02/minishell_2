@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 18:52:00 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:05:41 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	if (apply_redirections(unit, shell) != 0)
 		exit(1);
 	if (is_builtin(unit->argv[0]))
-		exit(execute_builtin(unit, shell));
+		exit(execute_builtin(unit, shell, false));
 	cmd_path = get_path_command(shell, unit->argv[0]);
 	if (!cmd_path)
 	{
@@ -109,17 +109,17 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 		prepare_and_check_heredocs(node);
 		unit = extract_exec_units(node);
 		shell->unit = unit;
+		close_all_heredoc_fds(node);
 		if (unit)
 		{
 			execute_exec_unit(unit, shell);
-			if (unit)
+			if (shell->unit)
 			{
 				free_exec_unit(unit);
 				shell->unit = NULL;
 			}
 			shell->err_print = false;
 		}
-		close_all_heredoc_fds(node);
 	}
 	else if (node->type == NODE_PIPELINE)
 		execute_pipeline(node, shell);

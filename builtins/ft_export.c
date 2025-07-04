@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 19:45:33 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:54:32 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	ft_export(t_mini *shell, char **args)
 	while (args[i])
 	{
 		eq = ft_strchr(args[i], '=');
-		printf("%s \n", args[i]);
 		if (eq)
 		{
 			*eq = '\0';

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 14:46:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/04 16:42:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,11 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 	s = shell->input;
 	if (doll_special_cases(shell, i) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
+	if (doll_special_cases(shell, i) == EXIT_FAILURE)
+	{
+		if (s[*i] == '"' || s[*i] == '\'')
+			return (EXIT_SUCCESS);
+	}
 	content = ft_dollar_case(shell, s, i);
 	if (!content)
 		return (2);
