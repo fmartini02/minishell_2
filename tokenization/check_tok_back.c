@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 19:09:43 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:37:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	check_tok_back_words(t_mini *shell, size_t *i)
 		curr_node = update_node(shell, i, SINGLE_QUOTES);
 	if (curr_node)
 		curr_node->next = NULL;
+	if (!curr_node)
+		return (EXIT_SUCCESS);
 	last_node = last_token(shell->tok_input);
 	last_node = curr_node;
 	return (EXIT_SUCCESS);

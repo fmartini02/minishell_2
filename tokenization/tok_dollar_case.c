@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/07/03 19:32:30 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:46:05 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,56 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 	return (EXIT_SUCCESS);
 }
 
+bool	should_print_doll_char(char *s, size_t *i)
+{
+	char	*chars;
+	int		j;
+
+	chars = "!\"%&'()*+,-./:;<=>@[\\]^`{|}~ ";
+	j = 0;
+	while (chars[j])
+	{
+		if (s[*i + 1] == chars[j])
+		{
+			if (s[*i + 1] == '\'' || s[*i + 1] == '"')
+				return (*i += 1, false);
+			return (true);
+		}
+		j++;
+	}
+	if (s[*i + 1] == '\0')
+		return (true);
+	return (false);
+}
+
+int	doll_special_cases(t_mini *shell, size_t *i)
+{
+	t_tok_lst	*node;
+	char		*content;
+
+	node = NULL;
+	content = NULL;
+	if (should_print_doll_char(shell->input, i))
+	{
+		content = ft_strdup("$");
+		if (!content)
+			ft_fatal_memerr(shell);
+		node = new_tok_lst(content, WORD, NULL);
+		if (!node)
+		{
+			free(content);
+			ft_fatal_memerr(shell);
+		}
+		add_back_tok_lst(&shell->tok_input, node);
+		return (*i += 1, EXIT_SUCCESS);
+	}
+	if (!should_print_doll_char(shell->input, i))
+	{
+		if (shell->input[*i] == '"' || shell->input[*i] =='\'')
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_FAILURE);
+}
 /*aggiunge alla t_tok_lst il contenuto della <$var>*/
 int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 {
@@ -79,6 +129,8 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 	char		*var_name;
 
 	s = shell->input;
+	if (doll_special_cases(shell, i) == EXIT_SUCCESS)
+		return (EXIT_SUCCESS);
 	content = ft_dollar_case(shell, s, i);
 	if (!content)
 		return (2);
