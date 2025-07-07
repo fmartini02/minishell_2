@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 19:05:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:32:16 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_redirection
 {
 	t_redir_type			type;
 	char					*target;
+	bool					flag_here_doc;
 	struct s_redirection	*next;
 	int						heredoc_fd;
 }	t_redirection;
@@ -175,10 +176,10 @@ int			handle_output_redirection(t_redirection *redir,
 int			handle_heredoc(t_redirection *redir);
 
 // prepare_heredocs.c
-int			prepare_heredocs(t_ast_node *ast);
+int			prepare_heredocs(t_ast_node *ast, t_mini *shell);
 void		heredoc_sigint_handler(int sig);
 void		write_ctrld(const char *delimiter);
-void		prepare_and_check_heredocs(t_ast_node *node);
+void		prepare_and_check_heredocs(t_ast_node *node, t_mini *shell);
 int			sigaction_return(struct sigaction *old_sa, int ret_value);
 
 // close_heredocs_fds.c
@@ -266,5 +267,6 @@ void		print_tok_lst(t_tok_lst *head);
 size_t		get_end_indx(char *s, size_t doll_indx);
 size_t		get_start_indx(char *s, size_t doll_indx);
 size_t		get_doll_indx(char *s, size_t i);
+bool		should_print_doll_char(char *s, size_t *i);
 
 #endif

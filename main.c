@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 18:53:23 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:21:22 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	parsing(t_mini *shell)
 	head = shell->tok_input;
 	ast_init(shell);
 	shell->tok_input = head;
+	if (shell->err_print == true || !shell->ast_root)
+		return ;
 	execute_ast(shell->ast_root, shell);
 }
 
@@ -86,8 +88,9 @@ void	loop_shell(t_mini *shell)
 		}
 		add_history(shell->input);
 		parsing(shell);
-		shell->err_print = false;
+
 		cleanup_shell(shell, -1);
+		shell->err_print = false;
 	}
 }
 

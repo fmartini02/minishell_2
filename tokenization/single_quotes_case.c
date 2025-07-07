@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_quotes_case.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:36:22 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 19:12:55 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:16:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ static char	*single_quotes_utils(t_mini *shell, char *s, size_t *i,
 	size_t		start;
 	char		*tmp;
 
+	if (s[*i] == '\'' && s[*i + 1] == '\'')
+		return((*i)++, ft_strdup(""));
+	if ((s[*i] == '\'' && !s[*i + 1]))
+		return ((*i)++, NULL);
 	start = ++(*i);
 	tmp = NULL;
 	while (s[*i] && s[*i] != '\'')

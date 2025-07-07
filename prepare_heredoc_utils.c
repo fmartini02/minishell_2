@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_heredoc_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 18:45:59 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 19:04:33 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:50:55 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	heredoc_sigint_handler(int sig)
 	rl_on_new_line();
 }
 
-void	prepare_and_check_heredocs(t_ast_node *node)
+void	prepare_and_check_heredocs(t_ast_node *node, t_mini *shell)
 {
-	if (prepare_heredocs(node) < 0 || g_sig_code == 130)
+	if (prepare_heredocs(node, shell) < 0 || g_sig_code == 130)
 	{
 		g_sig_code = 0;
 		close_all_heredoc_fds(node);

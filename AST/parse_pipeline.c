@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_pipeline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 12:12:36 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:21:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell,
 			shell->err_print = true;
 			print_unexpected_token(tokens);
 			free_ast(*left);
+			cleanup_shell(shell, -1);
 			return (NULL);
 		}
 	}
@@ -101,15 +102,18 @@ t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right,
 		*tokens = (*tokens)->next;
 		if (is_valid_token(tokens) && is_control_operator((*tokens)->content))
 			*right = operator_case(left, shell, tokens, NULL);
-		if (!(*right))
+		if (!(*right) && shell->err_print == false)
 			*right = parse_simple_cmd(shell, tokens);
 		if (!(*right) && shell->err_print == false)
 		{
 			shell->err_print = true;
 			print_unexpected_token(tokens);
 			free_ast(*left);
+			cleanup_shell(shell, -1);
 			return (NULL);
 		}
+		if (shell->err_print == true)
+			return (NULL);
 		node = create_pipeline_node(*left, *right);
 		if (!node)
 			return (NULL);

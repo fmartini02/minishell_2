@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 14:11:17 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/07 16:28:36 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Helper function to create a direction node
-static t_redirection	*new_redirection(t_redir_type type, char *target)
+static t_redirection	*new_redirection(t_redir_type type, char *target, int kind)
 {
 	t_redirection	*redir;
 
@@ -26,6 +26,10 @@ static t_redirection	*new_redirection(t_redir_type type, char *target)
 		free(redir);
 		return (NULL);
 	}
+	if (kind == SINGLE_QUOTES || kind == DOUBLE_QUOTES)
+		redir->flag_here_doc = true;
+	else
+		redir->flag_here_doc = false;
 	redir->target = strdup(target);
 	if (!redir->target)
 	{
@@ -92,7 +96,7 @@ bool	parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 		*tokens = (*tokens)->next;
 		if (!is_valid_token(tokens) && shell->err_print == false)
 			return (parse_redi_utils(shell, cmd));
-		redir = new_redirection(type, (*tokens)->content);
+		redir = new_redirection(type, (*tokens)->content, (*tokens)->type);
 		if (!redir || add_redirection(cmd, redir) == -1)
 		{
 			print_unexpected_token(tokens);

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/04 19:05:41 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:07:21 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,9 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 		return ;
 	if (node->type == NODE_CMD)
 	{
-		prepare_and_check_heredocs(node);
+		prepare_and_check_heredocs(node, shell);
 		unit = extract_exec_units(node);
 		shell->unit = unit;
-		close_all_heredoc_fds(node);
 		if (unit)
 		{
 			execute_exec_unit(unit, shell);
@@ -120,6 +119,7 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 			}
 			shell->err_print = false;
 		}
+		close_all_heredoc_fds(node);
 	}
 	else if (node->type == NODE_PIPELINE)
 		execute_pipeline(node, shell);

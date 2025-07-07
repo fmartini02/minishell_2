@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:05:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 12:13:57 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:17:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,15 @@ bool	is_parse_subshell(t_tok_lst **tokens)
 	return (false);
 }
 
-char	**add_arg_to_array(char **args, char *new_arg)
+static char	**free_partial_array(char **arr, int last_index)
+{
+	while (--last_index >= 0)
+		free(arr[last_index]);
+	free(arr);
+	return (NULL);
+}
+
+char	**add_arg_to_array(char **args, char *tok_str)
 {
 	char	**new_args;
 	int		len;
@@ -37,20 +45,24 @@ char	**add_arg_to_array(char **args, char *new_arg)
 	while (i < len)
 	{
 		new_args[i] = ft_strdup(args[i]);
+		if (!new_args[i])
+			return (free_partial_array(new_args, i), NULL);
 		free(args[i]);
 		i++;
 	}
-	new_args[i++] = ft_strdup(new_arg);
-	new_args[i] = NULL;
+	new_args[i] = ft_strdup(tok_str);
+	if (!new_args[i])
+		return (free_partial_array(new_args, i));
+	new_args[i + 1] = NULL;
 	free(args);
 	return (new_args);
 }
 
-t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *arg)
+t_cmd_info	*add_arg_to_cmd(t_cmd_info *cmd, char *tok_str)
 {
-	if (!cmd || !arg)
+	if (!cmd || !tok_str)
 		return (cmd);
-	cmd->cmd_args = add_arg_to_array(cmd->cmd_args, arg);
+	cmd->cmd_args = add_arg_to_array(cmd->cmd_args, tok_str);
 	return (cmd);
 }
 

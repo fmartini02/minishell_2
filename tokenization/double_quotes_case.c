@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 17:40:14 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:49:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ char	*dollar_quotes_case(t_mini *shell, size_t *i, size_t *start,
 			if (!content)
 				ft_fatal_memerr(shell);
 		}
-		tmp_dollar = ft_dollar_case(shell, s, i);
+		if (should_print_doll_char(s, i))
+		{
+			tmp_dollar = ft_strdup("$");
+			(*i)++;
+		}
+		else
+			tmp_dollar = ft_dollar_case(shell, s, i);
 		if (!tmp_dollar)
 			return (NULL);
 		content = ft_strjoin_free(content, tmp_dollar);
@@ -62,6 +68,10 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 {
 	size_t	start;
 
+	if (s[*i] == '"' && s[*i + 1] == '"')
+		return ((*i)++, ft_strdup(""));
+	if ((s[*i] == '"' && !s[*i + 1]))
+		return ((*i)++, NULL);
 	start = ++(*i);
 	while (s[*i] && s[*i] != '\"')
 	{
@@ -74,8 +84,6 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 		if (s[*i] != '"')
 			(*i)++;
 	}
-	if (s[*i] != '\"')
-		return (write(2, "\n", 1), NULL);
 	if (*i > start)
 	{
 		content = get_chars_after_symbol(shell, i, start, content);

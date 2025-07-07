@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 11:39:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:55:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	pettish_utils(t_mini *shell, char c, int *return_value, size_t *i)
 		*return_value = double_quotes_case(shell, NULL, i);
 	else if (!is_word_delimiter(c) && c != ' ')
 		*return_value = word_case(shell, NULL, i);
-	else if (c == '$' && s[*i + 1] == ' ')
+	else if (c == '$' && should_print_doll_char(s, i))
 		*return_value = word_case(shell, NULL, i);
 }
 
@@ -45,14 +45,15 @@ static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 	c = s[*i];
 	curr_tok = last_token(shell->tok_input);
 	if (curr_tok && (curr_tok->type == DOLLAR || curr_tok->type == DOUBLE_QUOTES
-			|| curr_tok->type == SINGLE_QUOTES)
+		|| curr_tok->type == SINGLE_QUOTES || curr_tok->type == WORD)
 		&& s[(*i) - 1] != ' ')
 	{
 		*return_value = check_tok_front(shell, i);
 		if (*return_value == EXIT_FAILURE)
 			return ;
+		c = s[*i];
 	}
-	if (*return_value == EXIT_SUCCESS)
+	if (*return_value == EXIT_SUCCESS && c != '$')
 		pettish_utils(shell, c, return_value, i);
 	if (s[*i] && s[*i] != ' ')
 	{

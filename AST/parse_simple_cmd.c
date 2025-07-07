@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_simple_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/07/01 15:55:38 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:16:48 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ t_ast_node	*create_cmd_node(t_cmd_info *cmd)
 
 bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 {
-	char	*token;
+	char	*tok_str;
 
 	while (is_valid_token(tokens) && !is_control_operator(((*tokens)->content)))
 	{
-		token = (*tokens)->content;
-		if (!ft_strcmp(token, "(") && shell->err_print == false)
+		tok_str = (*tokens)->content;
+		if (!ft_strcmp(tok_str, "(") && shell->err_print == false)
 		{
 			shell->err_print = true;
 			ft_putendl_fd("minishell: syntax error near unexpected token `('",
@@ -50,7 +50,7 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 		}
 		else
 		{
-			*cmd = add_arg_to_cmd(*cmd, token);
+			*cmd = add_arg_to_cmd(*cmd, tok_str);
 			if (!(*cmd)->cmd_name)
 				(*cmd)->cmd_name = ft_strdup((*cmd)->cmd_args[0]);
 			if (!(*tokens)->next)
@@ -105,10 +105,13 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst **tokens)
 		|| ft_strchr((*tokens)->content, '<'))
 	{
 		if (!handle_redirections(tokens, cmd, shell))
-			return (free_ast(shell->ast_root), NULL);
+			return(free_cmd_info(cmd), NULL);
 	}
 	if (!simple_cmd_loop(shell, tokens, &cmd))
+	{
+		free_ast(shell->ast_root);
 		return (NULL);
+	}
 	if (!handle_redirections(tokens, cmd, shell))
 		return (free_ast(shell->ast_root), NULL);
 	return (finalize_cmd_node(cmd, shell, tokens));

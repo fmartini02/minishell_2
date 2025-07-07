@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/07/03 19:46:59 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:52:13 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 
 	s = shell->input;
 	len = 0;
-	if (s[*i] == '$' && s[*i + 1] == ' ')
+	if (s[*i] == '$' && should_print_doll_char(s, i))
 	{
 		content = ft_strdup("$");
 		if (!content)

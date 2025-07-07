@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:12:13 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 14:37:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:59:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int	check_tok_back_dollar(t_mini *shell, size_t *i, char *var_value)
 	char	*var_name;
 	int		j;
 
+	if (!var_value)
+		return(VAR_NOT_FOUND);
 	var_name = get_var_name(shell->input, var_value, i, shell);
 	if (!var_name)
 		ft_fatal_memerr(shell);
@@ -110,11 +112,19 @@ var contiene una stringa senza spazzi all'inizio*/
 int	check_tok_back(t_mini *shell, size_t *i, bool is_dollar)
 {
 	char	*var_value;
+	char	*s;
 
 	var_value = NULL;
+	s = shell->input;
 	if (is_dollar)
 	{
-		var_value = ft_dollar_case(shell, shell->input, i);
+		if (should_print_doll_char(s, i))
+		{
+			var_value = ft_strdup("$");
+			*i += 1;
+		}
+		else
+			var_value = ft_dollar_case(shell, shell->input, i);
 		return (check_tok_back_dollar(shell, i, var_value));
 	}
 	else

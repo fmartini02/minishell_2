@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 15:13:27 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 16:42:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:41:30 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*libera tutto ciò che è stato allocato prima dell'errore*/
-void	append_nodes_err(char *tmp, char *var_name,
+void	append_err(char *tmp, char *var_name,
 		char *var_value, t_tok_lst *new_node)
 {
 	if (tmp)
@@ -28,23 +28,25 @@ void	append_nodes_err(char *tmp, char *var_name,
 
 /*crea il nodo mettendo dentro la prima "parola" incontrata
 dentro la variabile*/
-static void	append_var_utils(t_mini *shell, char *var_value, char *var_name,
+static void	init_new_nodes(t_mini *shell, char *var_value, char *var_name,
 	int j)
 {
 	char		*tmp;
 	t_tok_lst	*new_node;
+	char		*dup;
 
 	tmp = ft_substr(var_value, j, ft_strlen_till_space(var_value, j));
-	new_node = new_tok_lst(tmp, DOLLAR, var_name);
+	dup = ft_strdup(var_name);
+	new_node = new_tok_lst(tmp, DOLLAR, dup);
 	if (!new_node || !tmp)
 	{
-		append_nodes_err(tmp, var_name, var_value, new_node);
+		append_err(tmp, var_name, var_value, new_node);
 		ft_fatal_memerr(shell);
 	}
 	add_back_tok_lst(&shell->tok_input, new_node);
 	if (!shell->tok_input)
 	{
-		append_nodes_err(tmp, var_name, var_value, new_node);
+		append_err(tmp, var_name, var_value, new_node);
 		ft_fatal_memerr(shell);
 	}
 }
@@ -60,15 +62,14 @@ int	append_var(char *var_value, char *var_name, t_mini *shell, int j)
 	shell->tok_input = last_token(shell->tok_input);
 	while (var_value[j])
 	{
-		append_var_utils(shell, var_value, var_name, j);
+		init_new_nodes(shell, var_value, var_name, j);
 		if (shell->tok_input->next)
 			shell->tok_input = shell->tok_input->next;
-		shell->tok_input->type = DOLLAR;
-		shell->tok_input->tok_name = var_name;
 		j += ft_strlen_till_space(var_value, j);
 		j = ft_skip_spaces(var_value, j);
 	}
 	shell->tok_input = head;
+	free(var_value);
 	return (EXIT_SUCCESS);
 }
 
@@ -144,9 +145,8 @@ int	tok_dollar_case(t_mini *shell, size_t *i, char *content)
 		ft_fatal_memerr(shell);
 	append_var(content, var_name, shell, 0);
 	if (content)
-	{
 		free(content);
-		content = NULL;
-	}
+	if (var_name)
+		free(var_name);
 	return (EXIT_SUCCESS);
 }

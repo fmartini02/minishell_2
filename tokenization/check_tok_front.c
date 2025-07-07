@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 12:28:00 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 16:35:31 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:36:02 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,5 @@ int	check_tok_front(t_mini *shell, size_t *i)
 	if (return_value == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	update_nodes(shell, &last_node, &curr_node);
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }

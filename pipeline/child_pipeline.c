@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/04 19:06:12 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 19:04:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,39 @@ static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes,
 	}
 }
 
+void	free_info(t_pipeinfo *info)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = info->count;
+	if (info->pipes)
+	{
+		while (i < count - 1)
+		{
+			if (info->pipes[i])
+				free(info->pipes[i]);
+			i++;
+		}
+		free(info->pipes);
+		info->pipes = NULL;
+	}
+	if (info->pids)
+	{
+		free(info->pids);
+		info->pids = NULL;
+	}
+	info->idx = 0;
+}
+
+
 void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 {
 	t_exec_unit	*unit;
 
 	unit = extract_exec_units(node);
+	info->shell->unit = unit;
 	if (!unit)
 		exit(EXIT_FAILURE);
 	redirect_pipeline_io(unit, info->pipes, info->idx, info->count);
@@ -72,7 +100,10 @@ void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 	}
 	close_all_pipes(info->pipes, info->count);
 	if (unit->argv && is_builtin(unit->argv[0]))
+	{
+		free_info(info);
 		exit(execute_builtin(unit, info->shell, false));
+	}
 	child_process(unit, info->shell);
 	free_exec_unit(unit);
 	exit(EXIT_SUCCESS);

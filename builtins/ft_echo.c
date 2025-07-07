@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:19:54 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 18:23:46 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:06:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ se viene specificata l'opzione -n (o più meno -nn)
 il carattere new_line non viene stampato*/
 void	ft_echo(char **args, t_mini *shell)
 {
-	int		i;
-	bool	new_line;
+	int			i;
+	bool		new_line;
 
 	i = 1;
 	new_line = true;
