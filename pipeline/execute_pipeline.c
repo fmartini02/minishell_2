@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 15:26:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:45:54 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,8 @@ void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
 		return ;
 	fork_recursive(cmds, &info);
 	if (info.pipes)
-	{
-		close_all_pipes(info.pipes, info.count);
-		free_pipes(info.pipes, info.count);
-	}
+		free_info(&info);
 	wait_all(&info);
 	close_all_heredoc_fds(cmds);
-	free(info.pids);
+	// free(info.pids);
 }

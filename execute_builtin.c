@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 12:17:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:31:07 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		ft_unset(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		ft_exit(shell, args, is_parent);
+		ft_exit(shell, args);
 	if (is_parent == true)
 		cleanup_shell(shell, shell->last_exit_code);
 	return (shell->last_exit_code);

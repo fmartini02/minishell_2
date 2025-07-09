@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:41:27 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 13:41:33 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:55:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,17 @@ void	ft_setenv(t_list **env, const char *key, const char *value)
 	ft_lstadd_back(env, ft_lstnew(new_entry));
 }
 
-static char	*get_oldpwd(void)
-{
-	char	*oldpwd;
+// static char	*get_oldpwd(void)
+// {
+// 	char	*oldpwd;
+// 	size_t	i;
 
-	oldpwd = getcwd(NULL, 0);
-	if (!oldpwd)
-		perror("cd");
-	return (oldpwd);
-}
+// 	oldpwd = getcwd(NULL, 0);
+// 	i = 0;
+// 	if (!oldpwd)
+// 		return(NULL);
+// 	return (oldpwd);
+// }
 
 static void	change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
 {
@@ -91,25 +93,32 @@ void	ft_cd(char **args, t_mini *shell)
 {
 	char	*oldpwd;
 	char	*home;
+	size_t	i;
 
-	oldpwd = get_oldpwd();
-	if (!oldpwd)
+	i = 0;
+	oldpwd = getcwd(NULL, 0);
+	if (!args[1]) // Caso: cd senza argomenti
 	{
-		shell->last_exit_code = 1;
-		return ;
-	}
-	if (!args[1])
-	{
-		home = getenv("HOME");
-		if (!home)
+		home = ft_dollar_case(shell, "$HOME", &i); // oppure ft_getenv(shell->env, "HOME")
+		if (home[0] == '\0')
 		{
 			ft_putendl_fd("cd: HOME not set", 2);
-			free(oldpwd);
 			shell->last_exit_code = 1;
+			free(home);
+			if (oldpwd)
+				free(oldpwd);
 			return ;
 		}
+		if (!oldpwd)
+			oldpwd = ft_strdup(""); // o "UNKNOWN", o NULL se preferisci
 		change_dir_and_update(shell, oldpwd, home);
-		return ;
+		free(home);
 	}
-	change_dir_and_update(shell, oldpwd, args[1]);
+	else
+	{
+		if (!oldpwd)
+			oldpwd = ft_strdup("");
+		change_dir_and_update(shell, oldpwd, args[1]);
+	}
 }
+

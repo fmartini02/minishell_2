@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 12:32:40 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:18:36 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void	print_sorted_env(t_list *env)
 	i = 0;
 	while (env_array[i])
 		print_export_line(env_array[i++]);
-	free_split(env_array);
+	free_mat(env_array);
 }
 
 void	export_err(char *s)

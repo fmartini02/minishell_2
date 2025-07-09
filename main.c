@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 16:59:34 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:04:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	parsing(t_mini *shell)
 	t_tok_lst	*head;
 
 	expand_doll(shell, shell->input);
-	//printf("\n%s\n", shell->input);
 	if (!tokenize_input(shell))
 	{
 		if (shell)
@@ -74,10 +73,11 @@ void	loop_shell(t_mini *shell)
 {
 	while (1)
 	{
-		shell->prompt = get_prompt();
+		shell->prompt = get_prompt(shell);
 		if (!shell->prompt)
 			shell->prompt = ft_strdup("minishell$ ");
 		g_sig_code = -42;
+		printf("%s\n", shell->prompt);
 		shell->input = readline(shell->prompt);
 		g_sig_code = 0;
 		if (!shell->input)

@@ -6,11 +6,23 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/07/04 19:03:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:22:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	is_there_letters(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while(s[i] && !ft_isalpha(s[i]))
+		i++;
+	if (s[i] && ft_isalpha(s[i]))
+		return (true);
+	return (false);
+}
 
 /* Verifica gli argomenti del comando exit
 - Nessun argomento: exit 0
@@ -26,8 +38,9 @@ static int	ft_exit_args_check(char **args)
 	arg_count = ft_matlen((void **)args);
 	if (arg_count > 2)
 	{
-		ft_putstr_fd("exit\n", 2);
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		if (is_there_letters(args[1]))
+			return (2);
+		ft_putstr_fd("exit\nexit: too many arguments\n", 2);
 		return (1);
 	}
 	else if (arg_count == 2)
@@ -62,7 +75,8 @@ static int	ft_atol_check(const char *str, long *out)
 	}
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) || res > (LONG_MAX - (str[i] - '0')) / 10)
+		if (!ft_isdigit(str[i]) || (sign > 0 && res > (LONG_MAX - (str[i] - '0')) / 10)
+			||(sign < 0 && - res < (LONG_MIN + (str[i] -'0')) / 10))
 			return (0);
 		res = res * 10 + (str[i] - '0');
 		i++;
@@ -78,7 +92,7 @@ static void	ft_non_digit_exit(char *arg, t_mini *shell)
 	ft_putstr_fd("exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
-	cleanup_shell(shell, 255);
+	cleanup_shell(shell, 2);
 }
 
 /* Funzione pricipale che implementa il comando exit
@@ -86,7 +100,7 @@ static void	ft_non_digit_exit(char *arg, t_mini *shell)
 - Uno: esce con quel valore (convertito in int tra 0-255)
 - Più di uno: errore e non esce
 - Argomento non numerico: exit 255*/
-void	ft_exit(t_mini *shell, char **args, bool is_parent)
+void	ft_exit(t_mini *shell, char **args)
 {
 	int		ret_err;
 	long	exit_val;
@@ -94,7 +108,10 @@ void	ft_exit(t_mini *shell, char **args, bool is_parent)
 
 	ret_err = ft_exit_args_check(args);
 	if (ret_err == 1)
+	{
+		cleanup_shell(shell, -1);
 		return ;
+	}
 	else if (ret_err == 2)
 		ft_non_digit_exit(args[1], shell);
 	if (ft_matlen((void **)args) == 2)
@@ -109,6 +126,5 @@ void	ft_exit(t_mini *shell, char **args, bool is_parent)
 	else
 		exit_val = 0;
 	ft_putstr_fd("exit\n", 1);
-	if (is_parent)
-		cleanup_shell(shell, (int)exit_val);
+	cleanup_shell(shell, (int)exit_val);
 }

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 12:12:51 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:47:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,33 +57,6 @@ static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes,
 	}
 }
 
-void	free_info(t_pipeinfo *info)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = info->count;
-	if (info->pipes)
-	{
-		while (i < count - 1)
-		{
-			if (info->pipes[i])
-				free(info->pipes[i]);
-			i++;
-		}
-		free(info->pipes);
-		info->pipes = NULL;
-	}
-	if (info->pids)
-	{
-		free(info->pids);
-		info->pids = NULL;
-	}
-	info->idx = 0;
-}
-
-
 void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 {
 	t_exec_unit	*unit;
@@ -102,9 +75,9 @@ void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 	if (unit->argv && is_builtin(unit->argv[0]))
 	{
 		free_info(info);
-		exit(execute_builtin(unit, info->shell));
+		exit(chose_builtin(unit, info->shell, true));
 	}
-	child_process(unit, info->shell);
+	child_process(unit, info->shell, info);
 	free_exec_unit(unit);
 	exit(EXIT_SUCCESS);
 }

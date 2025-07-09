@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 12:17:06 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:45:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <limits.h>
 # include <sys/wait.h>
 # include <sys/ioctl.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <curses.h>
@@ -152,7 +153,7 @@ void		cleanup_shell(t_mini *shell, int exit_code);
 //BUILTINS
 void		ft_echo(char **args, t_mini *shell);
 void		ft_env(t_mini *shell, char **args);
-void		ft_exit(t_mini *shell, char **args, bool is_parent);
+void		ft_exit(t_mini *shell, char **args);
 void		ft_pwd(t_mini *shell, char **args);
 void		ft_cd(char **args, t_mini *shell);
 void		ft_export(t_mini *shell, char **args);
@@ -163,7 +164,7 @@ char		*ft_dollar_case(t_mini *shell, char *str, size_t *i);
 char		*get_env_value(t_mini *shell, const char *var_name);
 
 // prompt.c
-char		*get_prompt(void);
+char		*get_prompt(t_mini *shell);
 
 // redirections.c
 int			apply_redirections(t_exec_unit *unit, t_mini *shell);
@@ -211,7 +212,7 @@ t_exec_unit	*extract_exec_units(t_ast_node *node);
 // execution.c
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		execute_ast(t_ast_node *node, t_mini *shell);
-void		child_process(t_exec_unit *unit, t_mini *shell);
+void		child_process(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info);
 
 // execution_utils.c
 void		exit_command_not_found(t_exec_unit *unit);
@@ -225,8 +226,8 @@ bool		is_cd_export_unset_exit(const char *cmd);
 
 //PIPELINE
 char		**env_list_to_array(t_list *env);
+void		free_info(t_pipeinfo *info);
 void		close_all_pipes(int **pipes, int count);
-void		free_pipes(int **pipes, int count);
 int			count_pipeline_commands(t_ast_node *cmd_list);
 int			**create_pipes(int count);
 void		child_pipeline(t_ast_node *node, t_pipeinfo *info);

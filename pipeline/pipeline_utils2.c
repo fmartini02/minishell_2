@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:12:36 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 16:12:58 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:18:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**env_list_to_array(t_list *env)
 		return (NULL);
 	if (fill_env_array(envp, env) < 0)
 	{
-		free_split(envp);
+		free_mat(envp);
 		return (NULL);
 	}
 	return (envp);

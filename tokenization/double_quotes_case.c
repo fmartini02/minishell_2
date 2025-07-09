@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 22:35:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:39:03 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 
 	start = 0;
 	if (s[*i] == '"' && s[*i + 1] == '"')
-		return ((*i)++, ft_strdup(""));
+		return ((*i) += 2, ft_strdup(""));
 	if (s[*i] == '"' && s[*i +1] ==' ')
 	{
 		start = ft_skip_spaces(s, *i + 1);
@@ -85,6 +85,10 @@ int	double_quotes_case(t_mini *shell, char *content, size_t *i)
 
 	s = shell->input;
 	content = double_quotes_utils(shell, content, i, shell->input);
+	if (!content)
+		return (EXIT_FAILURE);
+	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
+		content = token_join(content, shell, i);
 	if (content[0] == '\0')
 	{
 		node = new_tok_lst(content, DOUBLE_QUOTES, NULL);
@@ -93,12 +97,8 @@ int	double_quotes_case(t_mini *shell, char *content, size_t *i)
 		add_back_tok_lst(&(shell->tok_input), node);
 		if (!shell->tok_input)
 			ft_fatal_memerr(shell);
-		return ((*i)++, EXIT_SUCCESS);
+		return (EXIT_SUCCESS);
 	}
-	if (!content)
-		return (EXIT_FAILURE);
-	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
-		content = token_join(content, shell, i);
 	if (content[0] == '\0')
 		return (free(content), EXIT_SUCCESS);
 	node = new_tok_lst(content, DOUBLE_QUOTES, NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:12:20 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/26 13:44:21 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:45:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,57 @@ void	close_all_pipes(int **pipes, int count)
 {
 	int	i;
 
+	if (!pipes || count <= 0)
+		return ;
 	i = 0;
 	while (i < count - 1)
 	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
+		if (pipes[i])
+		{
+			close(pipes[i][0]);
+			close(pipes[i][1]);
+		}
 		i++;
 	}
 }
 
-void	free_pipes(int **pipes, int count)
+void	free_pipes(t_pipeinfo *info)
+{
+	int	i;
+
+	if (!info || !info->pipes)
+		return ;
+	i = 0;
+	while (i < info->count - 1)
+	{
+		if (info->pipes[i])
+		{
+			close(info->pipes[i][0]);
+			close(info->pipes[i][1]);
+			free(info->pipes[i]);
+		}
+		i++;
+	}
+	free(info->pipes);
+	info->pipes = NULL;
+}
+
+void	free_info(t_pipeinfo *info)
 {
 	int	i;
 
 	i = 0;
-	while (i < count - 1)
+	if (!info)
+		return ;
+	if (info->pipes)
+		free_pipes(info);
+	if (info->pids)
 	{
-		free(pipes[i]);
-		i++;
+		free(info->pids);
+		info->pids = NULL;
 	}
-	free(pipes);
+	info->count = 0;
+	info->idx = 0;
 }
 
 int	count_pipeline_commands(t_ast_node *node)

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:17 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/08 19:02:51 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:49:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,13 @@ char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 	{
 		free(var_name);
 		ret = ft_strdup("");
+		if (!ret)
+			ft_fatal_memerr(shell);
 		return (ret);
 	}
 	ret = ft_strdup(var_value);
+	if (!ret)
+		ft_fatal_memerr(shell);
 	free(var_name);
 	return (ret);
 }

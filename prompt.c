@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:23:02 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/25 12:23:03 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:15:48 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,32 @@ static char	*full_prompt(char *cwd)
 }
 
 /* Returns the prompt to display to the user.
-If the current directory is under $HOME, use '~', 
+If the current directory is under $HOME, use '~',
 otherwise use the full path. */
-char	*get_prompt(void)
+char	*get_prompt(t_mini *shell)
 {
 	char	*cwd;
 	char	*home;
 	char	*prompt;
+	size_t	i;
 
 	cwd = getcwd(NULL, 0);
+	i = 0;
 	if (!cwd)
 	{
-		perror("getcwd");
-		return (ft_strdup("minishell$ "));
+		prompt = ft_dollar_case(shell, "$PWD", &i);
+		home = ft_dollar_case(shell, "$HOME", &i);
+		if (home && ft_strncmp(prompt, home, ft_strlen(home)) == 0)
+			prompt = home_prompt(prompt, home);
+		free(home);
+		return (prompt);
 	}
-	home = getenv("HOME");
+	home = ft_dollar_case(shell, "$HOME", &i);
 	if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
 		prompt = home_prompt(cwd, home);
 	else
 		prompt = full_prompt(cwd);
 	free(cwd);
+	free(home);
 	return (prompt);
 }

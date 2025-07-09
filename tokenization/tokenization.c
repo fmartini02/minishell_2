@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 21:36:43 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:39:43 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	return_value = EXIT_SUCCESS;
 	if (s[*i] == '\'' || s[*i] == '"' || !is_word_delimiter(s[*i]))
 		pettish_tokens(shell, s, i, &return_value);
-	if (return_value == EXIT_FAILURE)
-		return (return_value);
+	// if (return_value == EXIT_FAILURE)
+	// 	return (return_value);
 	else if (s[*i] == '*')
 		return_value = wildcard_case(shell, content, i);
 	else if (s[*i] == '(' || s[*i] == ')')
@@ -91,7 +91,8 @@ bool	tokenize_input(t_mini *shell)
 			return (false);
 		else if (return_value == VAR_NOT_FOUND)
 			continue ;
-		i = ft_skip_spaces(s, i);
+		if (s[i])
+			i = ft_skip_spaces(s, i);
 	}
 	return (true);
 }

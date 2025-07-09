@@ -6,13 +6,13 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 12:18:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:49:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_process(t_exec_unit *unit, t_mini *shell)
+void	child_process(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
 {
 	char	*cmd_path;
 	char	**envp;
@@ -29,6 +29,8 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	if (!cmd_path)
 	{
 		exit_command_not_found(unit);
+		if (info)
+			free_info(info);
 		cleanup_shell(shell, 127);
 	}
 	envp = env_list_to_array(shell->env);
@@ -37,7 +39,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	execve(cmd_path, unit->argv, envp);
 	perror("execve failed");
 	free(cmd_path);
-	free_split(envp);
+	free_mat(envp);
 	cleanup_shell(shell, 127);
 }
 
@@ -79,7 +81,7 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 		return ;
 	}
 	if (pid == 0)
-		child_process(unit, shell);
+		child_process(unit, shell, NULL);
 	else
 		wait_for_child(pid, shell);
 }
@@ -122,6 +124,8 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 			}
 			shell->err_print = false;
 		}
+		if (shell->last_exit_code != 0)
+			return ;
 		close_all_heredoc_fds(node);
 	}
 	else if (node->type == NODE_PIPELINE)
