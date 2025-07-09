@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 11:06:37 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:32:40 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ static void	print_sorted_env(t_list *env)
 	free_split(env_array);
 }
 
+void	export_err(char *s)
+{
+	ft_putstr_fd("minishell: export: ", STDERR_FILENO);
+	ft_putstr_fd(s, STDERR_FILENO);
+	ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
+}
+
 void	ft_export(t_mini *shell, char **args)
 {
 	int		i;
@@ -111,11 +118,11 @@ void	ft_export(t_mini *shell, char **args)
 			if (is_valid_varname(args[i]))
 				update_env_var(&shell->env, args[i], eq + 1);
 			else
-				ft_putendl_fd("minishell: export: not a valid identifier", 2);
+				export_err(args[i]);
 			*eq = '=';
 		}
 		else if (!is_valid_varname(args[i]))
-			ft_putendl_fd("minishell: export: not a valid identifier", 2);
+			export_err(args[i]);
 		else
 			ft_lstadd_back(&shell->env, ft_lstnew(args[i]));
 		i++;
