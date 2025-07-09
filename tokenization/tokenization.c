@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/07 22:55:50 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 21:36:43 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,53 +15,33 @@
 bool	is_word_delimiter(char c)
 {
 	if (c != '\'' && c != '"' && c != '<' && c != '>'
-		&& c != '\0' && c != '|' && c != '$' && c != ' ')
+		&& c != '\0' && c != '|'  && c != ' ')
 		return (false);
 	return (true);
 }
 
-void	pettish_utils(t_mini *shell, char c, int *return_value, size_t *i)
+bool	should_print_doll_char(char *s, size_t *i)
 {
-	char	*s;
-
-	s = shell->input;
-	if (c == '\'')
-		*return_value = single_quotes_case(shell, NULL, i);
-	else if (c == '"')
-		*return_value = double_quotes_case(shell, NULL, i);
-	else if (!is_word_delimiter(c) && c != ' ')
-		*return_value = word_case(shell, NULL, i);
-	else if (c == '$' && should_print_doll_char(s, i))
-		*return_value = word_case(shell, NULL, i);
+	if (s[*i] != '$')
+		return (false);
+	if (s[*i + 1] == '$' || s[*i + 1] == ' ')
+		return (true);
+	if (s[*i + 1] == '\0' || ft_ispecial_char(s[*i + 1]))
+		return (true);
+	return (false);
 }
+
 
 /*gestisce quei token che vanno uniti se non ci sono spazzi con
 un focus specifico per il caso <"c"$var"d"> */
 static void	pettish_tokens(t_mini *shell, char *s, size_t *i, int *return_value)
 {
-	t_tok_lst	*curr_tok;
-	char		c;
-
-	c = s[*i];
-	curr_tok = last_token(shell->tok_input);
-	if (curr_tok && (curr_tok->type == DOLLAR || curr_tok->type == DOUBLE_QUOTES
-		|| curr_tok->type == SINGLE_QUOTES || curr_tok->type == WORD)
-		&& s[(*i) - 1] != ' ')
-	{
-		*return_value = check_tok_front(shell, i);
-		if (*return_value == EXIT_FAILURE)
-			return ;
-		c = s[*i];
-	}
-	if (*return_value == EXIT_SUCCESS && c != '$')
-		pettish_utils(shell, c, return_value, i);
-	if (s[*i] && s[*i] != ' ')
-	{
-		if (s[*i] == '$' && s[*i] != ' ')
-			*return_value = check_tok_back(shell, i, true);
-		else
-			*return_value = check_tok_back(shell, i, false);
-	}
+	if (s[*i] == '\'')
+		*return_value = single_quotes_case(shell, NULL, i);
+	else if (s[*i] == '"')
+		*return_value = double_quotes_case(shell, NULL, i);
+	else if (!is_word_delimiter(s[*i]) && s[*i] != ' ')
+		*return_value = word_case(shell, NULL, i);
 }
 
 /* Restituisce un token applicando anche alcune espansioni <$var>
@@ -77,8 +57,6 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 		pettish_tokens(shell, s, i, &return_value);
 	if (return_value == EXIT_FAILURE)
 		return (return_value);
-	if (s[*i] == '$')
-		return_value = tok_dollar_case(shell, i, content);
 	else if (s[*i] == '*')
 		return_value = wildcard_case(shell, content, i);
 	else if (s[*i] == '(' || s[*i] == ')')

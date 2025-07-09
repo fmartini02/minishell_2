@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/07/07 16:28:36 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:13:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 			cmd->redirections = NULL;
 			if (redir)
 				free(redir);
-			return (false);
+			return (shell->err_print = true, false);
 		}
 		*tokens = (*tokens)->next;
 	}

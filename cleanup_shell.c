@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:50:22 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 18:54:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:23:21 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	cleanup_shell(t_mini *shell, int exit_code)
 	if (exit_code >= 0)
 		free_env(shell);
 	free_ast_tok_unit_input_prompt(shell);
+	if (shell->err_print == true)
+		shell->last_exit_code = 2;
 	if (exit_code >= 0)
 		exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/07 19:32:16 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:57:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,20 +243,15 @@ void		setup_sig_handler(void);
 void		signal_handler(int sig);
 
 //TOKENIZATION
+bool		tokenize_input(t_mini *shell);
 int			and_case(t_mini *shell, char *content, size_t *i);
-char		*get_var_name(char *s, char *content, size_t *i, t_mini *shell);
-int			append_var(char *var_value, char *var_name, t_mini *shell, int j);
 int			double_quotes_case(t_mini *shell, char *content, size_t *i);
 int			pipe_char_case(t_mini *shell, char *content, size_t *i);
 bool		is_word_delimiter(char c);
+bool		should_print_doll_char(char *s, size_t *i);
 int			redi_case(t_mini *shell, char *content, size_t *i);
 int			single_quotes_case(t_mini *shell, char *content, size_t *i);
 int			subshell_case(t_mini *shell, char *content, size_t *i);
-size_t		get_doll_indx(char *s, size_t i);
-int			tok_dollar_case(t_mini *shell, size_t *i, char *content);
-bool		tokenize_input(t_mini *shell);
-int			check_tok_front(t_mini *shell, size_t *i);
-int			check_tok_back(t_mini *shell, size_t *i, bool is_dollar);
 int			word_case(t_mini *shell, char *content, size_t *i);
 int			wildcard_case(t_mini *shell, char *content, size_t *i);
 void		add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node);
@@ -264,9 +259,9 @@ t_tok_lst	*new_tok_lst(char *content, t_tok_type type, char *tok_name);
 t_tok_lst	*last_token(t_tok_lst *head);
 void		free_tok_lst(t_tok_lst *head);
 void		print_tok_lst(t_tok_lst *head);
-size_t		get_end_indx(char *s, size_t doll_indx);
-size_t		get_start_indx(char *s, size_t doll_indx);
-size_t		get_doll_indx(char *s, size_t i);
-bool		should_print_doll_char(char *s, size_t *i);
+void		expand_doll(t_mini *shell, char *in);
+char		*add_var(char *line, size_t *i, char *to_print, t_mini *shell);
+char		*to_join(char *s, size_t *i, t_mini *shell);
+char		*token_join(char *content, t_mini *shell, size_t *i);
 
 #endif

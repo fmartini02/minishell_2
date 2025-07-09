@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/07/07 22:52:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 22:19:09 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,19 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 
 	s = shell->input;
 	len = 0;
-	if (s[*i] == '$' && should_print_doll_char(s, i))
-	{
-		content = ft_strdup("$");
-		if (!content)
-			ft_fatal_memerr(shell);
-		append_new_node(shell, content);
-		return (EXIT_SUCCESS);
-	}
 	while (s[*i + len]
-		&& !is_word_delimiter(s[*i + len])
+		&& (!is_word_delimiter(s[*i + len]))
 		&& s[*i + len] != '\n'
 		&& !ft_ispace(s[*i + len]))
 		len++;
-	end = len + *i;
-	if (!get_content(&content, s, i, end))
-		ft_fatal_memerr(shell);
+	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
+		content = token_join(content, shell, i);
+	else
+	{
+		end = len + *i;
+		if (!get_content(&content, s, i, end))
+			ft_fatal_memerr(shell);
+	}
 	append_new_node(shell, content);
 	return (EXIT_SUCCESS);
 }

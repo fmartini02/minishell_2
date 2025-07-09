@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:17 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/03 19:22:00 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 19:02:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 	if (str[*i + 1] == '?')
 		return (expand_exit_code(shell, i));
 	if (str[*i + 1] >= '0' && str[*i + 1] <= '9')
-		return ((*i) += 2, NULL);
+		return ((*i) += 2, ft_strdup(""));
 	var_name = extract_var_name(str, start, &j);
 	if (!var_name)
 		return (*i = j, NULL);
@@ -82,7 +82,7 @@ char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 	if (!var_value)
 	{
 		free(var_name);
-		ret = NULL;
+		ret = ft_strdup("");
 		return (ret);
 	}
 	ret = ft_strdup(var_value);

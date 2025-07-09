@@ -6,7 +6,7 @@
 #    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/07/01 19:38:46 by francema         ###   ########.fr        #
+#    Updated: 2025/07/08 16:48:24 by francema         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,11 +17,10 @@ SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
 	prepare_heredocs.c handle_redirections.c close_heredoc_fds.c \
 	cleanup_shell.c prepare_heredoc_utils.c \
 
-TOK_SRC = and_case.c check_tok_back.c check_tok_front.c \
-		double_quotes_case.c single_quotes_case.c pipe_case.c \
-		redi_case.c subshell_case.c tok_dollar_case.c \
-		tokenization.c word_case.c wildcard_case.c token_utils.c \
-		get_var_name.c get_var_name_utils.c \
+TOK_SRC = and_case.c tokens_join.c double_quotes_case.c \
+		single_quotes_case.c pipe_case.c \
+		redi_case.c subshell_case.c  tokenization.c \
+		word_case.c wildcard_case.c token_utils.c  expand_doll.c \
 
 BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c ft_export.c ft_unset.c \
 

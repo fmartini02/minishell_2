@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/07 22:21:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:59:34 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	parsing(t_mini *shell)
 {
 	t_tok_lst	*head;
 
+	expand_doll(shell, shell->input);
+	//printf("\n%s\n", shell->input);
 	if (!tokenize_input(shell))
 	{
 		if (shell)
@@ -88,7 +90,6 @@ void	loop_shell(t_mini *shell)
 		}
 		add_history(shell->input);
 		parsing(shell);
-
 		cleanup_shell(shell, -1);
 		shell->err_print = false;
 	}

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 09:51:19 by francema          #+#    #+#             */
-/*   Updated: 2025/05/14 17:50:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:10:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	str = 0;
 	if (!s1)
 	{
-		s1 = malloc(sizeof(char));
-		s1[0] = '\0';
+		s1 = ft_strdup("");
+		if (!s1)
+			return (NULL);
 	}
 	size = ft_strlen(s2) + ft_strlen(s1) + 1;
 	str = (char *)malloc(size);
