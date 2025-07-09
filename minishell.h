@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 16:57:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:17:06 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,8 +219,9 @@ void		free_split(char **arr);
 char		*get_path_command(t_mini *shell, const char *cmd);
 
 // execute_builtin.c
-int			execute_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent);
-int			handle_critical_builtin(t_exec_unit *unit, t_mini *shell);
+int			execute_builtin(t_exec_unit *unit, t_mini *shell);
+int			chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent);
+bool		is_cd_export_unset_exit(const char *cmd);
 
 //PIPELINE
 char		**env_list_to_array(t_list *env);

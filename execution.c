@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 19:07:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:18:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	child_process(t_exec_unit *unit, t_mini *shell)
 	if (apply_redirections(unit, shell) != 0)
 		exit(1);
 	if (is_builtin(unit->argv[0]))
-		exit(execute_builtin(unit, shell, false));
+		exit(execute_builtin(unit, shell));
 	cmd_path = get_path_command(shell, unit->argv[0]);
 	if (!cmd_path)
 	{
@@ -66,8 +66,11 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 
 	if (!unit || !unit->argv || !unit->argv[0])
 		return ;
-	if (handle_critical_builtin(unit, shell))
+	if (is_cd_export_unset_exit(unit->argv[0]))
+	{
+		shell->last_exit_code = execute_builtin(unit, shell);
 		return ;
+	}
 	pid = fork();
 	if (pid < 0)
 	{

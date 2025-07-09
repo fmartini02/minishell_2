@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 19:04:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:12:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
 	if (unit->argv && is_builtin(unit->argv[0]))
 	{
 		free_info(info);
-		exit(execute_builtin(unit, info->shell, false));
+		exit(execute_builtin(unit, info->shell));
 	}
 	child_process(unit, info->shell);
 	free_exec_unit(unit);
