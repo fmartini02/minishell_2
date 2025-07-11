@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:11:11 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 16:07:50 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:05:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ void	here_doc_doll_expansion(int write_fd, char *line, t_mini *shell)
 					}
 					i++;
 				}
-				break ;
 			}
+			i++;
 		}
 		if (line[i] != '$')
 		{
@@ -167,16 +167,44 @@ void	here_doc_doll_expansion(int write_fd, char *line, t_mini *shell)
 	free(to_print);
 }
 
-static int	heredoc_read_loop(int write_fd, const char *delimiter,
+char	*remove_quotes(const char *str)
+{
+	char	*new_str;
+	int		i = 0, j = 0;
+	size_t	len;
+
+	if (!str)
+		return (NULL);
+	len = strlen(str);
+	new_str = malloc(len + 1);
+	if (!new_str)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+			new_str[j++] = str[i];
+		i++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+
+
+static int	heredoc_read_loop(int write_fd, char *delimiter,
 	struct sigaction *old_sa, t_mini *shell)
 {
 	char	*line;
 	bool	doll_exp;
+	char	*tmp;
 
 	doll_exp = true;
-	printf("%s\n", delimiter);
+	tmp = NULL;
 	if (ft_strchr(delimiter, '\'') || ft_strchr(delimiter, '"'))
+	{
 		doll_exp = false;
+		tmp = remove_quotes(delimiter);
+		delimiter = tmp;
+	}
 	while (1)
 	{
 		line = readline("> ");
@@ -200,10 +228,12 @@ static int	heredoc_read_loop(int write_fd, const char *delimiter,
 			here_doc_doll_expansion(write_fd, line, shell);
 		}
 	}
+	if (tmp)
+		free(tmp);
 	return (sigaction_return(old_sa, 0));
 }
 
-static int	fill_heredoc_content(int write_fd, const char *delimiter, t_mini *shell)
+static int	fill_heredoc_content(int write_fd, char *delimiter, t_mini *shell)
 {
 	struct sigaction	sa;
 	struct sigaction	old_sa;
@@ -221,7 +251,10 @@ static int	setup_heredoc_pipe(t_redirection *redir, t_mini *shell)
 	int	pipefd[2];
 
 	if (pipe(pipefd) == -1)
+	{
+		cleanup_shell(shell, -1);
 		return (-1);
+	}
 	if (fill_heredoc_content(pipefd[1], redir->target, shell) < 0)
 	{
 		close(pipefd[1]);

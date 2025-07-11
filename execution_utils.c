@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:18:34 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 16:28:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:33:17 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ char	*get_path_command(t_mini *shell, const char *cmd)
 
 	if (ft_strchr(cmd, '/'))
 		return(check_cmd(cmd, shell));
+	if (cmd[0] == '\0')
+		return (NULL);
 	path_var = get_env_value(shell, "PATH");
 	if (!path_var)
 	{
@@ -107,7 +109,7 @@ char	*get_path_command(t_mini *shell, const char *cmd)
 	}
 	paths = ft_split(path_var, ':');
 	if (!paths)
-		return (NULL);
+		cleanup_shell(shell, 69);
 	full_path = search_in_paths(paths, cmd);
 	free_mat(paths);
 	return (full_path);

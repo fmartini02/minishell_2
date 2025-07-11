@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 22:49:33 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:38:26 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	child_process(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
 	if (!unit ||!unit->argv || !unit->argv[0])
 		exit(0);
 	if (apply_redirections(unit, shell) != 0)
-		exit(1);
+		cleanup_shell(shell, 1);
 	if (is_builtin(unit->argv[0]))
-		exit(execute_builtin(unit, shell));
+		exit(execute_builtin(unit, shell, info));
 	cmd_path = get_path_command(shell, unit->argv[0]);
 	if (!cmd_path)
 	{
@@ -66,11 +66,34 @@ void	execute_exec_unit(t_exec_unit *unit, t_mini *shell)
 {
 	pid_t	pid;
 
-	if (!unit || !unit->argv || !unit->argv[0])
+	if (!unit)
 		return ;
+
+	// Caso: solo redirezioni, nessun comando
+	if ((!unit->argv || !unit->argv[0]) && unit->redirs)
+	{
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork failed");
+			shell->last_exit_code = 1;
+			return ;
+		}
+		if (pid == 0)
+		{
+			if (apply_redirections(unit, shell) != 0)
+				cleanup_shell(shell, 1); // stampa già gli errori
+			cleanup_shell(shell, 0); // redirezione applicata, nessun comando
+		}
+		else
+		{
+			wait_for_child(pid, shell);
+			return ;
+		}
+	}
 	if (is_cd_export_unset_exit(unit->argv[0]))
 	{
-		shell->last_exit_code = execute_builtin(unit, shell);
+		shell->last_exit_code = execute_builtin(unit, shell, NULL);
 		return ;
 	}
 	pid = fork();

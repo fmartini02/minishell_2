@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 23:04:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/09 23:16:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	loop_shell(t_mini *shell)
 		if (!shell->prompt)
 			shell->prompt = ft_strdup("minishell$ ");
 		g_sig_code = -42;
-		printf("%s\n", shell->prompt);
+		//printf("%s\n", shell->prompt);
 		shell->input = readline(shell->prompt);
 		g_sig_code = 0;
 		if (!shell->input)

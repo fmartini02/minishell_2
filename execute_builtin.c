@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 19:31:07 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 19:34:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /* Execution builtins */
-int	chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent)
+int	chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent, t_pipeinfo *info)
 {
 	char	**args;
 
@@ -34,6 +34,8 @@ int	chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent)
 		ft_unset(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
 		ft_exit(shell, args);
+	if (info)
+		free_info(info);
 	if (is_parent == true)
 		cleanup_shell(shell, shell->last_exit_code);
 	return (shell->last_exit_code);
@@ -47,7 +49,7 @@ bool	is_cd_export_unset_exit(const char *cmd)
 		|| ft_strcmp(cmd, "exit") == 0);
 }
 
-int	execute_builtin(t_exec_unit *unit, t_mini *shell)
+int	execute_builtin(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
 {
 	if (!is_builtin(unit->argv[0]))
 		return (0);
@@ -57,8 +59,8 @@ int	execute_builtin(t_exec_unit *unit, t_mini *shell)
 		return (1);
 	}
 	if (is_cd_export_unset_exit(unit->argv[0]))
-		shell->last_exit_code = chose_builtin(unit, shell, false);
+		shell->last_exit_code = chose_builtin(unit, shell, false, info);
 	else
-		shell->last_exit_code = chose_builtin(unit, shell, true);
+		shell->last_exit_code = chose_builtin(unit, shell, true, info);
 	return (1);
 }

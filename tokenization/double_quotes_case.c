@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 15:39:03 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 17:31:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 	char *s)
 {
 	size_t	start;
+	bool	eof;
 
 	start = 0;
 	if (s[*i] == '"' && s[*i + 1] == '"')
@@ -45,12 +46,16 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i,
 	}
 	if ((s[*i] == '"' && !s[*i + 1]))
 		return ((*i)++, NULL);
+	eof = is_eof(s, *i);
 	start = ++(*i);// to skip the opening quote
 	while (s[*i] && s[*i] != '"')
 			(*i)++;
 	if (*i > start)
 	{
-		content = get_chars_after_symbol(shell, i, start, content);
+		if(eof)
+			content = ft_substr(s, start -1, (*i + 2) - start);
+		else
+			content = get_chars_after_symbol(shell, i, start, content);
 		if (!content)
 			return (NULL);
 		*i += 1; // to skip the closing quote

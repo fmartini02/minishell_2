@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 22:45:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 19:28:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,12 +216,11 @@ void		child_process(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info);
 
 // execution_utils.c
 void		exit_command_not_found(t_exec_unit *unit);
-void		free_split(char **arr);
 char		*get_path_command(t_mini *shell, const char *cmd);
 
 // execute_builtin.c
-int			execute_builtin(t_exec_unit *unit, t_mini *shell);
-int			chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent);
+int			execute_builtin(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info);
+int			chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent, t_pipeinfo *info);
 bool		is_cd_export_unset_exit(const char *cmd);
 
 //PIPELINE
@@ -265,5 +264,6 @@ void		expand_doll(t_mini *shell, char *in);
 char		*add_var(char *line, size_t *i, char *to_print, t_mini *shell);
 char		*to_join(char *s, size_t *i, t_mini *shell);
 char		*token_join(char *content, t_mini *shell, size_t *i);
+bool		is_eof(char *s, size_t i);
 
 #endif

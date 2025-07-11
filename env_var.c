@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:17 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 18:49:12 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/10 21:25:46 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@ char	*get_env_value(t_mini *shell, const char *var_name)
 	t_list	*env_list;
 	char	*entry;
 	size_t	key_len;
+	int		j;
 
+	j = 0;
+	while (var_name[j] && !ft_ispecial_char(var_name[j]) && var_name[j] != ' ')
+		j++;
+	if (ft_ispecial_char(var_name[j]) && var_name[j])
+		return (NULL);
 	env_list = shell->env;
 	key_len = ft_strlen(var_name);
 	while (env_list)
