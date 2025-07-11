@@ -12,6 +12,21 @@
 
 #include "../minishell.h"
 
+static int	var_exists(t_list *env, const char *key)
+{
+	size_t	len;
+
+	len = ft_strlen(key);
+	while (env)
+	{
+		if (ft_strncmp(env->content, key, len) == 0 &&
+			(((char *)env->content)[len] == '\0' || ((char *)env->content)[len] == '='))
+			return (1);
+		env = env->next;
+	}
+	return (0);
+}
+
 static int	is_valid_varname(const char *name)
 {
 	int	i;
@@ -46,9 +61,9 @@ static void	update_env_var(t_list **env, const char *key, const char *value)
 			&& ((char *)node->content)[key_len] == '=')
 		{
 			free(node->content);
-			node->content = ft_strjoin(key, "=");
-			tmp = ft_strjoin(node->content, value);
-			free(node->content);
+			new_var = ft_strjoin(key, "=");
+			tmp = ft_strjoin(new_var, value);
+			free(new_var);
 			node->content = tmp;
 			return ;
 		}
@@ -123,8 +138,8 @@ void	ft_export(t_mini *shell, char **args)
 		}
 		else if (!is_valid_varname(args[i]))
 			export_err(args[i]);
-		else
-			ft_lstadd_back(&shell->env, ft_lstnew(args[i]));
+		else if (!var_exists(shell->env, args[i]))
+			ft_lstadd_back(&shell->env, ft_lstnew(ft_strdup(args[i])));
 		i++;
 	}
 }

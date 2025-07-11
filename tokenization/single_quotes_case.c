@@ -52,11 +52,11 @@ static char	*single_quotes_utils(t_mini *shell, char *s, size_t *i,
 int	single_quotes_case(t_mini *shell, char *content, size_t *i)
 {
 	char		*s;
-	char		*tmp;
+	//char		*tmp;
 	t_tok_lst	*node;
 
 	s = shell->input;
-	tmp = NULL;
+	//tmp = NULL;
 	content = single_quotes_utils(shell, s, i, content);
 	if (!content)
 		return (EXIT_FAILURE);
