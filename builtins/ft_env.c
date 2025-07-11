@@ -20,5 +20,10 @@ void	ft_env(t_mini *shell, char **args)
 
 	(void)args;
 	tmp = shell->env;
-	ft_print_list(tmp, 's');
+	while (tmp)
+	{
+		if (ft_strchr(tmp->content, '='))
+			ft_putendl_fd(tmp->content, STDOUT_FILENO);
+		tmp = tmp->next;
+	}
 }

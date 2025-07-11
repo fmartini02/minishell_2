@@ -53,9 +53,9 @@ void	free_pipes(t_pipeinfo *info)
 
 void	free_info(t_pipeinfo *info)
 {
-	int	i;
+	//int	i;
 
-	i = 0;
+	//i = 0;
 	if (!info)
 		return ;
 	if (info->pipes)
