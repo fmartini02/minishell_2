@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 19:08:45 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:54:44 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst **tokens)
 		|| ft_strchr((*tokens)->content, '<'))
 	{
 		if (!handle_redirections(tokens, cmd, shell))
-			return(free_cmd_info(cmd), NULL);
+			return (free_cmd_info(cmd), NULL);
 	}
 	if (!simple_cmd_loop(shell, tokens, &cmd))
 	{

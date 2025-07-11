@@ -6,11 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/10 19:34:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:19:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /* Execution builtins */
 int	chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent, t_pipeinfo *info)

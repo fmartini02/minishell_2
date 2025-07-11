@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/10 19:28:50 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:47:57 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int			handle_heredoc(t_redirection *redir);
 int			prepare_heredocs(t_ast_node *ast, t_mini *shell);
 void		heredoc_sigint_handler(int sig);
 void		write_ctrld(const char *delimiter);
-void		prepare_and_check_heredocs(t_ast_node *node, t_mini *shell);
+void		handle_eventual_heredoc(t_ast_node *node, t_mini *shell);
 int			sigaction_return(struct sigaction *old_sa, int ret_value);
 
 // close_heredocs_fds.c
@@ -220,7 +220,8 @@ char		*get_path_command(t_mini *shell, const char *cmd);
 
 // execute_builtin.c
 int			execute_builtin(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info);
-int			chose_builtin(t_exec_unit *unit, t_mini *shell, bool is_parent, t_pipeinfo *info);
+int			chose_builtin(t_exec_unit *unit, t_mini *shell,
+				bool is_parent, t_pipeinfo *info);
 bool		is_cd_export_unset_exit(const char *cmd);
 
 //PIPELINE
@@ -261,7 +262,7 @@ t_tok_lst	*last_token(t_tok_lst *head);
 void		free_tok_lst(t_tok_lst *head);
 void		print_tok_lst(t_tok_lst *head);
 void		expand_doll(t_mini *shell, char *in);
-char		*add_var(char *line, size_t *i, char *to_print, t_mini *shell);
+char		*append_var(char *line, size_t *i, char *to_print, t_mini *shell);
 char		*to_join(char *s, size_t *i, t_mini *shell);
 char		*token_join(char *content, t_mini *shell, size_t *i);
 bool		is_eof(char *s, size_t i);

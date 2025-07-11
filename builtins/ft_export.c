@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 16:18:36 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 00:07:03 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static int	var_exists(t_list *env, const char *key)
 	len = ft_strlen(key);
 	while (env)
 	{
-		if (ft_strncmp(env->content, key, len) == 0 &&
-			(((char *)env->content)[len] == '\0' || ((char *)env->content)[len] == '='))
+		if (ft_strncmp(env->content, key, len) == 0
+			&& (((char *)env->content)[len] == '\0'
+			|| ((char *)env->content)[len] == '='))
 			return (1);
 		env = env->next;
 	}
@@ -73,40 +74,6 @@ static void	update_env_var(t_list **env, const char *key, const char *value)
 	tmp = ft_strjoin(new_var, value);
 	free(new_var);
 	ft_lstadd_back(env, ft_lstnew(tmp));
-}
-
-static void	print_export_line(char *str)
-{
-	char	*eq;
-
-	ft_putstr_fd("declare -x ", STDOUT_FILENO);
-	eq = ft_strchr(str, '=');
-	if (eq)
-	{
-		*eq = '\0';
-		ft_putstr_fd(str, STDOUT_FILENO);
-		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(eq + 1, STDOUT_FILENO);
-		ft_putendl_fd("\"", STDOUT_FILENO);
-		*eq = '=';
-	}
-	else
-		ft_putendl_fd(str, STDOUT_FILENO);
-}
-
-static void	print_sorted_env(t_list *env)
-{
-	char	**env_array;
-	int		i;
-
-	env_array = env_list_to_array(env);
-	if (!env_array)
-		return ;
-	ft_sort_strarr(env_array);
-	i = 0;
-	while (env_array[i])
-		print_export_line(env_array[i++]);
-	free_mat(env_array);
 }
 
 void	export_err(char *s)

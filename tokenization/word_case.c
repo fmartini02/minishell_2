@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 22:19:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 00:25:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 		&& s[*i + len] != '\n'
 		&& !ft_ispace(s[*i + len]))
 		len++;
-	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
+	if (s[*i + len] && s[*i + len] != '<'
+		&& s[*i + len] != '>' && s[*i + len] != '|'
+		&& s[*i + len] != ' ')
 		content = token_join(content, shell, i);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:05:30 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/08 19:07:07 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:55:19 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,6 @@ bool	is_parse_subshell(t_tok_lst **tokens)
 		|| !ft_strcmp((*tokens)->content, ")"))
 		return (true);
 	return (false);
-}
-
-static char	**free_partial_array(char **arr, int last_index)
-{
-	while (--last_index >= 0)
-		free(arr[last_index]);
-	free(arr);
-	return (NULL);
 }
 
 char	**add_arg_to_array(char **args, char *tok_str)

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:37:42 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 22:11:01 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:34:20 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	handle_unclosed_quote(t_mini *shell, char quote)
 	ft_putstr_fd("minishell: unclosed ", 2);
 	ft_putchar_fd(quote, 2);
 	ft_putstr_fd(" quote\n", 2);
-	(void)shell;
+	shell->err_print = true;
 	return (false);
 }
 
@@ -66,12 +66,12 @@ static bool	process_quoted(char **res, size_t *i, char quote, t_mini *shell)
 	s = shell->input;
 	(*i)++; // Skip opening quote
 	if (s[*i] == quote)
-		return handle_empty_quotes(res, i, shell);
+		return (handle_empty_quotes(res, i, shell));
 	start = *i; // Start after opening quote
 	while (s[*i] && s[*i] != quote)
 		(*i)++;
 	if (s[*i] != quote)
-		return handle_unclosed_quote(shell, quote);
+		return (handle_unclosed_quote(shell, quote));
 	(*i)++; // Skip closing quote
 	return (append_substr(res, start, *i, shell, true));
 }

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 11:32:09 by francema          #+#    #+#             */
-/*   Updated: 2025/07/08 22:27:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:25:47 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	handle_dollar_expansion(t_mini *shell, size_t *i, char **res, size_t *start
 		*start = *i;
 		return;
 	}
-	*res = add_var(in, i, *res, shell);
+	*res = append_var(in, i, *res, shell);
 	*start = *i;
 }
 
@@ -125,14 +125,19 @@ void	handle_double_quotes(t_mini *shell, size_t *i, char **res, size_t *start)
 				(*i)++;
 			}
 			else
-				*res = add_var(in, i, *res, shell);
+				*res = append_var(in, i, *res, shell);
 			*start = *i;
 		}
 		if (in[*i] && in[*i] != '"')
 			(*i)++;
 	}
-	if (in[*i] && in[*i] == '"')
-		(*i)++;
+	if (in[*i] != '"')
+	{
+		shell->err_print = true;
+		ft_putendl_fd("minishell: unclosed \" quote", 2);
+		return ;
+	}
+	(*i)++;
 	tmp = ft_substr(in, *start, *i - *start);
 	if (!tmp)
 		ft_fatal_memerr(shell);
@@ -151,6 +156,12 @@ void	handle_single_quotes(t_mini *shell, size_t *i, char **res, size_t *start)
 	(*i)++; // salta '
 	while (in[*i] && in[*i] != '\'')
 		(*i)++;
+	if (in[*i] != '\'')
+	{
+		shell->err_print = true;
+		ft_putendl_fd("minishell: unclosed \' quote", 2);
+		return ;
+	}
 	(*i)++; // salta la chiusura '
 	tmp = ft_substr(in, *start, *i - *start);
 	if (!tmp)

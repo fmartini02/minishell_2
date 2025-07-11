@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 16:10:17 by francema          #+#    #+#             */
-/*   Updated: 2025/07/07 11:16:06 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:31:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,6 @@ void	add_back_tok_lst(t_tok_lst **head, t_tok_lst *new_node)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new_node;
-}
-
-void	free_tok_lst(t_tok_lst *head)
-{
-	t_tok_lst	*node;
-	t_tok_lst	*next_node;
-
-	node = head;
-	while (node)
-	{
-		next_node = node->next;
-		if (node->content)
-			free(node->content);
-		if (node->tok_name)
-			free(node->tok_name);
-		free(node);
-		node = next_node;
-	}
-	node = NULL;
 }
 
 t_tok_lst	*last_token(t_tok_lst *head)

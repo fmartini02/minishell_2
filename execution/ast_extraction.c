@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:22:43 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/10 16:40:05 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 22:59:23 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ t_exec_unit	*extract_exec_units(t_ast_node *node)
 	cmd = (t_cmd_info *)node->content;
 	if ((!cmd || (!cmd->cmd_args || !cmd->cmd_args[0])) && !cmd->redirections)
 		return (NULL);
-
 	unit = malloc(sizeof(t_exec_unit));
 	if (!unit)
 		return (NULL);
-
 	argc = 0;
 	if (cmd->cmd_args)
 	{
@@ -62,9 +60,7 @@ t_exec_unit	*extract_exec_units(t_ast_node *node)
 		unit->argv = dup_argv(cmd->cmd_args, argc);
 	}
 	else
-		unit->argv = NULL; // niente comando
-
+		unit->argv = NULL;
 	unit->redirs = cmd->redirections;
 	return (unit);
 }
-

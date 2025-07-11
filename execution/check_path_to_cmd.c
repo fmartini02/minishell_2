@@ -1,36 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.c                                  :+:      :+:    :+:   */
+/*   check_path_to_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 16:18:34 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/10 21:33:17 by francema         ###   ########.fr       */
+/*   Created: 2025/07/11 23:17:15 by francema          #+#    #+#             */
+/*   Updated: 2025/07/11 23:17:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-void	exit_command_not_found(t_exec_unit *unit)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(unit->argv[0], STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-}
-
-// static char	*ft_strjoin3(const char *s1, const char *s2, const char *s3)
-// {
-// 	char	*tmp;
-// 	char	*res;
-
-// 	tmp = ft_strjoin(s1, s2);
-// 	if (!tmp)
-// 		return (NULL);
-// 	res = ft_strjoin(tmp, s3);
-// 	free(tmp);
-// 	return (res);
-// }
+#include "../minishell.h"
 
 static char	*search_in_paths(char **paths, const char *cmd)
 {
@@ -38,6 +18,8 @@ static char	*search_in_paths(char **paths, const char *cmd)
 	int		i;
 
 	i = 0;
+	if (ft_strchr(cmd, '/'))
+		return ((char *)cmd);
 	while (paths[i])
 	{
 		full_path = ft_strjoin(paths[i], "/");
@@ -85,9 +67,9 @@ char	*check_cmd(const char *cmd, t_mini *shell)
 			printf("minishell: %s: Is a directory or not executable\n", cmd);
 			cleanup_shell(shell, 126);
 		}
-		return (ft_strdup(cmd));
+		return ("esiste");
 	}
-	return (ft_strdup("esiste"));
+	return ("esiste");
 }
 
 char	*get_path_command(t_mini *shell, const char *cmd)
@@ -96,8 +78,11 @@ char	*get_path_command(t_mini *shell, const char *cmd)
 	char	*full_path;
 	char	*path_var;
 
-	if (ft_strchr(cmd, '/'))
-		return(check_cmd(cmd, shell));
+	if (ft_strchr(cmd, '/') || ft_strchr(cmd, '.'))
+	{
+		if (!check_cmd(cmd, shell))
+			return (NULL);
+	}
 	if (cmd[0] == '\0')
 		return (NULL);
 	path_var = get_env_value(shell, "PATH");

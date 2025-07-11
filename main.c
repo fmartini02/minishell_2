@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 23:16:46 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 21:37:41 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	parsing(t_mini *shell)
 	shell->tok_input = head;
 	if (shell->err_print == true || !shell->ast_root)
 		return ;
+	signal(SIGINT, SIG_IGN);
 	execute_ast(shell->ast_root, shell);
+	signal(SIGINT, signal_handler);
 }
 
 /* Initializes a linked list of environment variabiles */
@@ -73,15 +75,17 @@ void	loop_shell(t_mini *shell)
 {
 	while (1)
 	{
+		g_sig_code = 0;
 		shell->prompt = get_prompt(shell);
 		if (!shell->prompt)
 			shell->prompt = ft_strdup("minishell$ ");
-		g_sig_code = -42;
-		//printf("%s\n", shell->prompt);
 		shell->input = readline(shell->prompt);
-		g_sig_code = 0;
 		if (!shell->input)
 			ctrl_d_case(shell);
+		if (g_sig_code == 130)
+		{
+			shell->last_exit_code = 130;
+		}
 		if (shell->input[0] == '\0' || is_all_spaces(shell->input))
 		{
 			free(shell->input);

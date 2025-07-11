@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redirections.c                              :+:      :+:    :+:   */
+/*   handle_fds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:28:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/06/30 15:24:46 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:29:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-static int	open_redir_fd(t_redirection *redir)
-{
-	if (redir->type == REDIR_INPUT)
-		return (open(redir->target, O_RDONLY));
-	else if (redir->type == REDIR_OUTPUT)
-		return (open(redir->target, O_WRONLY | O_CREAT | O_TRUNC, 0644));
-	else if (redir->type == REDIR_APPEND)
-		return (open(redir->target, O_WRONLY | O_CREAT | O_APPEND, 0644));
-	return (-1);
-}
+#include "../../minishell.h"
 
 int	handle_input_redirection(t_redirection *redir, t_mini *shell, int *last_in)
 {
@@ -66,6 +55,43 @@ int	handle_output_redirection(t_redirection *redir, t_mini *shell)
 	}
 	close(fd);
 	return (0);
+}
+
+static void	close_heredoc_fds_cmd(t_cmd_info *cmd)
+{
+	t_redirection	*redir;
+
+	redir = NULL;
+	if (cmd)
+		redir = cmd->redirections;
+	while (redir)
+	{
+		if (redir->type == REDIR_HEREDOC && redir->heredoc_fd != -1)
+		{
+			close(redir->heredoc_fd);
+			redir->heredoc_fd = -1;
+		}
+		redir = redir->next;
+	}
+}
+
+void	close_all_heredoc_fds(t_ast_node *ast)
+{
+	t_cmd_info	*cmd;
+
+	if (!ast)
+		return ;
+	if (ast->type == NODE_PIPELINE)
+	{
+		close_all_heredoc_fds(ast->left);
+		close_all_heredoc_fds(ast->right);
+	}
+	else if (ast->type == NODE_CMD)
+	{
+		cmd = (t_cmd_info *)ast->content;
+		if (cmd)
+			close_heredoc_fds_cmd(cmd);
+	}
 }
 
 int	handle_heredoc(t_redirection *redir)

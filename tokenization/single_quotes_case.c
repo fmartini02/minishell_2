@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:36:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/10 19:12:52 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 16:38:07 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 bool	is_eof(char *s, size_t i)
 {
+	if (i == 0)
+		return (false);
 	i--;
 	if (i > 0 && s[i] == ' ')
 	{
@@ -83,6 +85,8 @@ int	single_quotes_case(t_mini *shell, char *content, size_t *i)
 		return (EXIT_FAILURE);
 	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
 		content = token_join(content, shell, i);
+	if (!content)
+		return (EXIT_FAILURE);
 	if (content[0] == '\0')
 	{
 		node = new_tok_lst(content, DOUBLE_QUOTES, NULL);

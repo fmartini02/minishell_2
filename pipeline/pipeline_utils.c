@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:12:20 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 22:45:29 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 00:08:54 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,6 @@ void	free_pipes(t_pipeinfo *info)
 	}
 	free(info->pipes);
 	info->pipes = NULL;
-}
-
-void	free_info(t_pipeinfo *info)
-{
-	//int	i;
-
-	//i = 0;
-	if (!info)
-		return ;
-	if (info->pipes)
-		free_pipes(info);
-	if (info->pids)
-	{
-		free(info->pids);
-		info->pids = NULL;
-	}
-	info->count = 0;
-	info->idx = 0;
 }
 
 int	count_pipeline_commands(t_ast_node *node)

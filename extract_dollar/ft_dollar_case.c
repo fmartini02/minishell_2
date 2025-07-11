@@ -1,16 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_var.c                                          :+:      :+:    :+:   */
+/*   ft_dollar_case.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 12:22:17 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/10 21:25:46 by francema         ###   ########.fr       */
+/*   Created: 2025/07/11 23:40:12 by francema          #+#    #+#             */
+/*   Updated: 2025/07/11 23:42:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
+
+static char	*handle_special_dollar_cases(t_mini *shell, char *str, size_t *i)
+{
+	if (str[*i + 1] == '?')
+		return (expand_exit_code(shell, i));
+	if (str[*i + 1] >= '0' && str[*i + 1] <= '9')
+		return ((*i) += 2, ft_strdup(""));
+	return (NULL);
+}
+
+static char	*handle_env_lookup_result(t_mini *shell, char *var_name, char *var_value)
+{
+	char	*ret;
+
+	if (!var_value)
+	{
+		free(var_name);
+		ret = ft_strdup("");
+		if (!ret)
+			ft_fatal_memerr(shell);
+		return (ret);
+	}
+	ret = ft_strdup(var_value);
+	if (!ret)
+		ft_fatal_memerr(shell);
+	free(var_name);
+	return (ret);
+}
 
 /* Restitutes the value associated with an environment variable */
 char	*get_env_value(t_mini *shell, const char *var_name)
@@ -18,13 +46,7 @@ char	*get_env_value(t_mini *shell, const char *var_name)
 	t_list	*env_list;
 	char	*entry;
 	size_t	key_len;
-	int		j;
 
-	j = 0;
-	while (var_name[j] && !ft_ispecial_char(var_name[j]) && var_name[j] != ' ')
-		j++;
-	if (ft_ispecial_char(var_name[j]) && var_name[j])
-		return (NULL);
 	env_list = shell->env;
 	key_len = ft_strlen(var_name);
 	while (env_list)
@@ -65,8 +87,6 @@ static char	*extract_var_name(char *str, size_t start, size_t *end)
 	return (ft_substr(str, start, j - start));
 }
 
-/* Expands an environment variable in the format '$VAR' or '$?'
-Modifies *i to move the index beyond the expanded variable */
 char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 {
 	size_t	start;
@@ -76,26 +96,13 @@ char	*ft_dollar_case(t_mini *shell, char *str, size_t *i)
 	char	*ret;
 
 	start = *i + 1;
-	if (str[*i + 1] == '?')
-		return (expand_exit_code(shell, i));
-	if (str[*i + 1] >= '0' && str[*i + 1] <= '9')
-		return ((*i) += 2, ft_strdup(""));
+	ret = handle_special_dollar_cases(shell, str, i);
+	if (ret)
+		return (ret);
 	var_name = extract_var_name(str, start, &j);
 	if (!var_name)
 		return (*i = j, NULL);
 	var_value = get_env_value(shell, var_name);
 	*i = j;
-	if (!var_value)
-	{
-		free(var_name);
-		ret = ft_strdup("");
-		if (!ret)
-			ft_fatal_memerr(shell);
-		return (ret);
-	}
-	ret = ft_strdup(var_value);
-	if (!ret)
-		ft_fatal_memerr(shell);
-	free(var_name);
-	return (ret);
+	return (handle_env_lookup_result(shell, var_name, var_value));
 }

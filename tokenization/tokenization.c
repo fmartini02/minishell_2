@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 15:39:43 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 00:26:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	is_word_delimiter(char c)
 {
 	if (c != '\'' && c != '"' && c != '<' && c != '>'
-		&& c != '\0' && c != '|'  && c != ' ')
+		&& c != '\0' && c != '|' && c != ' ')
 		return (false);
 	return (true);
 }
@@ -30,7 +30,6 @@ bool	should_print_doll_char(char *s, size_t *i)
 		return (true);
 	return (false);
 }
-
 
 /*gestisce quei token che vanno uniti se non ci sono spazzi con
 un focus specifico per il caso <"c"$var"d"> */
@@ -55,8 +54,6 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	return_value = EXIT_SUCCESS;
 	if (s[*i] == '\'' || s[*i] == '"' || !is_word_delimiter(s[*i]))
 		pettish_tokens(shell, s, i, &return_value);
-	// if (return_value == EXIT_FAILURE)
-	// 	return (return_value);
 	else if (s[*i] == '*')
 		return_value = wildcard_case(shell, content, i);
 	else if (s[*i] == '(' || s[*i] == ')')

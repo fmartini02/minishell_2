@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/07/09 20:22:18 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 00:08:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	is_there_letters(char *s)
 	size_t	i;
 
 	i = 0;
-	while(s[i] && !ft_isalpha(s[i]))
+	while (s[i] && !ft_isalpha(s[i]))
 		i++;
 	if (s[i] && ft_isalpha(s[i]))
 		return (true);
@@ -75,8 +75,9 @@ static int	ft_atol_check(const char *str, long *out)
 	}
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) || (sign > 0 && res > (LONG_MAX - (str[i] - '0')) / 10)
-			||(sign < 0 && - res < (LONG_MIN + (str[i] -'0')) / 10))
+		if (!ft_isdigit(str[i])
+			|| (sign > 0 && res > (LONG_MAX - (str[i] - '0')) / 10)
+			|| (sign < 0 && - res < (LONG_MIN + (str[i] - '0')) / 10))
 			return (0);
 		res = res * 10 + (str[i] - '0');
 		i++;

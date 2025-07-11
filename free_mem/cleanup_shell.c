@@ -6,20 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:50:22 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/09 23:02:03 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/11 23:35:54 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	free_env(t_mini *shell)
-{
-	if (shell->env)
-	{
-		ft_lstclear(&shell->env, free);
-		shell->env = NULL;
-	}
-}
 
 static void	free_ast_tok_unit_input_prompt(t_mini *shell)
 {

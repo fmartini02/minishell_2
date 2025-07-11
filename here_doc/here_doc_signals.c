@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prepare_heredoc_utils.c                            :+:      :+:    :+:   */
+/*   here_doc_signals_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/01 18:45:59 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/07 14:50:55 by francema         ###   ########.fr       */
+/*   Created: 2025/07/11 22:47:29 by francema          #+#    #+#             */
+/*   Updated: 2025/07/11 22:56:44 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-extern volatile sig_atomic_t	g_sig_code;
+#include "../minishell.h"
 
 void	write_ctrld(const char *delimiter)
 {
@@ -29,23 +27,24 @@ void	heredoc_sigint_handler(int sig)
 	c = '\n';
 	(void)sig;
 	g_sig_code = 130;
-	ioctl(0, TIOCSTI, &c);
 	write(1, "^C\n", 3);
+	ioctl(0, TIOCSTI, &c);
 	rl_on_new_line();
-}
-
-void	prepare_and_check_heredocs(t_ast_node *node, t_mini *shell)
-{
-	if (prepare_heredocs(node, shell) < 0 || g_sig_code == 130)
-	{
-		g_sig_code = 0;
-		close_all_heredoc_fds(node);
-		return ;
-	}
 }
 
 int	sigaction_return(struct sigaction *old_sa, int ret_value)
 {
 	sigaction(SIGINT, old_sa, NULL);
 	return (ret_value);
+}
+
+static void	setup_heredoc_signals(struct sigaction *old_sa)
+{
+	struct sigaction	sa;
+
+	g_sig_code = 0;
+	sa.sa_handler = heredoc_sigint_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, old_sa);
 }
