@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:34:06 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 15:47:08 by francema         ###   ########.fr       */
+/*   Created: 2025/07/12 18:44:09 by francema          #+#    #+#             */
+/*   Updated: 2025/07/12 18:44:16 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static t_tok_lst	*and_case_utils(t_mini *shell, char *s, size_t *i)
+static t_tok_lst	*andpersand_case_utils(
+	t_mini *shell, char *s, size_t *i)
 {
 	char		*content;
 	t_tok_lst	*node;
@@ -41,13 +42,13 @@ static t_tok_lst	*and_case_utils(t_mini *shell, char *s, size_t *i)
 	return (node);
 }
 
-int	and_case(t_mini *shell, char *content, size_t *i)
+int	andpersand_case(t_mini *shell, char *content, size_t *i)
 {
 	t_tok_lst	*node;
 	char		*s;
 
 	s = shell->input;
-	node = and_case_utils(shell, s, i);
+	node = andpersand_case_utils(shell, s, i);
 	if (!node)
 		return (EXIT_FAILURE);
 	add_back_tok_lst(&(shell->tok_input), node);

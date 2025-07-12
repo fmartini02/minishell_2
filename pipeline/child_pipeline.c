@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:05:38 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/10 22:35:49 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	redirect_pipeline_io(t_exec_unit *unit, int **pipes,
 	}
 }
 
-void	child_pipeline(t_ast_node *node, t_pipeinfo *info)
+void	child_pipeline(t_ast_node *node, t_pipinfo *info)
 {
 	t_exec_unit	*unit;
 

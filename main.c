@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 21:37:41 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:00:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parsing(t_mini *shell)
 	t_tok_lst	*head;
 
 	expand_doll(shell, shell->input);
-	if (!tokenize_input(shell))
+	if (shell->err_print == false && !tokenize_input(shell))
 	{
 		if (shell)
 			cleanup_shell(shell, -1);
@@ -32,8 +32,9 @@ void	parsing(t_mini *shell)
 	if (shell->err_print == true || !shell->ast_root)
 		return ;
 	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	execute_ast(shell->ast_root, shell);
-	signal(SIGINT, signal_handler);
+	setup_sig_handler();
 }
 
 /* Initializes a linked list of environment variabiles */

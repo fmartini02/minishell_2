@@ -6,13 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:51:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 16:20:31 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:46:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*heredoc_append_var(char *line, size_t *i, char *to_print, t_mini *shell)
+static char	*heredoc_append_var(
+	char *line, size_t *i, char *to_print, t_mini *shell)
 {
 	char	*tmp;
 

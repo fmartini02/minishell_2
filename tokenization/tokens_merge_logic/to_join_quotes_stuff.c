@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:46:40 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 16:17:23 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 17:58:07 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ bool	process_quoted(char **res, size_t *i, char quote, t_mini *shell)
 	if (s[*i] != quote)
 		return (handle_unclosed_quote(shell, quote));
 	(*i)++;
-	return (append_partial_str(res, start, *i, shell));//PRIMA C'ERA ANCHE TRUE
+	return (append_partial_str(res, start, *i - start - 1, shell));
 }

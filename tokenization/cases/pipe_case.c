@@ -6,11 +6,17 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:37:24 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 15:48:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:45:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static void	print_pipe_err(t_mini *shell)
+{
+	shell->err_print = true;
+	ft_putendl_fd("syntax error empty pipeline", 2);
+}
 
 int	pipe_char_case(t_mini *shell, char *content, size_t *i)
 {
@@ -19,7 +25,7 @@ int	pipe_char_case(t_mini *shell, char *content, size_t *i)
 
 	s = shell->input;
 	if (s[*i + 1] == '|')
-		content = ft_strdup("||");
+		return (print_pipe_err(shell), EXIT_FAILURE);
 	else
 		content = ft_strdup("|");
 	node = new_tok_lst(content, PIPE, NULL);

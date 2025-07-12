@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/12 14:44:19 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Execution builtins */
 int	chose_builtin(
-	t_exec_unit *unit, t_mini *shell, bool is_parent, t_pipeinfo *info)
+	t_exec_unit *unit, t_mini *shell, bool is_parent, t_pipinfo *info)
 {
 	char	**args;
 
@@ -50,7 +50,7 @@ bool	is_cd_export_unset_exit(const char *cmd)
 		|| ft_strcmp(cmd, "exit") == 0);
 }
 
-int	execute_builtin(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
+int	execute_builtin(t_exec_unit *unit, t_mini *shell, t_pipinfo *info)
 {
 	if (!is_builtin(unit->argv[0]))
 		return (0);

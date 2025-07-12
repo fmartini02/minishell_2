@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:11:14 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 14:44:03 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 static void	handle_redirs_and_builtin(
-	t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
+	t_exec_unit *unit, t_mini *shell, t_pipinfo *info)
 {
 	if (apply_redirections(unit, shell) != 0)
 		cleanup_shell(shell, 1);
@@ -29,7 +29,7 @@ void	err_cmd_not_found(t_exec_unit *unit)
 }
 
 static void	exec_external_command(
-	t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
+	t_exec_unit *unit, t_mini *shell, t_pipinfo *info)
 {
 	char	*cmd_path;
 	char	**envp;
@@ -55,7 +55,7 @@ static void	exec_external_command(
 	cleanup_shell(shell, 127);
 }
 
-void	child_process(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
+void	child_process(t_exec_unit *unit, t_mini *shell, t_pipinfo *info)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

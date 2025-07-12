@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:00:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:26:27 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:11:17 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	get_tok(t_mini *shell, char *s, size_t *i)
 	else if (s[*i] == '(' || s[*i] == ')')
 		return_value = subshell_case(shell, content, i);
 	else if (s[*i] == '&')
-		return_value = and_case(shell, content, i);
+		return_value = andpersand_case(shell, content, i);
 	else if (s[*i] == '|')
 		return_value = pipe_char_case(shell, content, i);
 	else if (s[*i] == '<' || s[*i] == '>')

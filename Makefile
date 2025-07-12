@@ -43,7 +43,7 @@ SRC_SIGNALS = \
 	signals/ctrl_d.c signals/setup_sig_handler.c signals/signal_handler.c
 
 SRC_TOKEN_CASES = \
-	tokenization/cases/and_case.c tokenization/cases/double_quotes_case.c \
+	tokenization/cases/andpersand_case.c tokenization/cases/double_quotes_case.c \
 	tokenization/cases/pipe_case.c tokenization/cases/redi_case.c \
 	tokenization/cases/single_quotes_case.c tokenization/cases/single_quotes_helpers.c \
 	tokenization/cases/subshell_case.c tokenization/cases/wildcard_case.c \

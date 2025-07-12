@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/12 15:40:36 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_tok_lst(t_tok_lst *head)
 	node = NULL;
 }
 
-void	free_info(t_pipeinfo *info)
+void	free_info(t_pipinfo *info)
 {
 	if (!info)
 		return ;

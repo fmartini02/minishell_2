@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:13:15 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 16:10:47 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:43:15 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ bool	handle_closing_double_quote(t_mini *shell, char *in, size_t *i)
 	}
 	(*i)++;
 	return (true);
+}
+
+char	*append_var(char *line, size_t *i, char *to_print, t_mini *shell)
+{
+	char	*tmp;
+
+	tmp = ft_dollar_case(shell, line, i);
+	if (!tmp)
+		ft_fatal_memerr(shell);
+	to_print = ft_strjoin_free(to_print, tmp);
+	free(tmp);
+	return (to_print);
 }
 
 bool	handle_dollar_inside_quotes(
@@ -50,5 +62,3 @@ bool	handle_dollar_inside_quotes(
 	*start = *i;
 	return (true);
 }
-
-

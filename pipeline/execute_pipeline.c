@@ -6,13 +6,13 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/11 22:54:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	setup_pipeline(t_pipeinfo *info, int count)
+static int	setup_pipeline(t_pipinfo *info, int count)
 {
 	if (count >= 1)
 	{
@@ -27,7 +27,7 @@ static int	setup_pipeline(t_pipeinfo *info, int count)
 	return (0);
 }
 
-static void	fork_recursive(t_ast_node *node, t_pipeinfo *info)
+static void	fork_recursive(t_ast_node *node, t_pipinfo *info)
 {
 	if (!node)
 		return ;
@@ -47,7 +47,7 @@ static void	fork_recursive(t_ast_node *node, t_pipeinfo *info)
 	}
 }
 
-static void	wait_all(t_pipeinfo *info)
+static void	wait_all(t_pipinfo *info)
 {
 	int	i;
 	int	status;
@@ -72,7 +72,7 @@ static void	wait_all(t_pipeinfo *info)
 
 void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
 {
-	t_pipeinfo	info;
+	t_pipinfo	info;
 
 	handle_eventual_heredoc(cmds, shell);
 	info.count = count_pipeline_commands(cmds);
