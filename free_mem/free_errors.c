@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:19:07 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/11 23:33:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:40:36 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_fatal_memerr(t_mini *shell)
 	cleanup_shell(shell, EXIT_FAILURE);
 }
 
-static void	free_env(t_mini *shell)
+void	free_env(t_mini *shell)
 {
 	if (shell->env)
 	{
@@ -51,9 +51,6 @@ void	free_tok_lst(t_tok_lst *head)
 
 void	free_info(t_pipeinfo *info)
 {
-	//int	i;
-
-	//i = 0;
 	if (!info)
 		return ;
 	if (info->pipes)

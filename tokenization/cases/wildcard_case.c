@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_case.c                                        :+:      :+:    :+:   */
+/*   wildcard_case.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 16:37:24 by francema          #+#    #+#             */
-/*   Updated: 2025/06/11 17:12:15 by francema         ###   ########.fr       */
+/*   Created: 2025/05/16 15:58:42 by francema          #+#    #+#             */
+/*   Updated: 2025/07/12 15:53:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-int	pipe_char_case(t_mini *shell, char *content, size_t *i)
+int	wildcard_case(t_mini *shell, char *content, size_t *i)
 {
-	t_tok_lst	*node;
 	char		*s;
+	t_tok_lst	*node;
 
 	s = shell->input;
-	if (s[*i + 1] == '|')
-		content = ft_strdup("||");
-	else
-		content = ft_strdup("|");
-	node = new_tok_lst(content, PIPE, NULL);
-	if (!content || !node)
+	while (s[*i] && s[*i] == '*')
+		(*i)++;
+	content = ft_strdup("*");
+	node = new_tok_lst(content, WILDCARD, NULL);
+	if (!node || !content)
 	{
 		if (content)
 			free(content);
 		ft_fatal_memerr(shell);
 	}
-	*i += ft_strlen(content);
 	add_back_tok_lst(&(shell->tok_input), node);
 	if (!shell->tok_input)
 	{

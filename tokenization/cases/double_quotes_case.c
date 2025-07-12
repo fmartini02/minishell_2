@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double_quotes_parsing.c                            :+:      :+:    :+:   */
+/*   double_quotes_case.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 14:56:01 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:24:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:47:22 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char	*get_chars_after_symbol(t_mini *shell, size_t *i, size_t start,
 	char *content)
@@ -47,10 +47,12 @@ static char	*handle_empty_quotes(char *s, size_t *i)
 }
 
 static char	*extract_double_quoted_content(
-	t_mini *shell, char *s, size_t *i, size_t start, bool eof)
+	t_mini *shell, size_t *i, size_t start, bool eof)
 {
 	char	*content;
+	char	*s;
 
+	s = shell->input;
 	if (eof)
 		content = ft_substr(s, start - 1, (*i + 2) - start);
 	else
@@ -61,7 +63,8 @@ static char	*extract_double_quoted_content(
 	return (content);
 }
 
-static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i, char *s)
+static char	*double_quotes_utils(
+	t_mini *shell, char *content, size_t *i, char *s)
 {
 	size_t	start;
 	bool	eof;
@@ -70,22 +73,31 @@ static char	*double_quotes_utils(t_mini *shell, char *content, size_t *i, char *
 	empty_check = handle_empty_quotes(s, i);
 	if (empty_check || g_sig_code == 130)
 		return (empty_check);
-
 	eof = is_eof(s, *i);
 	start = ++(*i);
-
 	while (s[*i] && s[*i] != '"')
 		(*i)++;
-
 	if (s[*i] != '"')
 	{
 		ft_putstr_fd("minishell: unclosed double quotes\n", 2);
 		return (NULL);
 	}
 	if (*i > start)
-		return extract_double_quoted_content(shell, s, i, start, eof);
+		return (extract_double_quoted_content(shell, i, start, eof));
 	return (content);
 }
 
+int	double_quotes_case(t_mini *shell, char *content, size_t *i)
+{
+	char	*s;
 
-
+	s = shell->input;
+	content = double_quotes_utils(shell, content, i, shell->input);
+	if (!content)
+		return (EXIT_FAILURE);
+	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
+		content = token_join(content, shell, i);
+	if (!content)
+		return (EXIT_FAILURE);
+	return (append_double_wuote_token(shell, content));
+}

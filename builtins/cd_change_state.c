@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 00:00:18 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:01:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:36:55 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_setenv(t_list **env, const char *key, const char *value)
 // 	return (oldpwd);
 // }
 
-static void	change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
+void	change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
 {
 	char	cwd[PATH_MAX];
 

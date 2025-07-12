@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:52:59 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:35:31 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	is_logic_operator(t_tok_lst **tokens)
 	return (false);
 }
 
-static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
+t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 {
 	t_ast_node	*node;
 
@@ -63,7 +63,7 @@ static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 // 	return (NULL);
 // }
 
-static t_ast_node	*operator_case(t_ast_node **left, t_mini *shell,
+t_ast_node	*operator_case(t_ast_node **left, t_mini *shell,
 	t_tok_lst **tokens, t_ast_node *right)
 {
 	if (ft_strchr((*tokens)->content, '>')

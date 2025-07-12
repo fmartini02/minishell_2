@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:55:41 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 22:34:37 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:46:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	write_in_pipe(char *line, char *eof,
 	return (1);
 }
 
-int	heredoc_read_loop(int pip_fd, char *eof,
-	struct sigaction *old_sa, t_mini *shell)
+int	heredoc_read_loop(
+	int pip_fd, char *eof, struct sigaction *old_sa, t_mini *shell)
 {
 	char	*line;
 	char	*original;

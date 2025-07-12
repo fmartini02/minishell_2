@@ -6,11 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:44:03 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:25:15 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:55:29 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /*inizializza content basically*/
 static bool	get_content(char **content, char *s, size_t *i, int len)
@@ -23,25 +23,6 @@ static bool	get_content(char **content, char *s, size_t *i, int len)
 		*i = len;
 	}
 	return (true);
-}
-
-static void	append_new_node(t_mini *shell, char *content)
-{
-	t_tok_lst	*node;
-
-	node = new_tok_lst(content, WORD, NULL);
-	if (!node || !content)
-	{
-		if (content)
-			free(content);
-		ft_fatal_memerr(shell);
-	}
-	add_back_tok_lst(&(shell->tok_input), node);
-	if (!shell->tok_input)
-	{
-		free(content);
-		ft_fatal_memerr(shell);
-	}
 }
 
 int	word_case(t_mini *shell, char *content, size_t *i)
@@ -67,6 +48,6 @@ int	word_case(t_mini *shell, char *content, size_t *i)
 		if (!get_content(&content, s, i, end))
 			ft_fatal_memerr(shell);
 	}
-	append_new_node(shell, content);
+	append_word_node(shell, content);
 	return (EXIT_SUCCESS);
 }

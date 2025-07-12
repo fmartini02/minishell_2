@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_signals_utils.c                           :+:      :+:    :+:   */
+/*   here_doc_signals.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 22:47:29 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 22:56:44 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:44:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	sigaction_return(struct sigaction *old_sa, int ret_value)
 	return (ret_value);
 }
 
-static void	setup_heredoc_signals(struct sigaction *old_sa)
+void	setup_heredoc_signals(struct sigaction *old_sa)
 {
 	struct sigaction	sa;
 

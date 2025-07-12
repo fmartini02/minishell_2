@@ -6,13 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:11:14 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:18:19 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 14:44:03 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	handle_redirs_and_builtin(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
+static void	handle_redirs_and_builtin(
+	t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
 {
 	if (apply_redirections(unit, shell) != 0)
 		cleanup_shell(shell, 1);
@@ -27,7 +28,8 @@ void	err_cmd_not_found(t_exec_unit *unit)
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 }
 
-static void	exec_external_command(t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
+static void	exec_external_command(
+	t_exec_unit *unit, t_mini *shell, t_pipeinfo *info)
 {
 	char	*cmd_path;
 	char	**envp;

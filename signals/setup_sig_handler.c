@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:54:34 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 19:42:45 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 14:16:10 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,3 @@ void	setup_sig_handler(void)
 	g_sig_code = 130;
 	sigaction(SIGQUIT, &sa, NULL);
 }
-
-/*
-void	setup_sig_handler(int is_interactive)
-{
-	struct sigaction sa;
-	struct sigaction ignore_sa;
-	int i;
-
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	if (!is_interactive)
-		sa.sa_handler = SIG_DFL;
-	else
-	{
-		sa.sa_handler = signal_handler;
-		sigaction(SIGQUIT, &sa, NULL);
-		sigaction(SIGINT, &sa, NULL);
-		i = -1;
-		while(++i < _NSIG)
-		{
-			if (i == SIGKILL || i == SIGSTOP || i == SIGINT)
-				continue;
-			ft_memset(&ignore_sa, 0, sizeof(ignore_sa));
-			ignore_sa.sa_handler = SIG_IGN;
-			sigaction(i, &ignore_sa, NULL);
-		}
-	}
-} */

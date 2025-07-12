@@ -6,11 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:50:22 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/11 23:35:54 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:40:19 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	free_ast_tok_unit_input_prompt(t_mini *shell)
 {

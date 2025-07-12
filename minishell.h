@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:47:57 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:15:41 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,9 @@ typedef struct s_pipeinfo
 void		ft_fatal_memerr(t_mini *shell);
 void		free_exec_unit(t_exec_unit *unit);
 void		cleanup_shell(t_mini *shell, int exit_code);
+char		**free_partial_array(char **arr, int last_index);
+void		free_env(t_mini *shell);
+void		free_pipes(t_pipeinfo *info);
 
 //BUILTINS
 void		ft_echo(char **args, t_mini *shell);
@@ -156,18 +159,24 @@ void		ft_env(t_mini *shell, char **args);
 void		ft_exit(t_mini *shell, char **args);
 void		ft_pwd(t_mini *shell, char **args);
 void		ft_cd(char **args, t_mini *shell);
+void		change_dir_and_update(t_mini *shell, char *oldpwd, char *path);
 void		ft_export(t_mini *shell, char **args);
+void		print_sorted_env(t_list *env);
 void		ft_unset(t_mini *shell, char **args);
 
 // env_var.c
 char		*ft_dollar_case(t_mini *shell, char *str, size_t *i);
 char		*get_env_value(t_mini *shell, const char *var_name);
-
+char		*handle_special_dollar_cases(t_mini *shell, char *str, size_t *i);
+char		*extract_var_name(char *str, size_t start, size_t *end);
+void		apply_doll_exansion(int write_fd, char *line, t_mini *shell);
+int			append_double_wuote_token(t_mini *shell, char *content);
 // prompt.c
 char		*get_prompt(t_mini *shell);
 
 // redirections.c
 int			apply_redirections(t_exec_unit *unit, t_mini *shell);
+int			open_redir_fd(t_redirection *redir);
 
 // handle_redirections.c
 int			handle_input_redirection(t_redirection *redir,
@@ -182,6 +191,7 @@ void		heredoc_sigint_handler(int sig);
 void		write_ctrld(const char *delimiter);
 void		handle_eventual_heredoc(t_ast_node *node, t_mini *shell);
 int			sigaction_return(struct sigaction *old_sa, int ret_value);
+int			heredoc_read_loop(int pip_fd, char *eof, struct sigaction *old_sa, t_mini *shell);
 
 // close_heredocs_fds.c
 void		close_all_heredoc_fds(t_ast_node *ast);
@@ -226,6 +236,9 @@ bool		is_cd_export_unset_exit(const char *cmd);
 
 //PIPELINE
 char		**env_list_to_array(t_list *env);
+t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right, t_mini *shell, t_tok_lst **tokens);
+t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right);
+t_ast_node	*operator_case(t_ast_node **left, t_mini *shell, t_tok_lst **tokens, t_ast_node *right);
 void		free_info(t_pipeinfo *info);
 void		close_all_pipes(int **pipes, int count);
 int			count_pipeline_commands(t_ast_node *cmd_list);
@@ -238,11 +251,15 @@ int			is_all_spaces(const char *str);
 bool		ft_ispecial_char(char c);
 bool		is_builtin(const char *cmd);
 void		ft_sort_strarr(char **arr);
+void		append_substr(char **to_print, char *line, size_t start, size_t end);
+bool		append_partial_str(char **res, size_t start, size_t len, t_mini *shell);
+bool		process_quoted(char **res, size_t *i, char quote, t_mini *shell);
 
 //SIGNALS
 void		ctrl_d_case(t_mini *shell);
 void		setup_sig_handler(void);
 void		signal_handler(int sig);
+void		setup_heredoc_signals(struct sigaction *old_sa);
 
 //TOKENIZATION
 bool		tokenize_input(t_mini *shell);
@@ -250,8 +267,18 @@ int			and_case(t_mini *shell, char *content, size_t *i);
 int			double_quotes_case(t_mini *shell, char *content, size_t *i);
 int			pipe_char_case(t_mini *shell, char *content, size_t *i);
 bool		is_word_delimiter(char c);
+char		*handle_empty_or_unpaired_single_quotes(char *s, size_t *i);
+bool		validate_single_quote_closure(t_mini *shell, char *s, size_t i);
+char		*extract_single_quote_content(t_mini *shell, size_t start, size_t end, bool eof);
+int			append_single_quote_token(t_mini *shell, char *content);
+void		append_word_node(t_mini *shell, char *content);
+void		handle_double_quotes(char *line, size_t *i, char **to_print, t_mini *shell);
+bool		handle_dollar_inside_quotes(t_mini *shell, size_t *i, char **res, size_t *start);
+void		handle_ambiguous_redirect(t_mini *shell, size_t *i, char **res);
+bool		handle_closing_double_quote(t_mini *shell, char *in, size_t *i);
 bool		should_print_doll_char(char *s, size_t *i);
 int			redi_case(t_mini *shell, char *content, size_t *i);
+void		handle_dollar_expansion(t_mini *shell, size_t *i, char **res, size_t *start);
 int			single_quotes_case(t_mini *shell, char *content, size_t *i);
 int			subshell_case(t_mini *shell, char *content, size_t *i);
 int			word_case(t_mini *shell, char *content, size_t *i);

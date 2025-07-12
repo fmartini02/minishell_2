@@ -6,13 +6,13 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:23:20 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/11 23:29:18 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:38:23 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int	open_redir_fd(t_redirection *redir)
+int	open_redir_fd(t_redirection *redir)
 {
 	if (redir->type == REDIR_INPUT)
 		return (open(redir->target, O_RDONLY));

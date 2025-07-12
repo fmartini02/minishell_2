@@ -6,11 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:38:41 by francema          #+#    #+#             */
-/*   Updated: 2025/07/10 12:16:26 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:48:26 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 static char	*redi_utils(t_mini *shell, char *s, size_t *i)
 {

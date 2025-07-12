@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:28:42 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:34:54 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:36:40 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_redirections(t_redirection *redir)
 
 /*questa funzione viene chiamata se durante
 la creazione della matrice degli argomenti qualcosa va storto*/
-static char	**free_partial_array(char **arr, int last_index)
+char	**free_partial_array(char **arr, int last_index)
 {
 	while (--last_index >= 0)
 		free(arr[last_index]);

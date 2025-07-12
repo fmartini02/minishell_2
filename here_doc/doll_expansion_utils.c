@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 22:31:42 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 22:45:17 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:43:17 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	append_substr(char **to_print, char *line, size_t start,
-	size_t end)
+void	append_substr(
+	char **to_print, char *line, size_t start, size_t end)
 {
 	char	*tmp;
 

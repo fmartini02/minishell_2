@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 00:06:41 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:07:40 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:37:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_export_line(char *str)
 		ft_putendl_fd(str, STDOUT_FILENO);
 }
 
-static void	print_sorted_env(t_list *env)
+void	print_sorted_env(t_list *env)
 {
 	char	**env_array;
 	int		i;

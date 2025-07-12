@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_case.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:05:37 by francema          #+#    #+#             */
-/*   Updated: 2025/06/30 10:52:29 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:53:50 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 static int	subshell_utils(t_mini *shell, size_t *i, char **content,
 	t_tok_lst **node)

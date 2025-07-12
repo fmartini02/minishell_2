@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   double_quotes_tokenize.c                           :+:      :+:    :+:   */
+/*   tokens_merge.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 00:18:02 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:24:35 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:17:33 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-static int	add_double_quote_token(t_mini *shell, char *content)
+int	append_double_wuote_token(t_mini *shell, char *content)
 {
 	t_tok_lst	*node;
 
@@ -25,21 +25,41 @@ static int	add_double_quote_token(t_mini *shell, char *content)
 	return (EXIT_SUCCESS);
 }
 
-int	double_quotes_case(t_mini *shell, char *content, size_t *i)
+int	append_single_quote_token(t_mini *shell, char *content)
 {
-	char	*s;
+	t_tok_lst	*node;
+	int			token_type;
 
-	s = shell->input;
-	content = double_quotes_utils(shell, content, i, shell->input);
-	if (!content)
-		return (EXIT_FAILURE);
+	if (content[0] == '\0')
+		token_type = DOUBLE_QUOTES;
+	else
+		token_type = SINGLE_QUOTES;
+	node = new_tok_lst(content, token_type, NULL);
+	if (!node)
+		ft_fatal_memerr(shell);
+	add_back_tok_lst(&(shell->tok_input), node);
+	if (!shell->tok_input)
+		ft_fatal_memerr(shell);
+	return (EXIT_SUCCESS);
+}
 
-	if (s[*i] && s[*i] != '<' && s[*i] != '>' && s[*i] != '|' && s[*i] != ' ')
-		content = token_join(content, shell, i);
-	if (!content)
-		return (EXIT_FAILURE);
+void	append_word_node(t_mini *shell, char *content)
+{
+	t_tok_lst	*node;
 
-	return add_double_quote_token(shell, content);
+	node = new_tok_lst(content, WORD, NULL);
+	if (!node || !content)
+	{
+		if (content)
+			free(content);
+		ft_fatal_memerr(shell);
+	}
+	add_back_tok_lst(&(shell->tok_input), node);
+	if (!shell->tok_input)
+	{
+		free(content);
+		ft_fatal_memerr(shell);
+	}
 }
 
 char	*token_join(char *content, t_mini *shell, size_t *i)

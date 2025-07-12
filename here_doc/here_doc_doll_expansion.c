@@ -6,13 +6,13 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:51:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 22:45:42 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:20:31 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*append_var(char *line, size_t *i, char *to_print, t_mini *shell)
+static char	*heredoc_append_var(char *line, size_t *i, char *to_print, t_mini *shell)
 {
 	char	*tmp;
 
@@ -38,15 +38,15 @@ static void	handle_single_quotes(char *line, size_t *i,
 			append_substr(to_print, line, start, *i);
 			if (!*to_print)
 				ft_fatal_memerr(shell);
-			*to_print = append_var(line, i, *to_print, shell);
+			*to_print = heredoc_append_var(line, i, *to_print, shell);
 			start = *i;
 		}
 		(*i)++;
 	}
 }
 
-static void	handle_double_quotes(char *line, size_t *i,
-	char **to_print, t_mini *shell)
+void	handle_double_quotes(
+	char *line, size_t *i, char **to_print, t_mini *shell)
 {
 	size_t	start;
 
@@ -59,7 +59,7 @@ static void	handle_double_quotes(char *line, size_t *i,
 			append_substr(to_print, line, start, *i);
 			if (!*to_print)
 				ft_fatal_memerr(shell);
-			*to_print = append_var(line, i, *to_print, shell);
+			*to_print = heredoc_append_var(line, i, *to_print, shell);
 			start = *i;
 		}
 		(*i)++;
@@ -99,7 +99,7 @@ void	apply_doll_exansion(int write_fd, char *line, t_mini *shell)
 		}
 		start = i;
 		if (line[i] == '$')
-			to_print = append_var(line, &i, to_print, shell);
+			to_print = heredoc_append_var(line, &i, to_print, shell);
 	}
 	write(write_fd, to_print, ft_strlen(to_print));
 	write(write_fd, "\n", 1);

@@ -1,80 +1,108 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: francema <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/07 14:36:23 by francema          #+#    #+#              #
-#    Updated: 2025/07/10 21:49:31 by francema         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-.SILENT:
-
-SRC = main.c prompt.c free_errors.c env_var.c utils.c redirections.c \
-	execution.c extraction.c execution_utils.c execute_builtin.c \
-	prepare_heredocs.c handle_redirections.c close_heredoc_fds.c \
-	cleanup_shell.c prepare_heredoc_utils.c \
-
-TOK_SRC = and_case.c tokens_join.c double_quotes_case.c \
-		single_quotes_case.c pipe_case.c \
-		redi_case.c subshell_case.c  tokenization.c \
-		word_case.c wildcard_case.c token_utils.c  expand_doll.c \
-
-BUILTIN_SRC = ft_echo.c ft_env.c ft_exit.c ft_pwd.c ft_cd.c ft_export.c ft_unset.c \
-
-SIG_SRC = ctrl_d.c setup_sig_handler.c signal_handler.c \
-
-AST_SRC = ast_init.c ast_utils.c parse_cmd_line.c parse_pipeline.c \
-		parse_redirection.c parse_simple_cmd.c parse_subshell.c print_ast.c \
-		parse_simple_cmd_utils.c print_unexpected_token.c
-
-PIPELINE_SRC = child_pipeline.c execute_pipeline.c pipeline_utils.c pipeline_utils2.c
-
-OBJ = $(SRC:.c=.o)
-
-TOK_OBJ = $(addprefix tokenization/, $(TOK_SRC:.c=.o))
-
-BUILTIN_OBJ = $(addprefix builtins/, $(BUILTIN_SRC:.c=.o))
-
-SIG_OBJ = $(addprefix signals/, $(SIG_SRC:.c=.o))
-
-AST_OBJ = $(addprefix AST/, $(AST_SRC:.c=.o))
-
-PIPELINE_OBJ = $(addprefix pipeline/, $(PIPELINE_SRC:.c=.o))
-
-ALL_OBJS = $(OBJ) $(TOK_OBJ) $(BUILTIN_OBJ) $(SIG_OBJ) $(AST_OBJ) $(PIPELINE_OBJ)
-
-CC = clang
-
-CFLAGS = -Wall -Wextra -Werror -g
-
 NAME = minishell
 
-LIBFT = libft/libft.a
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -g
 
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+READLINE = -lreadline
+
+# Source groups by directory
+SRC_MAIN = main.c get_prompt.c shell_utils.c
+
+SRC_AST = \
+	AST/ast_init.c AST/ast_utils.c AST/parse_cmd_line.c AST/parse_pipeline.c \
+	AST/parse_redirection.c AST/parse_simple_cmd.c AST/parse_simple_cmd_utils.c \
+	AST/parse_subshell.c AST/pipeline_loop.c AST/print_ast.c AST/print_unexpected_token.c
+
+SRC_BUILTINS = \
+	builtins/cd_change_state.c builtins/export_print.c builtins/ft_cd.c \
+	builtins/ft_echo.c builtins/ft_env.c builtins/ft_exit.c builtins/ft_export.c \
+	builtins/ft_pwd.c builtins/ft_unset.c
+
+SRC_EXECUTION = \
+	execution/ast_extraction.c execution/check_path_to_cmd.c execution/child_proceses.c \
+	execution/execute_ast.c execution/execute_builtin.c \
+	execution/redirections/apply_redi.c execution/redirections/handle_fds.c
+
+SRC_EXTRACT_DOLLAR = \
+	extract_dollar/ft_dollar_case.c extract_dollar/parsing_var_name.c
+
+SRC_FREE_MEM = \
+	free_mem/cleanup_shell.c free_mem/free_ast_stuff.c free_mem/free_errors.c
+
+SRC_HERE_DOC = \
+	here_doc/doll_expansion_utils.c here_doc/here_doc_doll_expansion.c \
+	here_doc/here_doc_signals.c here_doc/prepare_here_doc.c here_doc/read_loop.c
+
+SRC_PIPELINE = \
+	pipeline/child_pipeline.c pipeline/execute_pipeline.c \
+	pipeline/env_for_execve.c pipeline/fds_for_pipes.c
+
+SRC_SIGNALS = \
+	signals/ctrl_d.c signals/setup_sig_handler.c signals/signal_handler.c
+
+SRC_TOKEN_CASES = \
+	tokenization/cases/and_case.c tokenization/cases/double_quotes_case.c \
+	tokenization/cases/pipe_case.c tokenization/cases/redi_case.c \
+	tokenization/cases/single_quotes_case.c tokenization/cases/single_quotes_helpers.c \
+	tokenization/cases/subshell_case.c tokenization/cases/wildcard_case.c \
+	tokenization/cases/word_case.c
+
+SRC_TOKEN_DOLLAR = \
+	tokenization/first_doll_exapansion/ambiguous_redirect.c \
+	tokenization/first_doll_exapansion/expand_doll.c \
+	tokenization/first_doll_exapansion/first_expansion_double_quotes.c \
+	tokenization/first_doll_exapansion/handle_dollar.c
+
+SRC_TOKEN_MERGE = \
+	tokenization/tokens_merge_logic/to_join.c \
+	tokenization/tokens_merge_logic/to_join_quotes_stuff.c \
+	tokenization/tokens_merge_logic/tokens_merge.c
+
+SRC_TOKEN_OTHER = \
+	tokenization/tokenization.c tokenization/t_tok_lst_function.c
+
+SRC_TOKENIZATION = $(SRC_TOKEN_CASES) $(SRC_TOKEN_DOLLAR) $(SRC_TOKEN_MERGE) $(SRC_TOKEN_OTHER)
+
+SRC_ALL = \
+	$(SRC_MAIN) \
+	$(SRC_AST) \
+	$(SRC_BUILTINS) \
+	$(SRC_EXECUTION) \
+	$(SRC_EXTRACT_DOLLAR) \
+	$(SRC_FREE_MEM) \
+	$(SRC_HERE_DOC) \
+	$(SRC_PIPELINE) \
+	$(SRC_SIGNALS) \
+	$(SRC_TOKENIZATION)
+
+OBJ = $(SRC_ALL:.c=.o)
+
+# Rules
 all: $(NAME)
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
+$(NAME): $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT) $(READLINE)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT):
-	make -C libft
-
-$(NAME): $(ALL_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) -lreadline -o $(NAME) $^
-
 clean:
-	rm -f $(ALL_OBJS)
-	make clean -C libft
+	rm -f $(OBJ)
+	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
+	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
-# valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=ignore_readline.supp ./minishell
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes \
+	--track-origins=yes --suppressions=ignore_readline.supp ./$(NAME)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind

@@ -6,11 +6,11 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:34:06 by francema          #+#    #+#             */
-/*   Updated: 2025/06/19 15:32:19 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:47:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 static t_tok_lst	*and_case_utils(t_mini *shell, char *s, size_t *i)
 {
