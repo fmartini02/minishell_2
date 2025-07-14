@@ -59,7 +59,8 @@ static void	update_env_var(t_list **env, const char *key, const char *value)
 	while (node)
 	{
 		if (ft_strncmp(node->content, key, key_len) == 0
-			&& ((char *)node->content)[key_len] == '=')
+			&& (((char *)node->content)[key_len] == '\0'
+			|| ((char *)node->content)[key_len] == '='))
 		{
 			free(node->content);
 			new_var = ft_strjoin(key, "=");
