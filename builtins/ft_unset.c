@@ -26,7 +26,9 @@ static void	remove_env_var(t_list **env, const char *key)
 	while (curr)
 	{
 		if (ft_strncmp(curr->content, key, key_len) == 0
-			&& ((char *)curr->content)[key_len] == '=')
+			&& (((char *)curr->content)[key_len] == '\0'
+			|| ((char *)curr->content)[key_len] == '='))
+
 		{
 			tmp = curr->next;
 			if (prev)
