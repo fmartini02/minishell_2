@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:20:58 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/12 00:07:03 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/14 12:32:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ static void	update_env_var(t_list **env, const char *key, const char *value)
 		{
 			free(node->content);
 			new_var = ft_strjoin(key, "=");
-			tmp = ft_strjoin(new_var, value);
-			free(new_var);
+			tmp = ft_strjoin_free(new_var, value);
 			node->content = tmp;
 			return ;
 		}
