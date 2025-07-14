@@ -72,19 +72,16 @@ void	change_dir_and_update(t_mini *shell, char *oldpwd, char *path)
 	if (chdir(path) != 0)
 	{
 		perror("cd");
-		free(oldpwd);
 		shell->last_exit_code = 1;
 		return ;
 	}
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
 		perror("cd");
-		free(oldpwd);
 		shell->last_exit_code = 1;
 		return ;
 	}
 	ft_setenv(&shell->env, "OLDPWD", oldpwd);
 	ft_setenv(&shell->env, "PWD", cwd);
-	free(oldpwd);
 	shell->last_exit_code = 0;
 }

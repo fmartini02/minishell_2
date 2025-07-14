@@ -52,6 +52,5 @@ void	ft_cd(char **args, t_mini *shell)
 		cd_to_home(shell, oldpwd);
 	else
 		cd_to_path(shell, oldpwd, args[1]);
-	if (oldpwd)
-		free(oldpwd);
+	free(oldpwd);
 }
