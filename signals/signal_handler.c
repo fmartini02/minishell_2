@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:55:51 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 19:48:09 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:07:17 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	signal_handler(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		g_sig_code = 130;
+		g_sig_code = true;
 	}
 }

@@ -5,3 +5,10 @@
     obj:*/libreadline.so.*
     ...
 }
+{
+    READLINE FAILURE OF /usr/bin/*
+    Memcheck:Leak
+    ...
+    obj:/usr/bin/*
+    ...
+}

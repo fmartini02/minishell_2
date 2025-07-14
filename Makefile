@@ -103,6 +103,6 @@ re: fclean all
 
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes \
-	--track-origins=yes --suppressions=ignore_readline.supp ./$(NAME)
+	--track-origins=yes --suppressions=/home/francema/Desktop/minishell/ignore_readline.supp ./$(NAME)
 
 .PHONY: all clean fclean re valgrind

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:50:39 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:52:20 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:53:37 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ t_ast_node	*pipeline_loop(t_ast_node **left, t_ast_node **right,
 	{
 		*tokens = (*tokens)->next;
 		*right = parse_right_side_of_pipe(left, shell, tokens);
-		if (!(*right))
-			return (NULL);
-		if (shell->err_print == true)
+		if (!(*right) && shell->err_print == true)
 			return (*left);
 		node = handle_pipeline_creation(left, *right);
 		if (!node)

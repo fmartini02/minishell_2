@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 15:37:42 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 16:16:20 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/14 17:30:58 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool	process_unquoted(
 static bool	is_word_char(char c)
 {
 	return (c && c != '<' && c != '>' && c != '|'
-		&& c != ' ' && c != '\'' && c != '"');
+		&& c != ' ');
 }
 
 // unisce le parole per creare i token come la bash

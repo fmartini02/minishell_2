@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 18:00:42 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:06:59 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ void	loop_shell(t_mini *shell)
 		shell->input = readline(shell->prompt);
 		if (!shell->input)
 			ctrl_d_case(shell);
-		if (g_sig_code == 130)
-		{
+		if (g_sig_code == true)
 			shell->last_exit_code = 130;
-		}
 		if (shell->input[0] == '\0' || is_all_spaces(shell->input))
 		{
 			free(shell->input);
