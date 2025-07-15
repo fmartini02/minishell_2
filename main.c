@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/15 15:53:13 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:05:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_list	*init_env(char **env)
 	t_list	*head;
 	int		i;
 
+	if (!env)
+		return (NULL);
 	if (env[0])
 		head = ft_lstnew((void *) ft_strdup(env[0]));
 	else
@@ -61,6 +63,8 @@ void	init_shell(t_mini *shell, char **envp)
 	rl_catch_signals = 0;
 	shell->envp = envp;
 	shell->env = init_env(envp);
+	if (!shell->env)
+		exit(1);
 	shell->last_exit_code = 0;
 	shell->input = NULL;
 	shell->cmd_info = NULL;

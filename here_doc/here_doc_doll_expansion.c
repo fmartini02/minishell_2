@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:51:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/15 15:34:40 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:38:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	handle_double_quotes(
 static void	input_handling(char *line, size_t *i,
 	char **to_print, t_mini *shell)
 {
-	while (line[*i] && line[*i] != ' ' && line[*i] != '$')
+	while (line[*i] && line[*i] != '$')
 	{
 		if (line[*i] == '\'')
 			handle_single_quotes(line, i, to_print, shell);

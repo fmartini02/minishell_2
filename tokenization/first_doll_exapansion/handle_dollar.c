@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:11:41 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 16:10:57 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:49:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ static bool	expand_literal_dollar(t_mini *shell, size_t *i, char **res)
 	}
 	return (false);
 }
+
+// bool	should_exand_doll(char *s, int i)
+// {
+// 	while(i > 0 && s[i] == ' ')
+// 		i--;
+// 	if (i > 0 && s[i] == '<' && i - 1 >= 0 && s[i - 1] == '<')
+// 		return (true);
+// }
 
 void	handle_dollar_expansion(
 	t_mini *shell, size_t *i, char **res, size_t *start)
