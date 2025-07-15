@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 18:39:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:01:38 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void		free_pipes(t_pipinfo *info);
 //BUILTINS
 void		ft_echo(char **args, t_mini *shell);
 void		ft_env(t_mini *shell, char **args);
-void		ft_exit(t_mini *shell, char **args);
+void		ft_exit(t_mini *shell, char **args, t_pipinfo *info);
 void		ft_pwd(t_mini *shell, char **args);
 void		ft_cd(char **args, t_mini *shell);
 void		ft_export(t_mini *shell, char **args);

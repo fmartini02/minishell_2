@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:29:09 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:59:51 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	chose_builtin(
 	else if (ft_strcmp(args[0], "unset") == 0)
 		ft_unset(shell, args);
 	else if (ft_strcmp(args[0], "exit") == 0)
-		ft_exit(shell, args);
+		ft_exit(shell, args, info);
 	if (info)
 		free_info(info);
 	if (is_parent == true)

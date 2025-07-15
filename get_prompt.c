@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:23:02 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/11 19:05:22 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:39:10 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,24 @@ static char	*full_prompt(char *cwd)
 	return (prompt);
 }
 
+char	*getcwd_failure(t_mini *shell, size_t *i)
+{
+	char	*prompt;
+	char	*home;
+	char	*tmp;
+
+	prompt = ft_dollar_case(shell, "$PWD", i);
+	home = ft_dollar_case(shell, "$HOME", i);
+	if (home && ft_strncmp(prompt, home, ft_strlen(home)) == 0)
+	{
+		tmp = home_prompt(prompt, home);
+		free(prompt);
+		prompt = tmp;
+	}
+	free(home);
+	return (prompt);
+}
+
 /* Returns the prompt to display to the user.
 If the current directory is under $HOME, use '~',
 otherwise use the full path. */
@@ -67,17 +85,10 @@ char	*get_prompt(t_mini *shell)
 
 	cwd = getcwd(NULL, 0);
 	i = 0;
-	if (!cwd)
-	{
-		prompt = ft_dollar_case(shell, "$PWD", &i);
-		home = ft_dollar_case(shell, "$HOME", &i);
-		if (home && ft_strncmp(prompt, home, ft_strlen(home)) == 0)
-			prompt = home_prompt(prompt, home);
-		free(home);
-		return (prompt);
-	}
 	home = ft_dollar_case(shell, "$HOME", &i);
-	if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
+	if (!cwd)
+		prompt = getcwd_failure(shell, &i);
+	else if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
 		prompt = home_prompt(cwd, home);
 	else
 		prompt = full_prompt(cwd);

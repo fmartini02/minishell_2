@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdalloli <mdalloli@student.42.fr>          +#+  +:+       +#+        */
+/*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 12:21:33 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/01 11:19:09 by mdalloli         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:53:24 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,13 @@ static void	remove_env_var(t_list **env, const char *key)
 		if (ft_strncmp(curr->content, key, key_len) == 0
 			&& (((char *)curr->content)[key_len] == '\0'
 			|| ((char *)curr->content)[key_len] == '='))
-
 		{
 			tmp = curr->next;
 			if (prev)
 				prev->next = tmp;
 			else
 				*env = tmp;
-			free(curr->content);
-			free(curr);
-			return ;
+			return (free(curr->content), free(curr));
 		}
 		prev = curr;
 		curr = curr->next;

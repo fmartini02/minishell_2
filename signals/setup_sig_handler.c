@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:54:34 by francema          #+#    #+#             */
-/*   Updated: 2025/07/14 18:07:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 10:32:31 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,5 @@ void	setup_sig_handler(void)
 	sa.sa_handler = signal_handler;
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;
-	//g_sig_code = true;
 	sigaction(SIGQUIT, &sa, NULL);
-	sigaction(SIGTSTP, &sa, NULL);
 }

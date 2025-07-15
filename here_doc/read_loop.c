@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:55:41 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 15:46:51 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:34:54 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	heredoc_read_loop(
 	while (1)
 	{
 		line = readline("> ");
-		if (g_sig_code == 130)
+		if (g_sig_code == true)
 			return (free(line), sigaction_return(old_sa, -1));
 		if (!line)
 			return (write_ctrld(eof), sigaction_return(old_sa, -1));

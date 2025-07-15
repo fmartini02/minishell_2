@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:00:08 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 00:08:29 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:01:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ static int	ft_atol_check(const char *str, long *out)
 }
 
 /* Gestisce uscita con argomento non numerico*/
-static void	ft_non_digit_exit(char *arg, t_mini *shell)
+static void	ft_non_digit_exit(char *arg, t_mini *shell, t_pipinfo *info)
 {
 	ft_putstr_fd("exit\n", 2);
 	ft_putstr_fd("exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
+	free_info(info);
 	cleanup_shell(shell, 2);
 }
 
@@ -101,7 +102,7 @@ static void	ft_non_digit_exit(char *arg, t_mini *shell)
 - Uno: esce con quel valore (convertito in int tra 0-255)
 - Più di uno: errore e non esce
 - Argomento non numerico: exit 255*/
-void	ft_exit(t_mini *shell, char **args)
+void	ft_exit(t_mini *shell, char **args, t_pipinfo *info)
 {
 	int		ret_err;
 	long	exit_val;
@@ -109,17 +110,14 @@ void	ft_exit(t_mini *shell, char **args)
 
 	ret_err = ft_exit_args_check(args);
 	if (ret_err == 1)
-	{
-		cleanup_shell(shell, -1);
-		return ;
-	}
+		return (free_info(info), cleanup_shell(shell, -1));
 	else if (ret_err == 2)
-		ft_non_digit_exit(args[1], shell);
+		ft_non_digit_exit(args[1], shell, info);
 	if (ft_matlen((void **)args) == 2)
 	{
 		valid = ft_atol_check(args[1], &exit_val);
 		if (!valid)
-			ft_non_digit_exit(args[1], shell);
+			ft_non_digit_exit(args[1], shell, info);
 		exit_val %= 256;
 		if (exit_val < 0)
 			exit_val += 256;
@@ -127,5 +125,6 @@ void	ft_exit(t_mini *shell, char **args)
 	else
 		exit_val = 0;
 	ft_putstr_fd("exit\n", 1);
+	free_info(info);
 	cleanup_shell(shell, (int)exit_val);
 }

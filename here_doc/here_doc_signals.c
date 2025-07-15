@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 22:47:29 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 15:44:24 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:34:12 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	heredoc_sigint_handler(int sig)
 
 	c = '\n';
 	(void)sig;
-	g_sig_code = 130;
+	g_sig_code = true;
 	write(1, "^C\n", 3);
 	ioctl(0, TIOCSTI, &c);
 	rl_on_new_line();

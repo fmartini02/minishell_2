@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 13:09:53 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 15:56:16 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:18:25 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	handle_ambiguous_redirect(t_mini *shell, size_t *i, char **res)
 		shell->err_print = true;
 		free(tmp);
 		free(*res);
+		*res = NULL;
 		return ;
 	}
 	*res = ft_strjoin_free(*res, tmp);

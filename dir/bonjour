@@ -1,0 +1,29 @@
+total 332
+drwxr-xr-x 16 francema 2024_florence   4096 Jul 15 15:22 .
+drwxr-xr-x  6 francema 2024_florence    122 Jul 15 15:07 ..
+drwxr-xr-x  2 francema 2024_florence    274 Jul 15 15:18 AST
+-rw-r--r--  1 francema 2024_florence      0 Jul 15 15:19 bonjour hello
+drwxr-xr-x  2 francema 2024_florence    171 Jul 15 15:18 builtins
+drwxr-xr-x  2 francema 2024_florence     21 Jul 15 15:22 dir
+-rw-r--r--  1 francema 2024_florence   8196 Jul 14 12:27 .DS_Store
+-rw-r--r--  1 francema 2024_florence      0 Jul 15 15:12 echo
+drwxr-xr-x  3 francema 2024_florence    147 Jul 15 15:18 execution
+drwxr-xr-x  2 francema 2024_florence     56 Jul 15 15:18 extract_dollar
+drwxr-xr-x  2 francema 2024_florence     74 Jul 15 15:18 free_mem
+-rw-r--r--  1 francema 2024_florence   2750 Jul 15 12:39 get_prompt.c
+drwxr-xr-x  8 francema 2024_florence    220 Jul 15 10:25 .git
+-rw-r--r--  1 francema 2024_florence    123 Jul  1 16:09 .gitignore
+drwxr-xr-x  2 francema 2024_florence    140 Jul 15 15:18 here_doc
+-rw-r--r--  1 francema 2024_florence      0 Jul 15 15:19 HOLA
+-rw-r--r--  1 francema 2024_florence    192 Jul 14 17:33 ignore_readline.supp
+drwxr-xr-x  5 francema 2024_florence    122 Jul 15 15:18 libft
+-rw-r--r--  1 francema 2024_florence   2790 Jul 15 12:53 main.c
+-rw-r--r--  1 francema 2024_florence   3183 Jul 15 12:54 Makefile
+-rwxr-xr-x  1 francema 2024_florence 286608 Jul 15 15:18 minishell
+-rw-r--r--  1 francema 2024_florence   9979 Jul 15 14:01 minishell.h
+drwxr-xr-x  2 francema 2024_florence    103 Jul 15 15:18 pipeline
+-rw-r--r--  1 francema 2024_florence   2245 Jul  8 18:48 shell_utils.c
+drwxr-xr-x  2 francema 2024_florence     73 Jul 15 15:18 signals
+drwxr-xr-x  2 francema 2024_florence     34 Jul 15 15:08 srcs
+drwxr-xr-x  5 francema 2024_florence    141 Jul 15 15:18 tokenization
+drwxr-xr-x  2 francema 2024_florence     27 Jul  1 16:09 .vscode

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:11:14 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 18:36:53 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:38:27 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	child_process(t_exec_unit *unit, t_mini *shell, t_pipinfo *info)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (!unit || !unit->argv || !unit->argv[0])
-		exit(0);
+	{
+		free_info(info);
+		cleanup_shell(shell, shell->last_exit_code);
+	}
 	handle_redirs_and_builtin(unit, shell, info);
 	exec_external_command(unit, shell, info);
 }

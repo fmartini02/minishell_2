@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:51:22 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 18:46:12 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:34:40 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	handle_double_quotes(
 	}
 }
 
-static void	quotes_handling(char *line, size_t *i,
+static void	input_handling(char *line, size_t *i,
 	char **to_print, t_mini *shell)
 {
 	while (line[*i] && line[*i] != ' ' && line[*i] != '$')
@@ -86,12 +86,12 @@ void	apply_doll_exansion(int write_fd, char *line, t_mini *shell)
 	size_t	start;
 	char	*to_print;
 
-	i = 0;
+	i = ft_skip_spaces(line, 0);
 	start = 0;
 	to_print = NULL;
 	while (line[i])
 	{
-		quotes_handling(line, &i, &to_print, shell);
+		input_handling(line, &i, &to_print, shell);
 		if (line[i] != '$')
 		{
 			append_substr(&to_print, line, start, i);

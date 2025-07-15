@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:58:03 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 22:56:30 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:49:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,11 @@ void	handle_eventual_heredoc(t_ast_node *node, t_mini *shell)
 		close_all_heredoc_fds(node);
 		return ;
 	}
-	if (g_sig_code == 130)
+	if (g_sig_code == true)
 	{
 		close_all_heredoc_fds(node);
 		g_sig_code = 0;
 		return ;
 	}
+	close_all_heredoc_fds(node);
 }
