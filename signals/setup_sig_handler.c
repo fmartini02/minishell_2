@@ -28,4 +28,5 @@ void	setup_sig_handler(void)
 	sa.sa_handler = SIG_IGN;
 	//g_sig_code = true;
 	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGTSTP, &sa, NULL);
 }
