@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:06:49 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:10:51 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/19 17:10:42 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,12 @@ void	execute_ast(t_ast_node *node, t_mini *shell)
 	if (node->type == NODE_CMD)
 	{
 		handle_eventual_heredoc(node, shell);
+		if (g_sig_code == true)
+		{
+			g_sig_code = false;
+			close_all_heredoc_fds(node);
+			return ;
+		}
 		unit = extract_exec_units(node);
 		shell->unit = unit;
 		if (unit)

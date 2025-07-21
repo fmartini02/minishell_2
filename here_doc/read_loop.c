@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 21:55:41 by francema          #+#    #+#             */
-/*   Updated: 2025/07/15 14:34:54 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:30:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	should_expand(char **eof)
 }
 
 int	write_in_pipe(char *line, char *eof,
-	int pip_fd, t_mini *shell)
+	int here_fd, t_mini *shell)
 {
 	bool	expand;
 
@@ -65,17 +65,17 @@ int	write_in_pipe(char *line, char *eof,
 	}
 	if (!expand)
 	{
-		write(pip_fd, line, ft_strlen(line));
-		write(pip_fd, "\n", 1);
+		write(here_fd, line, ft_strlen(line));
+		write(here_fd, "\n", 1);
 		free(line);
 	}
 	else
-		apply_doll_exansion(pip_fd, line, shell);
+		apply_doll_exansion(here_fd, line, shell);
 	return (1);
 }
 
 int	heredoc_read_loop(
-	int pip_fd, char *eof, struct sigaction *old_sa, t_mini *shell)
+	int here_fd, char *eof, struct sigaction *old_sa, t_mini *shell)
 {
 	char	*line;
 	char	*original;
@@ -87,8 +87,11 @@ int	heredoc_read_loop(
 		if (g_sig_code == true)
 			return (free(line), sigaction_return(old_sa, -1));
 		if (!line)
-			return (write_ctrld(eof), sigaction_return(old_sa, -1));
-		if (!write_in_pipe(line, eof, pip_fd, shell))
+		{
+			write_ctrld(eof);
+			break ;
+		}
+		if (!write_in_pipe(line, eof, here_fd, shell))
 			break ;
 	}
 	if (original != eof)

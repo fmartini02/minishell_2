@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 READLINE = -lreadline
+SUPP_FILE := $(CURDIR)/ignore_readline.supp
 
 # Source groups by directory
 SRC_MAIN = main.c get_prompt.c shell_utils.c
@@ -32,7 +33,7 @@ SRC_FREE_MEM = \
 	free_mem/cleanup_shell.c free_mem/free_ast_stuff.c free_mem/free_errors.c
 
 SRC_HERE_DOC = \
-	here_doc/doll_expansion_utils.c here_doc/here_doc_doll_expansion.c \
+	here_doc/here_doc_doll_expansion.c \
 	here_doc/here_doc_signals.c here_doc/prepare_here_doc.c here_doc/read_loop.c
 
 SRC_PIPELINE = \
@@ -103,6 +104,6 @@ re: fclean all
 
 valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes \
-	--track-origins=yes --suppressions=/home/francema/Desktop/minishell/ignore_readline.supp ./$(NAME)
+	--track-origins=yes --suppressions=$(SUPP_FILE) ./$(NAME)
 
 .PHONY: all clean fclean re valgrind

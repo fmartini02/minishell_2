@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/15 17:35:29 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/21 15:20:20 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static int	setup_pipeline(t_pipinfo *info, int count)
 {
+	int	i;
+
+	i = count;
 	if (count >= 1)
 	{
 		info->pipes = create_pipes(count);
@@ -23,6 +26,11 @@ static int	setup_pipeline(t_pipinfo *info, int count)
 	info->pids = malloc(sizeof(pid_t) * count);
 	if (!info->pids)
 		return (perror("malloc pids"), -1);
+	while (i > 0)
+	{
+		info->pids[i - 1] = 0;
+		i--;
+	}
 	info->idx = 0;
 	return (0);
 }
@@ -38,6 +46,13 @@ static void	fork_recursive(t_ast_node *node, t_pipinfo *info)
 	}
 	else
 	{
+		if (g_sig_code == false)
+			handle_eventual_heredoc(node, info->shell);
+		if (g_sig_code == true)
+		{
+			close_all_heredoc_fds(node);
+			return ;
+		}
 		info->pids[info->idx] = fork();
 		if (info->pids[info->idx] < 0)
 			perror("fork");
@@ -74,7 +89,7 @@ void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
 {
 	t_pipinfo	info;
 
-	handle_eventual_heredoc(cmds, shell);
+	// handle_eventual_heredoc(cmds, shell);
 	info.count = count_pipeline_commands(cmds);
 	info.shell = shell;
 	if (info.count == 0 || setup_pipeline(&info, info.count) < 0)
