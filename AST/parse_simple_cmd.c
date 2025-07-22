@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:55:06 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:54:44 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/22 10:46:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	simple_cmd_loop(t_mini *shell, t_tok_lst **tokens, t_cmd_info **cmd)
 {
 	char	*tok_str;
 
-	while (is_valid_token(tokens) && !is_control_operator(((*tokens)->content)))
+	while (is_valid_token(tokens) && !is_operator((tokens)))
 	{
 		tok_str = (*tokens)->content;
 		if (!ft_strcmp(tok_str, "(") && shell->err_print == false)

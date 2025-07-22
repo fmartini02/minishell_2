@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:56:16 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 15:35:31 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/22 11:14:18 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ t_ast_node	*parse_pipeline(t_mini *shell, t_tok_lst **tokens)
 	right = NULL;
 	if (!left)
 		return (NULL);
+	if (!(*tokens)->next && !is_operator(tokens))
+		return (left);
 	left = pipeline_loop(&left, &right, shell, tokens);
 	return (left);
 }

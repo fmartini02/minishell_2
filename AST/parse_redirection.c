@@ -6,14 +6,14 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:52:18 by francema          #+#    #+#             */
-/*   Updated: 2025/07/11 23:53:46 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/22 10:51:39 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 // Helper function to create a direction node
-static t_redirection	*new_redi(t_redir_type type, char *target, int kind)
+static t_redirection	*new_redi(t_redir_type type, t_tok_lst **tokens)
 {
 	t_redirection	*redir;
 
@@ -21,21 +21,15 @@ static t_redirection	*new_redi(t_redir_type type, char *target, int kind)
 	if (!redir)
 		return (NULL);
 	redir->type = type;
-	if (is_control_operator(target))
-	{
-		free(redir);
-		return (NULL);
-	}
-	if (kind == SINGLE_QUOTES || kind == DOUBLE_QUOTES)
+	if (is_operator(tokens))
+		return (free(redir), NULL);
+	if ((*tokens)->type == SINGLE_QUOTES || (*tokens)->type == DOUBLE_QUOTES)
 		redir->flag_here_doc = true;
 	else
 		redir->flag_here_doc = false;
-	redir->target = strdup(target);
+	redir->target = strdup((*tokens)->content);
 	if (!redir->target)
-	{
-		free(redir);
-		return (NULL);
-	}
+		return (free(redir), NULL);
 	redir->heredoc_fd = -1;
 	redir->next = NULL;
 	return (redir);
@@ -96,7 +90,7 @@ bool	parse_redirection(t_tok_lst **tokens, t_cmd_info *cmd, t_mini *shell)
 		*tokens = (*tokens)->next;
 		if (!is_valid_token(tokens) && shell->err_print == false)
 			return (parse_redi_utils(shell, cmd));
-		redir = new_redi(type, (*tokens)->content, (*tokens)->type);
+		redir = new_redi(type, tokens);
 		if (!redir || add_redirection(cmd, redir) == -1)
 		{
 			print_unexpected_token(tokens);

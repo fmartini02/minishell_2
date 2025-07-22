@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 23:50:39 by francema          #+#    #+#             */
-/*   Updated: 2025/07/14 17:53:37 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/22 10:46:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,14 @@ static t_ast_node	*parse_right_side_of_pipe(
 	t_ast_node	*right;
 
 	right = NULL;
-	if (is_valid_token(tokens) && is_control_operator((*tokens)->content))
+	if (is_valid_token(tokens) && is_operator(tokens))
 		right = operator_case(left, shell, tokens, NULL);
+	else if (!is_valid_token(tokens))
+	{
+		shell->err_print = true;
+		print_unexpected_token(tokens);
+		return (NULL);
+	}
 	if (!right && shell->err_print == false)
 		right = parse_simple_cmd(shell, tokens);
 	if (!right && shell->err_print == false)

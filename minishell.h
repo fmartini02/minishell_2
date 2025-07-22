@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/15 14:01:38 by francema         ###   ########.fr       */
+/*   Updated: 2025/07/22 10:46:45 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ t_ast_node	*parse_simple_cmd(t_mini *shell, t_tok_lst **tokens);
 t_ast_node	*parse_subshell(t_mini *shell, t_tok_lst **tokens);
 void		free_ast(t_ast_node *node);
 void		free_redirections(t_redirection *redir);
-int			is_control_operator(char *token);
+int			is_operator(t_tok_lst **token);
 void		free_cmd_info(t_cmd_info *cmd);
 bool		is_valid_token(t_tok_lst **tokens);
 void		print_unexpected_token(t_tok_lst **tokens);
