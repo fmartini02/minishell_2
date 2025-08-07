@@ -23,7 +23,7 @@ SRC_BUILTINS = \
 
 SRC_EXECUTION = \
 	execution/ast_extraction.c execution/check_path_to_cmd.c execution/child_proceses.c \
-	execution/execute_ast.c execution/execute_builtin.c \
+	execution/execute_ast.c execution/execute_ast_utils.c execution/execute_builtin.c \
 	execution/redirections/apply_redi.c execution/redirections/handle_fds.c
 
 SRC_EXTRACT_DOLLAR = \

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 11:32:09 by francema          #+#    #+#             */
-/*   Updated: 2025/07/12 16:08:21 by francema         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:26:35 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ void	expand_doll(t_mini *shell, char *in)
 		else
 			handle_plain_text(shell, &i, &res, &start);
 	}
+	free(shell->input);
 	shell->input = res;
 }

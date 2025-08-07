@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:33:55 by francema          #+#    #+#             */
-/*   Updated: 2025/07/22 10:46:45 by francema         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:43:08 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void		print_unexpected_token(t_tok_lst **tokens);
 
 //EXECUTION
 void		execute_ast(t_ast_node *node, t_mini *shell);
+void		handle_node_cmd(t_ast_node *node, t_mini *shell);
 void		execute_exec_unit(t_exec_unit *unit, t_mini *shell);
 void		child_process(t_exec_unit *unit, t_mini *shell, t_pipinfo *info);
 char		*get_path_command(t_mini *shell, const char *cmd);

@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:30:45 by francema          #+#    #+#             */
-/*   Updated: 2025/07/15 17:05:12 by francema         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:13:03 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ int	main(int ac, char **av, char **envp)
 	init_shell(&shell, envp);
 	setup_sig_handler();
 	loop_shell(&shell);
+	clear_history();
 }

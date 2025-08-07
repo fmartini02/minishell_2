@@ -6,7 +6,7 @@
 /*   By: francema <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:09:14 by mdalloli          #+#    #+#             */
-/*   Updated: 2025/07/21 15:20:20 by francema         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:02:11 by francema         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	execute_pipeline(t_ast_node *cmds, t_mini *shell)
 {
 	t_pipinfo	info;
 
-	// handle_eventual_heredoc(cmds, shell);
 	info.count = count_pipeline_commands(cmds);
 	info.shell = shell;
 	if (info.count == 0 || setup_pipeline(&info, info.count) < 0)
